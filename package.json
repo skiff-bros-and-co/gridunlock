@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "build": "rm -r ./dist && NODE_ENV=production run-p build:esbuild build:types",
+    "build": "rm -rf ./dist && NODE_ENV=production run-p build:esbuild build:types",
     "build:esbuild": "node esbuild.mjs",
     "build:types": "tsc -noEmit",
     "lint": "eslint src --ext ts,tsx",
