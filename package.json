@@ -1,0 +1,43 @@
+{
+  "name": "gridunlock",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "build": "rm -r ./dist && NODE_ENV=production run-p build:esbuild build:types",
+    "build:esbuild": "node esbuild.mjs",
+    "build:types": "tsc -noEmit",
+    "lint": "eslint src --ext ts,tsx",
+    "start": "run-p start:esbuild start:types",
+    "start:esbuild": "node esbuild.mjs",
+    "start:types": "tsc -w -noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dskiff/gridunlock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dskiff/gridunlock/issues"
+  },
+  "homepage": "https://github.com/dskiff/gridunlock#readme",
+  "devDependencies": {
+    "@types/react": "^17.0.50",
+    "@types/react-dom": "^17.0.17",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
+    "esbuild": "^0.15.9",
+    "esbuild-copy-static-files": "^0.1.0",
+    "esbuild-sass-plugin": "^2.3.3",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-typescript": "^0.14.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "@blueprintjs/core": "^4.10.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
