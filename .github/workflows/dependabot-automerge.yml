@@ -2,8 +2,8 @@ name: dependabot-automerge
 
 on:
   pull_request:
-    tags:
-      - "dependencies"
+    branches:
+      - "dependabot/**"
 
 jobs:
   auto-merge:
