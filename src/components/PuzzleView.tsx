@@ -1,23 +1,24 @@
-import { useEffect } from "react";
-import type { PuzzleGameCell } from "../state/State";
-import { PuzzleCell } from "./PuzzleCell";
+import { useState } from "react";
+import { Cell, PuzzleDefinition } from "../state/Puzzle";
+import { PuzzleGameCell, PuzzleState } from "../state/State";
+import { PuzzleGrid } from "./PuzzleGrid";
 
 interface Props {
-  filledCellsByRow: PuzzleGameCell[][];
+  puzzleDefinition: PuzzleDefinition;
 }
 
-const setColumnCount = (columnCount: number) => {
-  document.documentElement.style.setProperty("--grid-column-count", `${columnCount}`);
+const initializeEmptyCell = (cell: Cell): PuzzleGameCell => ({
+  author: null,
+  filledValue: "",
+  isBlocked: cell.isBlocked,
+});
+
+const initializePuzzleState = (puzzleDefinition: PuzzleDefinition): PuzzleState => {
+  return puzzleDefinition.cells.map((row: Cell[]) => row.map((cell) => initializeEmptyCell(cell)));
 };
 
 export const PuzzleView = (props: Props): JSX.Element => {
-  useEffect(() => setColumnCount(props.filledCellsByRow[0]?.length), [props.filledCellsByRow[0]?.length]);
+  const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
 
-  const cells: JSX.Element[] = props.filledCellsByRow.flatMap((row) =>
-    row.map((cell) => {
-      return <PuzzleCell cell={cell} />;
-    }),
-  );
-
-  return <div className="grid-container">{cells}</div>;
+  return <PuzzleGrid puzzleState={puzzleState} />;
 };

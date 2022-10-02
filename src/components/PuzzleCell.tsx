@@ -1,13 +1,17 @@
-import { PuzzleGameCell } from "../state/State";
+import type { PuzzleGameCell } from "../state/State";
 
 interface Props {
-  cell: PuzzleGameCell;
+  gameCell: PuzzleGameCell;
 }
 
 export const PuzzleCell = (props: Props): JSX.Element => {
-  return (
-    <div className={props.cell.filledValue === "" ? "grid-cell" : "grid-cell grid-cell-filled"}>
-      {props.cell.filledValue}
-    </div>
-  );
+  if (props.gameCell.isBlocked) {
+    return <div className="grid-cell" />;
+  }
+
+  if (props.gameCell.filledValue === "") {
+    return <div className="grid-cell grid-cell-empty" />;
+  }
+
+  return <div className="grid-cell grid-cell-filled">{props.gameCell.filledValue}</div>;
 };

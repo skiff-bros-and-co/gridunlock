@@ -9,11 +9,14 @@ export function castUserID(id: string): UserID {
 export interface PuzzleGameCell {
   filledValue: SingleLetter | "";
   author: UserID | null;
+  isBlocked: boolean;
 }
 
+export type PuzzleState = PuzzleGameCell[][];
+
 export interface PuzzleGame {
-  puzzle: Puzzle;
-  filledCellsByRow: PuzzleGameCell[][];
+  puzzleDefinition: Puzzle;
+  puzzleState: PuzzleState;
 }
 
 export interface PuzzlePageState {
@@ -52,7 +55,7 @@ export function createEmptyPuzzleGame(puzzle: Puzzle): PuzzleGame {
   }
   return {
     filledCellsByRow: rows,
-    puzzle,
+    puzzleDefinition: puzzle,
   };
 }
 

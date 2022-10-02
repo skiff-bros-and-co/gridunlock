@@ -62,7 +62,7 @@ export interface CellPosition {
   column: number;
 }
 
-export interface Puzzle {
+export interface PuzzleDefinition {
   title: string;
   author: string;
   description: string;

@@ -32,6 +32,12 @@ $cell-dimension: $inner-cell-dimension + 4px;
     align-items: center;
   }
 
+  .grid-cell-empty {
+    border-radius: $pt-border-radius;
+    border: 1px solid $white;
+    background-color: $forest2;
+  }
+
   .grid-cell-filled {
     border-radius: $pt-border-radius;
     border: 1px solid $white;
