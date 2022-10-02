@@ -4,8 +4,44 @@
 
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
+:root {
+  --grid-column-count: 3;
+}
+
 .root {
   background-color: $black;
   height: 100vh;
   width: 100vw;
+}
+
+$inner-cell-dimension: 32px;
+$cell-dimension: $inner-cell-dimension + 4px;
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
+  grid-template-rows: repeat(auto-fill, $cell-dimension);
+  max-width: 960px;
+  max-height: 960px;
+
+  .grid-cell {
+    height: $inner-cell-dimension;
+    width: $inner-cell-dimension;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .grid-cell-empty {
+    border-radius: $pt-border-radius;
+    border: 1px solid $white;
+    background-color: $forest2;
+  }
+
+  .grid-cell-filled {
+    border-radius: $pt-border-radius;
+    border: 1px solid $white;
+    background-color: $forest1;
+  }
 }
