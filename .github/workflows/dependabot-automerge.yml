@@ -2,7 +2,7 @@ name: dependabot-automerge
 
 on:
   pull_request:
-    labels:
+    tags:
       - "dependencies"
 
 jobs:
