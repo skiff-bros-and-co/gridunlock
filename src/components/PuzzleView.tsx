@@ -24,6 +24,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
   return (
     <PuzzleGrid
       puzzleState={puzzleState}
+      puzzleWidth={props.puzzleDefinition.width}
       onEnterValue={(row, col, newValue) => {
         const newPuzzleState = update(puzzleState, {
           [row]: {

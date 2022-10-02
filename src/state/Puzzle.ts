@@ -52,7 +52,7 @@ export interface PuzzleClues {
   across: { [clueNumber: number]: Clue };
   clueCount: number;
 
-  byRowAndColumn: (CellClue | null)[][];
+  // byRowAndColumn: (CellClue | null)[][];
 }
 
 export type PuzzleDirection = "down" | "across";

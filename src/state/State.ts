@@ -1,5 +1,5 @@
 import { castPuzzleSourceID, PuzzleSource } from "./PuzzleSource";
-import { Puzzle, SingleLetter, CellPosition, PuzzleDirection } from "./Puzzle";
+import { PuzzleDefinition, SingleLetter, CellPosition, PuzzleDirection } from "./Puzzle";
 
 export type UserID = string & { ___TOKEN: "user-id" };
 export function castUserID(id: string): UserID {
@@ -15,7 +15,7 @@ export interface PuzzleGameCell {
 export type PuzzleState = PuzzleGameCell[][];
 
 export interface PuzzleGame {
-  puzzleDefinition: Puzzle;
+  puzzleDefinition: PuzzleDefinition;
   puzzleState: PuzzleState;
 }
 
@@ -40,24 +40,6 @@ export interface ActivePuzzleGame {
 //     public date: DateTime,
 //   ) { }
 // }
-
-export function createEmptyPuzzleGame(puzzle: Puzzle): PuzzleGame {
-  const rows: PuzzleGameCell[][] = [];
-  for (let i = 0; i < puzzle.height; i++) {
-    const row: PuzzleGameCell[] = [];
-    for (let j = 0; j < puzzle.width; j++) {
-      row.push({
-        filledValue: "",
-        author: null,
-      });
-    }
-    rows.push(row);
-  }
-  return {
-    filledCellsByRow: rows,
-    puzzleDefinition: puzzle,
-  };
-}
 
 export type Page = "puzzle" | "main-menu";
 

@@ -4,6 +4,7 @@ import { PuzzleCell } from "./PuzzleCell";
 import { SingleLetter } from "../state/Puzzle";
 
 interface Props {
+  puzzleWidth: number;
   puzzleState: PuzzleState;
   onEnterValue: (row: number, column: number, value: SingleLetter | "") => void;
 }
@@ -13,11 +14,12 @@ const setColumnCount = (columnCount: number) => {
 };
 
 export const PuzzleGrid = (props: Props): JSX.Element => {
-  useEffect(() => setColumnCount(props.puzzleState?.length), [props.puzzleState[0]?.length]);
+  useEffect(() => setColumnCount(props.puzzleWidth), [props.puzzleWidth]);
 
   const cells: JSX.Element[] = props.puzzleState.flatMap((row, rowIndex) =>
     row.map((cell, colIndex) => (
       <PuzzleCell
+        key={`${rowIndex}-${colIndex}`}
         onSelectCell={() => {
           console.log(`selected cell r${rowIndex}c${colIndex}`);
         }}
