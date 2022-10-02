@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Cell, PuzzleDefinition } from "../state/Puzzle";
 import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { PuzzleGrid } from "./PuzzleGrid";
+import update from "immutability-helper";
 
 interface Props {
   puzzleDefinition: PuzzleDefinition;
@@ -20,5 +21,23 @@ const initializePuzzleState = (puzzleDefinition: PuzzleDefinition): PuzzleState 
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
 
-  return <PuzzleGrid puzzleState={puzzleState} />;
+  return (
+    <PuzzleGrid
+      puzzleState={puzzleState}
+      onEnterValue={(row, col, newValue) => {
+        const newPuzzleState = update(puzzleState, {
+          [row]: {
+            [col]: {
+              filledValue: {
+                // TODO: set author here
+                $set: newValue,
+              },
+            },
+          },
+        });
+
+        updatePuzzleState(newPuzzleState);
+      }}
+    />
+  );
 };

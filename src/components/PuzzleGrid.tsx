@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import type { PuzzleState } from "../state/State";
 import { PuzzleCell } from "./PuzzleCell";
+import { SingleLetter } from "../state/Puzzle";
 
 interface Props {
   puzzleState: PuzzleState;
+  onEnterValue: (row: number, column: number, value: SingleLetter | "") => void;
 }
 
 const setColumnCount = (columnCount: number) => {
@@ -13,7 +15,19 @@ const setColumnCount = (columnCount: number) => {
 export const PuzzleGrid = (props: Props): JSX.Element => {
   useEffect(() => setColumnCount(props.puzzleState?.length), [props.puzzleState[0]?.length]);
 
-  const cells: JSX.Element[] = props.puzzleState.flatMap((row) => row.map((cell) => <PuzzleCell gameCell={cell} />));
+  const cells: JSX.Element[] = props.puzzleState.flatMap((row, rowIndex) =>
+    row.map((cell, colIndex) => (
+      <PuzzleCell
+        onSelectCell={() => {
+          console.log(`selected cell r${rowIndex}c${colIndex}`);
+        }}
+        onEnterValue={(newValue) => {
+          props.onEnterValue(rowIndex, colIndex, newValue);
+        }}
+        gameCell={cell}
+      />
+    )),
+  );
 
   return <div className="grid-container">{cells}</div>;
 };
