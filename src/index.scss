@@ -21,9 +21,8 @@ $cell-dimension: $inner-cell-dimension + 4px;
   display: grid;
   grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
   grid-template-rows: repeat(auto-fill, $cell-dimension);
-  max-width: 480px;
-  max-height: 480px;
-  place-items: stretch;
+  max-width: 960px;
+  max-height: 960px;
 
   .grid-cell {
     height: $inner-cell-dimension;
