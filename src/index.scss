@@ -4,6 +4,10 @@
 
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
+:root {
+  --grid-column-count: 3;
+}
+
 .root {
   background-color: $black;
   height: 100vh;
@@ -15,7 +19,7 @@ $cell-dimension: $inner-cell-dimension + 4px;
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(3, $cell-dimension);
+  grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
   grid-template-rows: repeat(auto-fill, $cell-dimension);
   max-width: 480px;
   max-height: 480px;
