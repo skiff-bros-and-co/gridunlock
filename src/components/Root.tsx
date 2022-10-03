@@ -17,10 +17,10 @@ const testPuzzleData: PuzzleDefinition = {
           column: 2,
         },
       },
-      2: {
+      4: {
         clue: "___ do a cross-word, consider donating to the devs, and achieve inner peace.",
         direction: "across",
-        clueNumber: 2,
+        clueNumber: 4,
         position: {
           row: 1,
           column: 2,
@@ -29,7 +29,7 @@ const testPuzzleData: PuzzleDefinition = {
       5: {
         clue: '"What are we having for dinner?"',
         direction: "across",
-        clueNumber: 4,
+        clueNumber: 5,
         position: {
           row: 0,
           column: 3,
@@ -40,25 +40,25 @@ const testPuzzleData: PuzzleDefinition = {
       1: {
         clue: "Like a knock-off basic boot",
         direction: "down",
-        clueNumber: 2,
+        clueNumber: 1,
         position: {
           row: 0,
           column: 2,
         },
       },
-      3: {
+      2: {
         clue: "Butt stuff",
         direction: "down",
-        clueNumber: 3,
+        clueNumber: 2,
         position: {
           row: 0,
           column: 3,
         },
       },
-      4: {
+      3: {
         clue: 'Places you go after saying "hold my beer"',
         direction: "down",
-        clueNumber: 4,
+        clueNumber: 3,
         position: {
           row: 1,
           column: 0,
@@ -71,28 +71,28 @@ const testPuzzleData: PuzzleDefinition = {
   height: 4,
   cells: [
     [
-      { row: 0, column: 0, initialState: ".", isBlocked: true, clueNumber: 0, solution: "." },
-      { row: 0, column: 1, initialState: ".", isBlocked: true, clueNumber: 0, solution: "." },
-      { row: 0, column: 2, initialState: "", isBlocked: false, clueNumber: 0, solution: "U" },
-      { row: 0, column: 3, initialState: "", isBlocked: false, clueNumber: 0, solution: "P" },
+      { row: 0, column: 0, initialState: ".", isBlocked: true, solution: "." },
+      { row: 0, column: 1, initialState: ".", isBlocked: true, solution: "." },
+      { row: 0, column: 2, initialState: "", isBlocked: false, clueNumber: 1, solution: "U" },
+      { row: 0, column: 3, initialState: "", isBlocked: false, clueNumber: 2, solution: "P" },
     ],
     [
-      { row: 1, column: 0, initialState: "", isBlocked: false, clueNumber: 0, solution: "E" },
-      { row: 1, column: 1, initialState: ".", isBlocked: true, clueNumber: 0, solution: "." },
-      { row: 1, column: 2, initialState: "", isBlocked: false, clueNumber: 0, solution: "G" },
-      { row: 1, column: 3, initialState: "", isBlocked: false, clueNumber: 0, solution: "O" },
+      { row: 1, column: 0, initialState: "", isBlocked: false, clueNumber: 3, solution: "E" },
+      { row: 1, column: 1, initialState: ".", isBlocked: true, solution: "." },
+      { row: 1, column: 2, initialState: "", isBlocked: false, clueNumber: 4, solution: "G" },
+      { row: 1, column: 3, initialState: "", isBlocked: false, solution: "O" },
     ],
     [
-      { row: 2, column: 0, initialState: "", isBlocked: false, clueNumber: 0, solution: "R" },
-      { row: 2, column: 1, initialState: ".", isBlocked: true, clueNumber: 0, solution: "." },
-      { row: 2, column: 2, initialState: ".", isBlocked: true, clueNumber: 0, solution: "." },
-      { row: 2, column: 3, initialState: "", isBlocked: false, clueNumber: 0, solution: "O" },
+      { row: 2, column: 0, initialState: "", isBlocked: false, solution: "R" },
+      { row: 2, column: 1, initialState: ".", isBlocked: true, solution: "." },
+      { row: 2, column: 2, initialState: ".", isBlocked: true, solution: "." },
+      { row: 2, column: 3, initialState: "", isBlocked: false, solution: "O" },
     ],
     [
-      { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 0, solution: "S" },
-      { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 0, solution: "O" },
-      { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 0, solution: "U" },
-      { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 0, solution: "P" },
+      { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 5, solution: "S" },
+      { row: 0, column: 0, initialState: "", isBlocked: false, solution: "O" },
+      { row: 0, column: 0, initialState: "", isBlocked: false, solution: "U" },
+      { row: 0, column: 0, initialState: "", isBlocked: false, solution: "P" },
     ],
   ],
 };

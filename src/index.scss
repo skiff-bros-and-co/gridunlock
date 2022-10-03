@@ -17,12 +17,18 @@
 $inner-cell-dimension: 32px;
 $cell-dimension: $inner-cell-dimension + 4px;
 
+.puzzle-view {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
   grid-template-rows: repeat(auto-fill, $cell-dimension);
-  max-width: 960px;
-  max-height: 960px;
+  max-width: 480px;
+  max-height: 480px;
 
   .grid-cell {
     height: $inner-cell-dimension;
@@ -43,5 +49,16 @@ $cell-dimension: $inner-cell-dimension + 4px;
     border-radius: $pt-border-radius;
     border: 1px solid $white;
     background-color: $forest1;
+  }
+
+  .grid-cell-hint-number {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+  }
+
+  .grid-cell-wrapper {
+    position: relative;
+    font-size: xx-small;
   }
 }
