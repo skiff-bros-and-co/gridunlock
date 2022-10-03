@@ -25,17 +25,20 @@ export const PuzzleCell = (props: Props): JSX.Element => {
   }
 
   return (
-    <input
-      className={`grid-cell grid-cell-${props.gameCell.filledValue === "" ? "empty" : "filled"}`}
-      onFocus={props.onSelectCell}
-      onChange={(event) => {
-        const validInput = getValidInput(event.target.value);
+    <div className="grid-cell-wrapper">
+      <input
+        className={`grid-cell grid-cell-${props.gameCell.filledValue === "" ? "empty" : "filled"}`}
+        onFocus={props.onSelectCell}
+        onChange={(event) => {
+          const validInput = getValidInput(event.target.value);
 
-        if (validInput !== null) {
-          props.onEnterValue(validInput);
-        }
-      }}
-      value={props.gameCell.filledValue}
-    />
+          if (validInput !== null) {
+            props.onEnterValue(validInput);
+          }
+        }}
+        value={props.gameCell.filledValue}
+      />
+      <p className="grid-cell-hint-number">{props.gameCell.clueNumber}</p>
+    </div>
   );
 };

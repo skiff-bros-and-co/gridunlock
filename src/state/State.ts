@@ -10,6 +10,7 @@ export interface PuzzleGameCell {
   filledValue: SingleLetter | "";
   author: UserID | null;
   isBlocked: boolean;
+  clueNumber?: number;
 }
 
 export type PuzzleState = PuzzleGameCell[][];
