@@ -6,38 +6,51 @@ const OFFERS_SERVICE_URL = "/api/offers";
 
 export class SignalClient {
   private clientId = generateToken();
-  private storedOfferInfo: { ownerToken: string; offerId: string } | undefined;
 
   constructor(private roomId: string, private name: string) {}
 
-  async postOffer(offer: RTCSessionDescriptionInit) {
-    if (this.storedOfferInfo !== undefined) {
-      throw new Error("TODO");
-    }
+  async addToRoom() {
+    await fetch(`${ROOMS_SERVICE_URL}/${this.roomId}/clients/${this.clientId}`, {
+      method: "PUT",
+    });
+  }
 
+  async getOtherClientIdsInRoom() {
+    const response = await fetch(`${ROOMS_SERVICE_URL}/${this.roomId}/clients`, {
+      method: "GET",
+    });
+    const clientIds: string[] = await response.json();
+    return clientIds;
+  }
+
+  async postOffer(peerClientId: string, offer: RTCSessionDescriptionInit) {
     const req: RtcOffer = {
       clientId: this.clientId,
       name: this.name,
       offer: offer,
     };
-    const response = await fetch(`${ROOMS_SERVICE_URL}/${this.roomId}`, {
+    const response = await fetch(`${ROOMS_SERVICE_URL}/${this.roomId}/clients/${peerClientId}/offers`, {
       method: "POST",
       body: JSON.stringify(req),
     });
-    this.storedOfferInfo = await response.json();
+    const parsed: { ownerToken: string; offerId: string } = await response.json();
+    return parsed;
   }
 
-  async getPeerOffers(): Promise<{ offerId: string; offer: RtcOffer }[]> {
-    const response = await fetch(`${ROOMS_SERVICE_URL}/${this.roomId}`, {
+  async getPeerOffers() {
+    const response = await fetch(`${ROOMS_SERVICE_URL}/${this.roomId}/clients/${this.clientId}/offers`, {
       method: "GET",
     });
-    const offersByOfferId: Record<string, RtcOffer> = await response.json();
-    return Object.keys(offersByOfferId)
-      .map((offerId) => ({
-        offerId,
-        offer: offersByOfferId[offerId],
-      }))
-      .filter(({ offer }) => offer.clientId !== this.clientId);
+    const offerIds: string[] = await response.json();
+    return offerIds;
+  }
+
+  async getOffer(offerId: string) {
+    const response = await fetch(`${OFFERS_SERVICE_URL}/${offerId}`, {
+      method: "GET",
+    });
+    const offer: RtcOffer = await response.json();
+    return offer;
   }
 
   async answerPeerOffer(peerOfferId: string, answer: RTCSessionDescriptionInit) {
@@ -52,31 +65,31 @@ export class SignalClient {
     });
   }
 
-  async renewOffer() {
-    if (this.storedOfferInfo === undefined) {
-      throw new Error("Attempted to renew before posting offer");
-    }
+  // async renewOffer() {
+  //   if (this.storedOfferInfo === undefined) {
+  //     throw new Error("Attempted to renew before posting offer");
+  //   }
 
-    await fetch(`${OFFERS_SERVICE_URL}/${this.storedOfferInfo.offerId}/renew`, {
-      method: "PUT",
-      headers: {
-        "x-gridunlock-owner-token": this.storedOfferInfo.ownerToken,
-      },
-    });
-  }
+  //   await fetch(`${OFFERS_SERVICE_URL}/${this.storedOfferInfo.offerId}/renew`, {
+  //     method: "PUT",
+  //     headers: {
+  //       "x-gridunlock-owner-token": this.storedOfferInfo.ownerToken,
+  //     },
+  //   });
+  // }
 
-  async getAnswers() {
-    if (this.storedOfferInfo === undefined) {
-      throw new Error("Attempted to get answers before posting offer");
-    }
+  // async getAnswers() {
+  //   if (this.storedOfferInfo === undefined) {
+  //     throw new Error("Attempted to get answers before posting offer");
+  //   }
 
-    const response = await fetch(`${OFFERS_SERVICE_URL}/${this.storedOfferInfo.offerId}/answers`, {
-      method: "GET",
-      headers: {
-        "x-gridunlock-owner-token": this.storedOfferInfo.ownerToken,
-      },
-    });
-    const answers: RtcAnswer[] = await response.json();
-    return answers;
-  }
+  //   const response = await fetch(`${OFFERS_SERVICE_URL}/${this.storedOfferInfo.offerId}/answers`, {
+  //     method: "GET",
+  //     headers: {
+  //       "x-gridunlock-owner-token": this.storedOfferInfo.ownerToken,
+  //     },
+  //   });
+  //   const answers: RtcAnswer[] = await response.json();
+  //   return answers;
+  // }
 }
