@@ -7,7 +7,7 @@ import * as awarenessProtocol from "y-protocols/awareness.js";
 
   const ydoc = new Y.Doc();
   // clients connected to the same room-name share document updates
-  const provider = new WebrtcProvider(room, ydoc, {
+  new WebrtcProvider(room, ydoc, {
     signaling: ["wss://gridunlock-signal.herokuapp.com/"],
     password: null,
     awareness: new awarenessProtocol.Awareness(ydoc),
@@ -15,5 +15,5 @@ import * as awarenessProtocol from "y-protocols/awareness.js";
     maxConns: null,
     peerOpts: null,
   });
-  const yarray = ydoc.get("array", Y.Array);
+  ydoc.get("array", Y.Array);
 })();
