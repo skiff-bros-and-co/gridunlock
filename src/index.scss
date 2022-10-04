@@ -25,6 +25,7 @@ $cell-dimension: $inner-cell-dimension + 4px;
 
 .selected-puzzle-hint {
   background-color: $forest1;
+  font-weight: 600;
 }
 
 .grid-container {
