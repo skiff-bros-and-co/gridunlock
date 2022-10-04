@@ -73,9 +73,22 @@ export const PuzzleView = (props: Props): JSX.Element => {
         if (newSelectedCell) {
           updateSelectedCell(getValidNewCellPosition(selectedCell, newSelectedCell, props.puzzleDefinition));
         }
+        if (key === "Backspace" && selectedCell) {
+          const newPuzzleState = update(puzzleState, {
+            [selectedCell.row]: {
+              [selectedCell.column]: {
+                filledValue: {
+                  // TODO: set author here
+                  $set: "",
+                },
+              },
+            },
+          });
+          updatePuzzleState(newPuzzleState);
+        }
       }
     },
-    [selectedCell, updateSelectedCell, props.puzzleDefinition],
+    [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState],
   );
 
   return (
