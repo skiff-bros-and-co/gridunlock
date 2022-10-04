@@ -35,11 +35,11 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^4.10.2",
-    "@types/simple-peer": "^9.11.5",
     "bs58": "^5.0.0",
     "immutability-helper": "^3.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "simple-peer": "^9.11.1"
+    "y-webrtc": "^10.2.3",
+    "yjs": "^13.5.41"
   }
 }

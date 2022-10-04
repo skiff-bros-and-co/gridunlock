@@ -5,10 +5,7 @@ import path from "node:path";
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
-    alias: [
-      { find: /^~/, replacement: path.join(__dirname, "/node_modules/") },
-      { find: "simple-peer", replacement: "simple-peer/simplepeer.min.js" },
-    ],
+    alias: [{ find: /^~/, replacement: path.join(__dirname, "/node_modules/") }],
   },
   plugins: [react()],
   server: {
