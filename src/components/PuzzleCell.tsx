@@ -9,13 +9,19 @@ interface Props {
   isSelected: boolean;
 }
 
+const alphaCharacterRegex = /^[A-Za-z]$/;
+
 const getValidInput = (input: string): SingleLetter | "" | null => {
   if (input.length === 0) {
     return "";
   }
 
-  if (input[0].match(/^[A-Za-z]$/)) {
+  if (input.length === 1 && input[0].match(alphaCharacterRegex)) {
     return input[0].toUpperCase() as SingleLetter;
+  }
+
+  if (input.length === 2 && input[1].match(alphaCharacterRegex)) {
+    return input[1].toUpperCase() as SingleLetter;
   }
 
   return null;
