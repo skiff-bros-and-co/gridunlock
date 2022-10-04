@@ -4,7 +4,7 @@ import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { PuzzleGrid } from "./PuzzleGrid";
 import update from "immutability-helper";
 import { PuzzleHints } from "./PuzzleHints";
-import { useKeypress } from "./Hooks";
+import { useKeypress, useKeypressEvents } from "./Hooks";
 
 interface Props {
   puzzleDefinition: PuzzleDefinition;
@@ -41,78 +41,43 @@ const getValidNewCellPosition = (
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
   const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
+
   useKeypress(
-    "ArrowUp",
-    () => {
+    (key) => {
       if (selectedCell) {
-        updateSelectedCell(
-          getValidNewCellPosition(
-            selectedCell,
-            {
-              ...selectedCell,
-              row: selectedCell.row - 1,
-            },
-            props.puzzleDefinition,
-          ),
-        );
+        let newSelectedCell: CellPosition | null = null;
+        if (key === "ArrowDown") {
+          newSelectedCell = {
+            ...selectedCell,
+            row: selectedCell.row + 1,
+          };
+        }
+        if (key === "ArrowUp") {
+          newSelectedCell = {
+            ...selectedCell,
+            row: selectedCell.row - 1,
+          };
+        }
+        if (key === "ArrowLeft") {
+          newSelectedCell = {
+            ...selectedCell,
+            column: selectedCell.column - 1,
+          };
+        }
+        if (key === "ArrowRight") {
+          newSelectedCell = {
+            ...selectedCell,
+            column: selectedCell.column + 1,
+          };
+        }
+        if (newSelectedCell) {
+          updateSelectedCell(getValidNewCellPosition(selectedCell, newSelectedCell, props.puzzleDefinition));
+        }
       }
     },
     [selectedCell, updateSelectedCell, props.puzzleDefinition],
   );
-  useKeypress(
-    "ArrowDown",
-    () => {
-      if (selectedCell) {
-        updateSelectedCell(
-          getValidNewCellPosition(
-            selectedCell,
-            {
-              ...selectedCell,
-              row: selectedCell.row + 1,
-            },
-            props.puzzleDefinition,
-          ),
-        );
-      }
-    },
-    [selectedCell, updateSelectedCell, props.puzzleDefinition],
-  );
-  useKeypress(
-    "ArrowLeft",
-    () => {
-      if (selectedCell) {
-        updateSelectedCell(
-          getValidNewCellPosition(
-            selectedCell,
-            {
-              ...selectedCell,
-              column: selectedCell.column - 1,
-            },
-            props.puzzleDefinition,
-          ),
-        );
-      }
-    },
-    [selectedCell, updateSelectedCell, props.puzzleDefinition],
-  );
-  useKeypress(
-    "ArrowRight",
-    () => {
-      if (selectedCell) {
-        updateSelectedCell(
-          getValidNewCellPosition(
-            selectedCell,
-            {
-              ...selectedCell,
-              column: selectedCell.column + 1,
-            },
-            props.puzzleDefinition,
-          ),
-        );
-      }
-    },
-    [selectedCell, updateSelectedCell, props.puzzleDefinition],
-  );
+
   return (
     <div className="puzzle-view">
       <PuzzleGrid
