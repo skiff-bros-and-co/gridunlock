@@ -1,19 +1,15 @@
 import * as Y from "yjs";
 import { WebrtcProvider } from "y-webrtc";
-import * as awarenessProtocol from "y-protocols/awareness.js";
 
 (async () => {
-  const room = "1";
+  const room = "grid-unlock-test";
 
   const ydoc = new Y.Doc();
-  // clients connected to the same room-name share document updates
   new WebrtcProvider(room, ydoc, {
-    signaling: ["wss://gridunlock-signal.herokuapp.com/"],
-    password: null,
-    awareness: new awarenessProtocol.Awareness(ydoc),
-    filterBcConns: null,
-    maxConns: null,
-    peerOpts: null,
-  });
+    password: "test",
+    // The types are BAD
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
+
   ydoc.get("array", Y.Array);
 })();
