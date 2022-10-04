@@ -43,8 +43,8 @@ export interface Clue {
 
 export interface CellClue {
   isStartOfClue: boolean;
-  acrossClueNumber: number;
-  downClueNumber: number;
+  acrossClueNumber: number | null;
+  downClueNumber: number | null;
 }
 
 export interface PuzzleClues {
@@ -52,7 +52,7 @@ export interface PuzzleClues {
   across: { [clueNumber: number]: Clue };
   clueCount: number;
 
-  // byRowAndColumn: (CellClue | null)[][];
+  byRowAndColumn: (CellClue | null)[][];
 }
 
 export type PuzzleDirection = "down" | "across";

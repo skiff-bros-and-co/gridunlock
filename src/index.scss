@@ -23,12 +23,21 @@ $cell-dimension: $inner-cell-dimension + 4px;
   justify-content: space-between;
 }
 
+.selected-puzzle-hint {
+  background-color: $forest1;
+  font-weight: 600;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
   grid-template-rows: repeat(auto-fill, $cell-dimension);
   max-width: 480px;
   max-height: 480px;
+
+  .grid-cell-hint-number-selected {
+    font-weight: 600;
+  }
 
   .grid-cell {
     height: $inner-cell-dimension;
@@ -37,6 +46,9 @@ $cell-dimension: $inner-cell-dimension + 4px;
     justify-content: center;
     align-items: center;
     text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    caret-color: transparent;
   }
 
   .grid-cell-empty {
@@ -49,6 +61,10 @@ $cell-dimension: $inner-cell-dimension + 4px;
     border-radius: $pt-border-radius;
     border: 1px solid $white;
     background-color: $forest1;
+  }
+
+  .grid-cell-selected {
+    border: 2px solid $white;
   }
 
   .grid-cell-hint-number {
