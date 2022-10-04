@@ -1,3 +1,4 @@
+import SimplePeer from "simple-peer";
 import { generateToken } from "../utils/generateToken";
 import { RtcAnswer, RtcOffer } from "./types";
 
@@ -23,7 +24,7 @@ export class SignalClient {
     return clientIds;
   }
 
-  async postOffer(peerClientId: string, offer: RTCSessionDescriptionInit) {
+  async postOffer(peerClientId: string, offer: SimplePeer.SignalData) {
     const req: RtcOffer = {
       clientId: this.clientId,
       name: this.name,

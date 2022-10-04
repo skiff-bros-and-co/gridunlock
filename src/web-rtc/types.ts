@@ -1,11 +1,13 @@
+import SimplePeer from "simple-peer";
+
 export interface RtcOffer {
   clientId: string;
-  offer: RTCSessionDescriptionInit;
+  offer: SimplePeer.SignalData;
   name: string;
 }
 
 export interface RtcAnswer {
   clientId: string;
-  answer: RTCSessionDescriptionInit;
+  answer: SimplePeer.SignalData;
   name: string;
 }
