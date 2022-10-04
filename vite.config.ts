@@ -8,13 +8,4 @@ export default defineConfig({
     alias: [{ find: /^~/, replacement: path.join(__dirname, "/node_modules/") }],
   },
   plugins: [react()],
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://gridunlockapp.com",
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
 });
