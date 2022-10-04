@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://gridunlock-worker.gridunlock.workers.dev",
+        target: "https://gridunlockapp.com",
         changeOrigin: true,
         secure: false,
       },
