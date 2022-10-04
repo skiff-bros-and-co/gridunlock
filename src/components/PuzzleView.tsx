@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Cell, PuzzleDefinition } from "../state/Puzzle";
+import { Cell, CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { PuzzleGrid } from "./PuzzleGrid";
 import update from "immutability-helper";
@@ -22,12 +22,15 @@ const initializePuzzleState = (puzzleDefinition: PuzzleDefinition): PuzzleState 
 
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
+  const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
 
   return (
     <div className="puzzle-view">
       <PuzzleGrid
         puzzleState={puzzleState}
         puzzleWidth={props.puzzleDefinition.width}
+        selectedCell={selectedCell}
+        onSelectCell={updateSelectedCell}
         onEnterValue={(row, col, newValue) => {
           const newPuzzleState = update(puzzleState, {
             [row]: {
@@ -43,7 +46,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
           updatePuzzleState(newPuzzleState);
         }}
       />
-      <PuzzleHints puzzleDefinition={props.puzzleDefinition} />
+      <PuzzleHints selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
     </div>
   );
 };

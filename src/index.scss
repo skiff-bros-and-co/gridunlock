@@ -23,6 +23,10 @@ $cell-dimension: $inner-cell-dimension + 4px;
   justify-content: space-between;
 }
 
+.selected-puzzle-hint {
+  background-color: $forest1;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
