@@ -5,24 +5,29 @@ export const buildCellCluesByRowAndColumn = (cells: Cell[][]): (CellClue | null)
   const lastDownClueNumberByColumn: { [colIndex: number]: number | null } = {};
   return cells.map((row) => {
     return row.map((cell, colIndex) => {
-      if ((!acrossClueNumber || colIndex === 0) && cell.clueNumber) {
-        acrossClueNumber = cell.clueNumber;
-      }
-      if (!lastDownClueNumberByColumn[colIndex] && cell.clueNumber) {
-        lastDownClueNumberByColumn[colIndex] = cell.clueNumber;
+      if (colIndex === 0) {
+        acrossClueNumber = null;
       }
       if (cell.isBlocked) {
         acrossClueNumber = null;
         lastDownClueNumberByColumn[colIndex] = null;
       }
+
+      if (!acrossClueNumber && cell.clueNumber) {
+        acrossClueNumber = cell.clueNumber;
+      }
+      if (!lastDownClueNumberByColumn[colIndex] && cell.clueNumber) {
+        lastDownClueNumberByColumn[colIndex] = cell.clueNumber;
+      }
+
       const downClueNumber = lastDownClueNumberByColumn[colIndex];
-      if (!acrossClueNumber || !downClueNumber) {
+      if (!acrossClueNumber && !downClueNumber) {
         return null;
       }
       return {
         isStartOfClue: Boolean(cell.clueNumber),
-        acrossClueNumber,
-        downClueNumber,
+        acrossClueNumber: acrossClueNumber || null,
+        downClueNumber: downClueNumber || null,
       };
     });
   });
