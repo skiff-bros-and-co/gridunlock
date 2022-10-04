@@ -26,7 +26,6 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
           props.selectedCell && props.selectedCell.column === colIndex && props.selectedCell.row === rowIndex,
         )}
         onSelectCell={() => {
-          console.log(`selected cell r${rowIndex}c${colIndex}`);
           props.onSelectCell({
             row: rowIndex,
             column: colIndex,

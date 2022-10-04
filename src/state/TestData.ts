@@ -99,5 +99,3 @@ export const testPuzzleData: PuzzleDefinition = {
   height: 4,
   cells: puzzleCells,
 };
-
-console.log(testPuzzleData.clues.byRowAndColumn);
