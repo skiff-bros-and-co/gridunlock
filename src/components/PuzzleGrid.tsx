@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import type { PuzzleState } from "../state/State";
 import { PuzzleCell } from "./PuzzleCell";
-import { CellPosition, SingleLetter } from "../state/Puzzle";
+import { CellPosition } from "../state/Puzzle";
 
 interface Props {
   puzzleWidth: number;
   puzzleState: PuzzleState;
   selectedCell: CellPosition | null;
   onSelectCell: (position: CellPosition | null) => void;
-  onEnterValue: (row: number, column: number, value: SingleLetter | "") => void;
 }
 
 const setColumnCount = (columnCount: number) => {
@@ -30,9 +29,6 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
             row: rowIndex,
             column: colIndex,
           });
-        }}
-        onEnterValue={(newValue) => {
-          props.onEnterValue(rowIndex, colIndex, newValue);
         }}
         gameCell={cell}
       />

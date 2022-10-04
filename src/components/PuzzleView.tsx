@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection, SingleLetter } from "../state/Puzzle";
 import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { PuzzleGrid } from "./PuzzleGrid";
 import update from "immutability-helper";
@@ -37,6 +37,20 @@ const isCellPositionValid = (
   );
 };
 
+const alphaCharacterRegex = /^[A-Za-z]$/;
+
+const getValidInput = (input: string): SingleLetter | "" | null => {
+  if (input.length === 0) {
+    return "";
+  }
+
+  if (input.length === 1 && input[0].match(alphaCharacterRegex)) {
+    return input[0].toUpperCase() as SingleLetter;
+  }
+
+  return null;
+};
+
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
   const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
@@ -52,8 +66,35 @@ export const PuzzleView = (props: Props): JSX.Element => {
     },
     [selectedCell, props.puzzleDefinition],
   );
-
+  const updateCellValue = useCallback(
+    (newValue: SingleLetter | "", position: CellPosition) => {
+      const newPuzzleState = update(puzzleState, {
+        [position.row]: {
+          [position.column]: {
+            filledValue: {
+              // TODO: set author here
+              $set: newValue,
+            },
+          },
+        },
+      });
+      updatePuzzleState(newPuzzleState);
+    },
+    [updatePuzzleState, puzzleState],
+  );
   const [entryDirection] = useState<PuzzleDirection | null>("across");
+  const moveToNextCell = useCallback(() => {
+    if (selectedCell && entryDirection === "across") {
+      moveSelectedCell({
+        column: selectedCell.column + 1,
+      });
+    }
+    if (selectedCell && entryDirection === "down") {
+      moveSelectedCell({
+        row: selectedCell.row + 1,
+      });
+    }
+  }, [moveSelectedCell, entryDirection]);
 
   useKeypress(
     (key) => {
@@ -79,17 +120,17 @@ export const PuzzleView = (props: Props): JSX.Element => {
           });
         }
         if (key === "Backspace" && selectedCell) {
-          const newPuzzleState = update(puzzleState, {
-            [selectedCell.row]: {
-              [selectedCell.column]: {
-                filledValue: {
-                  // TODO: set author here
-                  $set: "",
-                },
-              },
-            },
-          });
-          updatePuzzleState(newPuzzleState);
+          updateCellValue("", selectedCell);
+        }
+        if (key === "Tab") {
+          moveToNextCell();
+        }
+        if (key.match(alphaCharacterRegex) && selectedCell) {
+          const input = getValidInput(key);
+          if (input) {
+            updateCellValue(input, selectedCell);
+            moveToNextCell();
+          }
         }
       }
     },
@@ -103,30 +144,6 @@ export const PuzzleView = (props: Props): JSX.Element => {
         puzzleWidth={props.puzzleDefinition.width}
         selectedCell={selectedCell}
         onSelectCell={updateSelectedCell}
-        onEnterValue={(row, col, newValue) => {
-          const newPuzzleState = update(puzzleState, {
-            [row]: {
-              [col]: {
-                filledValue: {
-                  // TODO: set author here
-                  $set: newValue,
-                },
-              },
-            },
-          });
-
-          updatePuzzleState(newPuzzleState);
-          if (selectedCell && entryDirection === "across") {
-            moveSelectedCell({
-              column: selectedCell.column + 1,
-            });
-          }
-          if (selectedCell && entryDirection === "down") {
-            moveSelectedCell({
-              row: selectedCell.row + 1,
-            });
-          }
-        }}
       />
       <PuzzleHints selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
     </div>
