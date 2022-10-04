@@ -28,8 +28,7 @@ const getValidInput = (input: string): SingleLetter | "" | null => {
 };
 
 export const PuzzleCell = (props: Props): JSX.Element => {
-  // TODO: better types
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<null | HTMLInputElement>(null);
 
   useEffect(() => {
     if (inputRef?.current && props.isSelected) {

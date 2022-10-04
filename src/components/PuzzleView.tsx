@@ -4,7 +4,7 @@ import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { PuzzleGrid } from "./PuzzleGrid";
 import update from "immutability-helper";
 import { PuzzleHints } from "./PuzzleHints";
-import { useKeypress, useKeypressEvents } from "./Hooks";
+import { useKeypress } from "./Hooks";
 
 interface Props {
   puzzleDefinition: PuzzleDefinition;

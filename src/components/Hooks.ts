@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 export const useKeypress = (action: (key: string) => void, deps?: React.DependencyList) => {
   useEffect(() => {
-    function onKeyup(e: any) {
+    function onKeyup(e: globalThis.KeyboardEvent) {
       action(e.key);
     }
     window.addEventListener("keyup", onKeyup);
