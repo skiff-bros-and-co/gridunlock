@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Cell, CellPosition, PuzzleDefinition } from "../state/Puzzle";
+import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
 import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { PuzzleGrid } from "./PuzzleGrid";
 import update from "immutability-helper";
 import { PuzzleHints } from "./PuzzleHints";
 import { useKeypress } from "./Hooks";
+import { useCallback } from "react";
 
 interface Props {
   puzzleDefinition: PuzzleDefinition;
@@ -21,57 +22,61 @@ const initializePuzzleState = (puzzleDefinition: PuzzleDefinition): PuzzleState 
   return puzzleDefinition.cells.map((row: Cell[]) => row.map((cell) => initializeEmptyCell(cell)));
 };
 
-const getValidNewCellPosition = (
-  currentCell: CellPosition,
-  newCell: CellPosition,
+const isCellPositionValid = (
+  newCell: Partial<CellPosition>,
   puzzleDefinition: PuzzleDefinition,
-): CellPosition => {
-  if (
-    newCell.column > puzzleDefinition.width - 1 ||
-    newCell.column < 0 ||
-    newCell.row > puzzleDefinition.height - 1 ||
-    newCell.row < 0 ||
-    puzzleDefinition.cells[newCell.row][newCell.column].isBlocked
-  ) {
-    return currentCell;
-  }
-  return newCell;
+): newCell is CellPosition => {
+  return Boolean(
+    newCell.column !== undefined &&
+      newCell.column < puzzleDefinition.width &&
+      newCell.column >= 0 &&
+      newCell.row !== undefined &&
+      newCell.row < puzzleDefinition.height &&
+      newCell.row >= 0 &&
+      !puzzleDefinition.cells[newCell.row][newCell.column].isBlocked,
+  );
 };
 
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
   const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
+  const moveSelectedCell = useCallback(
+    (cellPosition: Partial<CellPosition>) => {
+      const newSelectedCell = {
+        ...selectedCell,
+        ...cellPosition,
+      };
+      if (isCellPositionValid(newSelectedCell, props.puzzleDefinition)) {
+        updateSelectedCell(newSelectedCell);
+      }
+    },
+    [selectedCell, props.puzzleDefinition],
+  );
+
+  const [entryDirection] = useState<PuzzleDirection | null>("across");
 
   useKeypress(
     (key) => {
       if (selectedCell) {
-        let newSelectedCell: CellPosition | null = null;
         if (key === "ArrowDown") {
-          newSelectedCell = {
-            ...selectedCell,
+          moveSelectedCell({
             row: selectedCell.row + 1,
-          };
+          });
         }
         if (key === "ArrowUp") {
-          newSelectedCell = {
-            ...selectedCell,
+          moveSelectedCell({
             row: selectedCell.row - 1,
-          };
+          });
         }
         if (key === "ArrowLeft") {
-          newSelectedCell = {
-            ...selectedCell,
+          moveSelectedCell({
             column: selectedCell.column - 1,
-          };
+          });
         }
         if (key === "ArrowRight") {
-          newSelectedCell = {
-            ...selectedCell,
+          moveSelectedCell({
             column: selectedCell.column + 1,
-          };
-        }
-        if (newSelectedCell) {
-          updateSelectedCell(getValidNewCellPosition(selectedCell, newSelectedCell, props.puzzleDefinition));
+          });
         }
         if (key === "Backspace" && selectedCell) {
           const newPuzzleState = update(puzzleState, {
@@ -111,6 +116,16 @@ export const PuzzleView = (props: Props): JSX.Element => {
           });
 
           updatePuzzleState(newPuzzleState);
+          if (selectedCell && entryDirection === "across") {
+            moveSelectedCell({
+              column: selectedCell.column + 1,
+            });
+          }
+          if (selectedCell && entryDirection === "down") {
+            moveSelectedCell({
+              row: selectedCell.row + 1,
+            });
+          }
         }}
       />
       <PuzzleHints selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
