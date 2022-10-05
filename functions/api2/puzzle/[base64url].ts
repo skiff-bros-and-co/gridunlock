@@ -11,10 +11,10 @@ export const onRequestGet: PagesFunction = async ({ request, params }) => {
 
     const puzzleData = await getPuzzle(url);
     if (puzzleData.byteLength > MAX_PUZZLE_BYTES) {
-      return new Response("Puzzle too large", { status: 400 })
+      return new Response("Puzzle too large", { status: 400 });
     }
 
-    const puzzle = await parsePuz(puzzleData);)
+    const puzzle = await parsePuz(puzzleData);
     const response = new Response(JSON.stringify(puzzle));
     return response;
   } catch (e) {

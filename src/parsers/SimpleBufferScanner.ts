@@ -25,9 +25,10 @@ export class SimpleBufferScanner {
 
   public readUntil(predicate: (char: number) => boolean): ArrayBuffer {
     const buffer = this.buffer;
+    const charView = new Uint8Array(buffer);
     const startIndex = this.currentIndex;
     for (let i = startIndex; i < buffer.byteLength; i++) {
-      if (predicate(buffer[i])) {
+      if (predicate(charView[i])) {
         this.currentIndex = i + 1;
         return buffer.slice(startIndex, i);
       }
