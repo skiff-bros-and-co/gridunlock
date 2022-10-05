@@ -1,4 +1,5 @@
 import { pull } from "lodash-es";
+import { IndexeddbPersistence } from "y-indexeddb";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { SyncedPuzzleCellState, SyncedPuzzleState, SyncedRoomInfo } from "./types";
@@ -31,6 +32,7 @@ export class RoomSyncService {
       // The types are BAD
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
+    new IndexeddbPersistence(roomName, this.doc);
 
     this.cells.observeDeep(() => {
       this.emit("cellsChanged");
