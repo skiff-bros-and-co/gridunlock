@@ -21,6 +21,7 @@ export const PuzzleCell = (props: Props): JSX.Element => {
   return (
     <div className="grid-cell-wrapper">
       <div
+        contentEditable="true"
         ref={inputRef}
         className={`grid-cell ${inputClassFilled} ${inputClassSelected}`}
         onFocus={props.onSelectCell}

@@ -16,6 +16,7 @@
 
 $inner-cell-dimension: 32px;
 $cell-dimension: $inner-cell-dimension + 4px;
+$cell-border-color: white;
 
 .page-header {
   display: flex;
@@ -64,18 +65,18 @@ $cell-dimension: $inner-cell-dimension + 4px;
 
   .grid-cell-empty {
     border-radius: $pt-border-radius;
-    border: 1px solid $white;
+    border: 1px solid $cell-border-color;
     background-color: $forest2;
   }
 
   .grid-cell-filled {
     border-radius: $pt-border-radius;
-    border: 1px solid $white;
+    border: 1px solid $cell-border-color;
     background-color: $forest1;
   }
 
   .grid-cell-selected {
-    border: 2px solid $white;
+    border: 2px solid $cell-border-color;
   }
 
   .grid-cell-hint-number {
