@@ -1,27 +1,52 @@
 import { parsePuz } from "../../../src/parsers/parsePuz";
+import { PuzzleDefinition } from "../../../src/state/Puzzle";
+
+interface Env {
+  // Defined in the Cloudflare Pages config
+  PUZZLES: KVNamespace;
+}
+
+interface PuzzleCacheEntry {
+  puzzle: PuzzleDefinition;
+}
 
 const MAX_PUZZLE_BYTES = 100 * 1024;
+const PUZZLE_TTL_SEC = 7 * 24 * 60 * 60;
 
-export const onRequestGet: PagesFunction = async ({ request, params }) => {
+export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
   try {
     const base64url = params.base64url as string;
     const url = atob(base64url);
 
     console.info("Got request for", url);
 
-    const puzzleData = await getPuzzle(url);
-    if (puzzleData.byteLength > MAX_PUZZLE_BYTES) {
-      return new Response("Puzzle too large", { status: 400 });
-    }
-
-    const puzzle = await parsePuz(puzzleData);
-    const response = new Response(JSON.stringify(puzzle));
-    return response;
+    const puzzle = await getPuzzle(url, env);
+    return new Response(JSON.stringify(puzzle));
   } catch (e) {
+    // There's no logging for Cloudflare Functions, yet :(
     return new Response(e?.stack ?? e, { status: 500 });
   }
 };
 
-async function getPuzzle(url: string) {
-  return (await fetch(url)).arrayBuffer();
+async function getPuzzle(url: string, env: Env): Promise<PuzzleDefinition> {
+  const cached = await env.PUZZLES.get<PuzzleCacheEntry | undefined>(url, "json");
+  if (cached !== null) {
+    return cached.puzzle;
+  }
+
+  const puzzleData = await (await fetch(url)).arrayBuffer();
+  if (puzzleData.byteLength > MAX_PUZZLE_BYTES) {
+    throw new Error(`Puzzle too large (${puzzleData.byteLength})`);
+  }
+
+  const puzzle = await parsePuz(puzzleData);
+
+  const toCache: PuzzleCacheEntry = {
+    puzzle,
+  };
+  await env.PUZZLES.put(url, JSON.stringify(toCache), {
+    expirationTtl: PUZZLE_TTL_SEC,
+  });
+
+  return puzzle;
 }
