@@ -138,39 +138,40 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   useKeypress(
     (key) => {
-      if (selectedCell) {
-        if (key === "ArrowDown") {
-          moveSelectedCell({
-            row: selectedCell.row + 1,
-          });
-        }
-        if (key === "ArrowUp") {
-          moveSelectedCell({
-            row: selectedCell.row - 1,
-          });
-        }
-        if (key === "ArrowLeft") {
-          moveSelectedCell({
-            column: selectedCell.column - 1,
-          });
-        }
-        if (key === "ArrowRight") {
-          moveSelectedCell({
-            column: selectedCell.column + 1,
-          });
-        }
-        if (key === "Backspace" && selectedCell) {
-          updateCellValue("", selectedCell);
-        }
-        if (key === "Tab") {
+      if (!selectedCell) {
+        return;
+      }
+      if (key === "ArrowDown") {
+        moveSelectedCell({
+          row: selectedCell.row + 1,
+        });
+      }
+      if (key === "ArrowUp") {
+        moveSelectedCell({
+          row: selectedCell.row - 1,
+        });
+      }
+      if (key === "ArrowLeft") {
+        moveSelectedCell({
+          column: selectedCell.column - 1,
+        });
+      }
+      if (key === "ArrowRight") {
+        moveSelectedCell({
+          column: selectedCell.column + 1,
+        });
+      }
+      if (key === "Backspace") {
+        updateCellValue("", selectedCell);
+      }
+      if (key === "Tab") {
+        moveToNextCell();
+      }
+      if (key.match(alphaCharacterRegex)) {
+        const input = getValidInput(key);
+        if (input) {
+          updateCellValue(input, selectedCell);
           moveToNextCell();
-        }
-        if (key.match(alphaCharacterRegex) && selectedCell) {
-          const input = getValidInput(key);
-          if (input) {
-            updateCellValue(input, selectedCell);
-            moveToNextCell();
-          }
         }
       }
     },
