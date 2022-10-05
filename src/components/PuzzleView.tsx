@@ -1,14 +1,16 @@
-import { useState } from "react";
+import update from "immutability-helper";
+import { useCallback, useEffect, useState } from "react";
 import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection, SingleLetter } from "../state/Puzzle";
 import { PuzzleGameCell, PuzzleState } from "../state/State";
-import { PuzzleGrid } from "./PuzzleGrid";
-import update from "immutability-helper";
-import { PuzzleHints } from "./PuzzleHints";
+import { RoomSyncService } from "../web-rtc/RoomSyncService";
+import { SyncedPuzzleState } from "../web-rtc/types";
 import { useKeypress } from "./Hooks";
-import { useCallback } from "react";
+import { PuzzleGrid } from "./PuzzleGrid";
+import { PuzzleHints } from "./PuzzleHints";
 
 interface Props {
   puzzleDefinition: PuzzleDefinition;
+  syncService: RoomSyncService;
 }
 
 const initializeEmptyCell = (cell: Cell): PuzzleGameCell => ({
@@ -78,9 +80,18 @@ export const PuzzleView = (props: Props): JSX.Element => {
           },
         },
       });
+
+      props.syncService.changeCell({
+        xIndex: position.column,
+        yIndex: position.row,
+        value: {
+          value: newValue,
+          writerUserId: "TODO",
+        },
+      });
       updatePuzzleState(newPuzzleState);
     },
-    [updatePuzzleState, puzzleState],
+    [updatePuzzleState, puzzleState, props.syncService],
   );
   const [entryDirection] = useState<PuzzleDirection | null>("across");
   const moveToNextCell = useCallback(() => {
@@ -95,6 +106,35 @@ export const PuzzleView = (props: Props): JSX.Element => {
       });
     }
   }, [moveSelectedCell, entryDirection]);
+
+  useEffect(() => {
+    if (props.puzzleDefinition.height > 0) {
+      props.syncService.initPuzzle({
+        width: props.puzzleDefinition.width,
+        height: props.puzzleDefinition.height,
+      });
+    }
+  }, [props.puzzleDefinition, props.syncService]);
+
+  const handleNewCells = useCallback(
+    (data: SyncedPuzzleState) => {
+      updatePuzzleState((oldState) =>
+        oldState.map((row, rowIndex) =>
+          row.map((cell, colIndex) => ({
+            ...cell,
+            filledValue: (data.cells[rowIndex][colIndex].value ?? "") as SingleLetter,
+          })),
+        ),
+      );
+    },
+    [updatePuzzleState],
+  );
+
+  useEffect(() => {
+    props.syncService.addEventListener("cellsChanged", handleNewCells);
+
+    return () => props.syncService.removeEventListener("cellsChanged", handleNewCells);
+  }, [props.syncService, handleNewCells]);
 
   useKeypress(
     (key) => {
