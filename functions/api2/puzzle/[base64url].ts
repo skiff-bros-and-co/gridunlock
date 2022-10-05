@@ -11,7 +11,11 @@ interface PuzzleCacheEntry {
 }
 
 const MAX_PUZZLE_BYTES = 100 * 1024;
-const PUZZLE_TTL_SEC = 7 * 24 * 60 * 60;
+
+// Why so short?
+// Puzzle URLs are often reused across days.
+// (e.g. the NY times daily classic is always the same url).
+const PUZZLE_TTL_SEC = 1 * 60 * 60;
 
 export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
   try {
