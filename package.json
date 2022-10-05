@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/dskiff/gridunlock#readme",
   "devDependencies": {
+    "@cloudflare/workers-types": "^3.16.0",
     "@types/node": "^16.11.63",
     "@types/react": "^17.0.50",
     "@types/react-dom": "^17.0.17",
