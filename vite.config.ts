@@ -7,5 +7,8 @@ export default defineConfig({
   resolve: {
     alias: [{ find: /^~/, replacement: path.join(__dirname, "/node_modules/") }],
   },
+  server: {
+    port: 1234,
+  },
   plugins: [react()],
 });
