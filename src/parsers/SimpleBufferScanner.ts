@@ -1,9 +1,9 @@
 export class SimpleBufferScanner {
   private currentIndex = 0;
-  private buffer: Uint8Array;
+  private buffer: ArrayBuffer;
 
   constructor(buffer: ArrayBuffer) {
-    this.buffer = new Uint8Array(buffer);
+    this.buffer = buffer;
   }
 
   public moveTo(index: number) {
@@ -18,7 +18,7 @@ export class SimpleBufferScanner {
       end = this.buffer.byteLength;
     }
 
-    const result = this.buffer.subarray(this.currentIndex, end);
+    const result = this.buffer.slice(this.currentIndex, end);
     this.currentIndex += byteLength;
     return new DataView(result);
   }
@@ -29,16 +29,16 @@ export class SimpleBufferScanner {
     for (let i = startIndex; i < buffer.byteLength; i++) {
       if (predicate(buffer[i])) {
         this.currentIndex = i + 1;
-        return buffer.subarray(startIndex, i);
+        return buffer.slice(startIndex, i);
       }
     }
 
-    this.currentIndex = buffer.length;
-    return buffer.subarray(startIndex);
+    this.currentIndex = buffer.byteLength;
+    return buffer.slice(startIndex);
   }
 
   public readRemaining(): ArrayBuffer {
-    const result = this.buffer.subarray(this.currentIndex);
+    const result = this.buffer.slice(this.currentIndex);
     this.currentIndex += this.buffer.byteLength;
     return result;
   }
