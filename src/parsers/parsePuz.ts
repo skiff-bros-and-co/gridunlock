@@ -96,7 +96,7 @@ export function parsePuz(source: ArrayBuffer): PuzzleDefinition {
    * NOTES (variable length, concluded with \0)
    */
 
-  const textDecoder = new TextDecoder("latin1");
+  const textDecoder = new TextDecoder("utf-8");
   const relevantHeaderOffset = 0x2c;
   const endOfHeader = 0x34;
 

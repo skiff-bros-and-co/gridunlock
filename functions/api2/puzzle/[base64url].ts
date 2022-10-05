@@ -2,7 +2,7 @@ import { parsePuz } from "../../../src/parsers/parsePuz";
 
 export const onRequestGet: PagesFunction = async ({ request, params }) => {
   const base64url = params.base64url as string;
-  const url = btoa(base64url);
+  const url = atob(base64url);
 
   console.info("Got request for", url);
 
