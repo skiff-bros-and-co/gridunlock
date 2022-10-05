@@ -12,6 +12,30 @@
   background-color: $black;
   height: 100vh;
   width: 100vw;
+  padding: 20px;
+
+  overflow: auto;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: 200ms ease-in opacity;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: $black;
+  pointer-events: none;
+
+  &.loading {
+    opacity: 1;
+  }
 }
 
 $inner-cell-dimension: 32px;
@@ -21,6 +45,11 @@ $cell-dimension: $inner-cell-dimension + 4px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin: 0 0 10px 0;
+
+  h1 {
+    margin: 0;
+  }
 }
 
 .grid-unlock-icon {

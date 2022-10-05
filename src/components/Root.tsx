@@ -3,6 +3,7 @@ import { Header } from "./Header";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { PuzzleView } from "./PuzzleView";
 import { PuzzleDefinition } from "../state/Puzzle";
+import { Spinner } from "@blueprintjs/core";
 
 export function Root({ roomName }: { roomName: string }) {
   const syncService = useMemo(() => new RoomSyncService(roomName), [roomName]);
@@ -16,18 +17,14 @@ export function Root({ roomName }: { roomName: string }) {
     })();
   }, [setPuzzleDef]);
 
-  if (puzzleDef === undefined) {
-    return (
-      <div className="root">
-        <Header />
-      </div>
-    );
-  }
-
+  const isLoading = puzzleDef === undefined;
   return (
     <div className="root">
       <Header />
-      <PuzzleView puzzleDefinition={puzzleDef} syncService={syncService}></PuzzleView>
+      {!isLoading && <PuzzleView puzzleDefinition={puzzleDef} syncService={syncService}></PuzzleView>}
+      <div className={"loading-overlay " + (isLoading ? "loading" : "")}>
+        <Spinner />
+      </div>
     </div>
   );
 }
