@@ -4,8 +4,8 @@ import { Header } from "./Header";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { PuzzleView } from "./PuzzleView";
 
-export function Root({ roomCode }: { roomCode: string }) {
-  const syncService = useMemo(() => new RoomSyncService(roomCode), [roomCode]);
+export function Root({ roomName }: { roomName: string }) {
+  const syncService = useMemo(() => new RoomSyncService(roomName), [roomName]);
 
   return (
     <div className="root">

@@ -1,8 +1,10 @@
+import { pull } from "lodash-es";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
-import { parseRoomCode } from "../utils/generateRoomCode";
 import { SyncedPuzzleCellState, SyncedPuzzleState, SyncedRoomInfo } from "./types";
-import { pull } from "lodash-es";
+
+// This clearly provides no security other than mild obfustication.
+const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
 
 interface Events {
   cellsChanged: SyncedPuzzleState;
@@ -23,11 +25,9 @@ export class RoomSyncService {
   private cells = this.doc.getArray<Y.Array<SyncedPuzzleCellState>>("cells");
   private info = this.doc.getMap<string | undefined>("info"); // SyncedRoomInfo
 
-  constructor(roomCode: string) {
-    const roomInfo = parseRoomCode(roomCode);
-
-    new WebrtcProvider(roomInfo.name, this.doc, {
-      password: roomInfo.password,
+  constructor(roomName: string) {
+    new WebrtcProvider(roomName, this.doc, {
+      password: PASSWORD,
       // The types are BAD
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);

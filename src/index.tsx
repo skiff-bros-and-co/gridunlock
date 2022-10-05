@@ -1,14 +1,14 @@
 import * as ReactDOM from "react-dom";
 import { Root } from "./components/Root";
-import { generateRoomCode } from "./utils/generateRoomCode";
+import { generateMemorableToken } from "./utils/generateMemorableToken";
 
-const ROOM_CODE_PARAM = "roomcode";
+const ROOM_PATH_PREFIX = "/r/";
 
-const queryParams = new URLSearchParams(window.location.search);
-const roomCode = queryParams.get(ROOM_CODE_PARAM);
-if (roomCode === null) {
-  queryParams.set(ROOM_CODE_PARAM, generateRoomCode());
-  window.location.search = queryParams.toString();
+const path = window.location.pathname;
+const hasRoom = path.startsWith(ROOM_PATH_PREFIX);
+const roomName = hasRoom && path.substring(ROOM_PATH_PREFIX.length);
+if (!hasRoom || !roomName) {
+  window.location.pathname = ROOM_PATH_PREFIX + generateMemorableToken(32);
 } else {
-  ReactDOM.render(<Root roomCode={roomCode} />, document.getElementById("content"));
+  ReactDOM.render(<Root roomName={roomName} />, document.getElementById("content"));
 }
