@@ -40,6 +40,8 @@ export const PuzzleCell = (props: Props): JSX.Element => {
         onClick={props.onSelectCell}
         value={props.gameCell.filledValue}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.onCellValueInput(e.target.value)}
+        type="text"
+        autoCapitalize="characters"
       />
       <p className={`grid-cell-hint-number ${hintClassSelected}`}>{props.gameCell.clueNumber}</p>
     </div>
