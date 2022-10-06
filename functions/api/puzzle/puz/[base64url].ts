@@ -1,5 +1,5 @@
-import { parsePuz } from "../../../src/parsers/parsePuz";
-import { PuzzleDefinition } from "../../../src/state/Puzzle";
+import { parsePuz } from "../../../../src/parsers/parsePuz";
+import { PuzzleDefinition } from "../../../../src/state/Puzzle";
 
 interface Env {
   // Defined in the Cloudflare Pages config
@@ -28,7 +28,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
     return new Response(JSON.stringify(puzzle));
   } catch (e) {
     // There's no logging for Cloudflare Functions, yet :(
-    return new Response(e?.stack ?? e, { status: 500 });
+    return new Response(e?.stack ?? JSON.stringify(e), { status: 500 });
   }
 };
 

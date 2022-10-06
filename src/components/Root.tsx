@@ -12,7 +12,7 @@ export function Root({ roomName }: { roomName: string }) {
   useEffect(() => {
     const puzzleId = btoa("http://www.nytimes.com/specials/puzzles/classic.puz");
     (async () => {
-      const req = await fetch(`/api/puzzle/${puzzleId}`);
+      const req = await fetch(`/api/puzzle/puz/${puzzleId}`);
       setPuzzleDef(await req.json());
     })();
   }, [setPuzzleDef]);
