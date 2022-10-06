@@ -120,10 +120,10 @@ export async function fetchPuzzle(date: string, env: Env) {
     width: parsed.size.cols,
     cells,
     clues: {
-      across: parseClues(parsed.clues.across, "across", cells),
+      across: {}, //parseClues(parsed.clues.across, "across", cells),
       byRowAndColumn: [], //buildCellCluesByRowAndColumn(cells),
       clueCount: 0,
-      down: parseClues(parsed.clues.down, "down", cells),
+      down: {},
     },
   };
   return puzzle;
