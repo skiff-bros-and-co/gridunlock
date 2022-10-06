@@ -46,8 +46,10 @@ const getValidInput = (input: string): SingleLetter | "" | null => {
     return "";
   }
 
-  if (input.length === 1 && input[0].match(alphaCharacterRegex)) {
-    return input[0].toUpperCase() as SingleLetter;
+  const inputCharacter = input.slice(-1);
+
+  if (inputCharacter.match(alphaCharacterRegex)) {
+    return inputCharacter.toUpperCase() as SingleLetter;
   }
 
   return null;
@@ -138,40 +140,34 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   useKeypress(
     (key) => {
-      if (selectedCell) {
-        if (key === "ArrowDown") {
-          moveSelectedCell({
-            row: selectedCell.row + 1,
-          });
-        }
-        if (key === "ArrowUp") {
-          moveSelectedCell({
-            row: selectedCell.row - 1,
-          });
-        }
-        if (key === "ArrowLeft") {
-          moveSelectedCell({
-            column: selectedCell.column - 1,
-          });
-        }
-        if (key === "ArrowRight") {
-          moveSelectedCell({
-            column: selectedCell.column + 1,
-          });
-        }
-        if (key === "Backspace" && selectedCell) {
-          updateCellValue("", selectedCell);
-        }
-        if (key === "Tab") {
-          moveToNextCell();
-        }
-        if (key.match(alphaCharacterRegex) && selectedCell) {
-          const input = getValidInput(key);
-          if (input) {
-            updateCellValue(input, selectedCell);
-            moveToNextCell();
-          }
-        }
+      if (!selectedCell) {
+        return;
+      }
+      if (key === "ArrowDown") {
+        moveSelectedCell({
+          row: selectedCell.row + 1,
+        });
+      }
+      if (key === "ArrowUp") {
+        moveSelectedCell({
+          row: selectedCell.row - 1,
+        });
+      }
+      if (key === "ArrowLeft") {
+        moveSelectedCell({
+          column: selectedCell.column - 1,
+        });
+      }
+      if (key === "ArrowRight") {
+        moveSelectedCell({
+          column: selectedCell.column + 1,
+        });
+      }
+      if (key === "Backspace") {
+        updateCellValue("", selectedCell);
+      }
+      if (key === "Tab") {
+        moveToNextCell();
       }
     },
     [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState],
@@ -184,6 +180,13 @@ export const PuzzleView = (props: Props): JSX.Element => {
         puzzleWidth={props.puzzleDefinition.width}
         selectedCell={selectedCell}
         onSelectCell={updateSelectedCell}
+        onCellValueInput={(position: CellPosition, newValue: string) => {
+          const input = getValidInput(newValue);
+          if (input) {
+            updateCellValue(input, position);
+            moveToNextCell();
+          }
+        }}
       />
       <PuzzleHints selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
     </div>

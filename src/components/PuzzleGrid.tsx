@@ -8,6 +8,7 @@ interface Props {
   puzzleState: PuzzleState;
   selectedCell: CellPosition | null;
   onSelectCell: (position: CellPosition | null) => void;
+  onCellValueInput: (position: CellPosition, value: string) => void;
 }
 
 const setColumnCount = (columnCount: number) => {
@@ -30,6 +31,7 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
             column: colIndex,
           });
         }}
+        onCellValueInput={(newValue) => props.onCellValueInput({ row: rowIndex, column: colIndex }, newValue)}
         gameCell={cell}
       />
     )),

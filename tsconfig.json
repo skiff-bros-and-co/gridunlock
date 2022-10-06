@@ -1,4 +1,10 @@
 {
+  "ts-node": {
+    "compilerOptions": {
+      "module": "NodeNext"
+    },
+    "include": ["scripts"]
+  },
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
