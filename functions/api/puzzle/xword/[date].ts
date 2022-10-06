@@ -25,6 +25,8 @@ type PuzzleCacheEntry = PuzzleCacheEntryAvailable | PuzzleCacheEntryUnavailable;
 export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
   const date = params.date as string;
 
+  throw new Error("test");
+
   try {
     const puzzleString = await fetchPuzzle(date, env);
     const available: PuzzleCacheEntry = { available: true, puzzleString };
