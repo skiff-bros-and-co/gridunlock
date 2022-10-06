@@ -103,7 +103,7 @@ export async function fetchPuzzle(date: string, env: Env) {
     throw new Error("puzzle isn't yet available");
   }
 
-  const cells = generateCells(parsed);
+  // const cells = generateCells(parsed);
   // const maxClueNumber = Math.max(
   //   ...cells.flatMap((row) => row.map((cell) => cell.clueNumber)).filter((clueNumber) => clueNumber != null),
   // );
@@ -114,7 +114,7 @@ export async function fetchPuzzle(date: string, env: Env) {
     description: parsed.notepad,
     height: parsed.size.rows,
     width: parsed.size.cols,
-    cells,
+    cells: [],
     clues: {
       across: {}, //parseClues(parsed.clues.across, "across", cells),
       byRowAndColumn: [], //buildCellCluesByRowAndColumn(cells),
