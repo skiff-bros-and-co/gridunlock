@@ -5,9 +5,16 @@ interface Env {
   XWORDS: KVNamespace;
 }
 
-interface PuzzleCacheEntry {
+interface PuzzleCacheEntryAvailable {
+  available: true;
   puzzle: PuzzleDefinition;
 }
+
+interface PuzzleCacheEntryUnavailable {
+  available: false;
+}
+
+type PuzzleCacheEntry = PuzzleCacheEntryAvailable | PuzzleCacheEntryUnavailable;
 
 // see: https://www.xwordinfo.com/JSON/
 interface XWordInfoJsonFormat {
@@ -21,6 +28,18 @@ interface XWordInfoJsonFormat {
     rows: number;
     cols: number;
   };
+  grid: string[];
+  gridnums: number[];
+  circles: number[];
+  clues: {
+    across: string[];
+    down: string[];
+  };
+  answers: {
+    across: string[];
+    down: string[];
+  };
+  notepad: string;
 }
 
 export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
@@ -28,22 +47,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
     const date = params.date as string;
     console.info("Got request for", date);
 
-    const req = await fetch(`https://www.xwordinfo.com/JSON/Data.ashx?format=text&date=${date.replace("-", "/")}`, {
-      headers: {
-        referer: "https://www.xwordinfo.com/JSON/Sample2",
-      },
-    });
-
-    const body = await req.text();
-    if (body == null || body.trim().length === 0) {
-      throw new Error("Somehow failed to get puzzle");
-    }
-
-    const parsed: XWordInfoJsonFormat = JSON.parse(body);
-
-    // Puzzles too far into the future have null values.
-    if (parsed.title == null) {
-      return new Response();
+    try {
+      const puzzle = fetchPuzzle(date);
+    } catch (e) {
+      console.error("failed to fetch puzzle", e?.stack ?? e);
+      return new Response("Failed to retrieve puzzle", { status: 500 });
     }
 
     return new Response(body);
@@ -52,3 +60,25 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
     return new Response(e?.stack ?? JSON.stringify(e), { status: 500 });
   }
 };
+
+export async function fetchPuzzle(date: string) {
+  const req = await fetch(`https://www.xwordinfo.com/JSON/Data.ashx?format=text&date=${date.replace("-", "/")}`, {
+    headers: {
+      referer: "https://www.xwordinfo.com/JSON/Sample2",
+    },
+  });
+
+  const body = await req.text();
+  if (body == null || body.trim().length === 0) {
+    throw new Error("Somehow failed to get puzzle");
+  }
+
+  const parsed: XWordInfoJsonFormat = JSON.parse(body);
+
+  // Puzzles too far into the future have null values.
+  if (parsed.title == null) {
+    throw new Error("puzzle isn't yet available");
+  }
+
+  return parsed;
+}
