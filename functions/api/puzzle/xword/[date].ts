@@ -56,8 +56,9 @@ export async function fetchPuzzle(date: string, env: Env) {
     return existing.puzzleString;
   }
 
-  const dateParsed = parse(date, "M/d/yyyy", new Date());
-  const howManyDaysAgo = differenceInCalendarDays(dateParsed, new Date());
+  const now = new Date();
+  const dateParsed = parse(date, "M/d/yyyy", now);
+  const howManyDaysAgo = differenceInCalendarDays(now, dateParsed);
   if (howManyDaysAgo < -1) {
     throw new Error("We cannot time travel");
   }
