@@ -56,8 +56,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
   try {
     const puzzle = await fetchPuzzle(date, env);
     const puzzleString = JSON.stringify(puzzle);
-    const available: PuzzleCacheEntry = { available: true, puzzleString };
-    env.XWORDS.put(date, JSON.stringify(available));
+    // const available: PuzzleCacheEntry = { available: true, puzzleString };
+    // env.XWORDS.put(date, JSON.stringify(available));
 
     return new Response(puzzleString, {
       headers: {
