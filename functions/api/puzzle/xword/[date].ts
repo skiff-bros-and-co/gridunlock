@@ -48,14 +48,14 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
 };
 
 export async function fetchPuzzle(date: string, env: Env) {
-  // const existing = await env.XWORDS.get<PuzzleCacheEntry>(date, "json");
-  // if (existing != null) {
-  //   if (!existing.available) {
-  //     throw new Error("puzzle still isn't available");
-  //   }
+  const existing = await env.XWORDS.get<PuzzleCacheEntry>(date, "json");
+  if (existing != null) {
+    if (!existing.available) {
+      throw new Error("puzzle still isn't available");
+    }
 
-  //   return existing.puzzle;
-  // }
+    return existing.puzzleString;
+  }
 
   const req = await fetch(`https://www.xwordinfo.com/JSON/Data.ashx?format=text&date=${date.replace("-", "/")}`, {
     headers: {
