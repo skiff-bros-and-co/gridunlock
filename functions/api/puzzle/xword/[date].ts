@@ -32,6 +32,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
         "upgrade-insecure-requests": "1",
         "user-agent":
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+        "cookie":
+          "ASP.NET_SessionId=gboq20agl4ninrrh1zphhex5; _gid=GA1.2.611739922.1665013855; __gads=ID=58bea5a7a870da0a-223467d093d700bb:T=1665015460:RT=1665015460:S=ALNI_MY8SUNh-haTim0qIbYhC4P1yn6ePw; __gpi=UID=0000087b2d606837:T=1665015460:RT=1665015460:S=ALNI_Mbr31WqyshbzyOxmH3iS6lszkaKmg; _ga=GA1.2.1033778194.1665013855; _ga_4N9YZGECSH=GS1.1.1665013855.1.1.1665017235.0.0.0",
       },
     });
 
