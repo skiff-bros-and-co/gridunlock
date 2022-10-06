@@ -2,7 +2,6 @@ import { XWordInfoJsonFormat } from "../../../../src/parsers/parseXWord";
 
 const TIMEOUTS_SEC = {
   UNAVAILABLE_KV: 1 * 60 * 60,
-  UNAVAILABLE_CACHE_HEADER: 1 * 60 * 60,
   AVAILABLE_CACHE_HEADER: 4 * 60 * 60,
 };
 
@@ -30,7 +29,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
     const available: PuzzleCacheEntry = { available: true, puzzleString };
     env.XWORDS.put(date, JSON.stringify(available));
 
-    return new Response(puzzleString);
+    return new Response(puzzleString, {
+      headers: {
+        "cache-control": `public, max-age=${TIMEOUTS_SEC.AVAILABLE_CACHE_HEADER}`,
+      },
+    });
   } catch (e) {
     const unavailable: PuzzleCacheEntry = { available: false };
     env.XWORDS.put(date, JSON.stringify(unavailable), {
