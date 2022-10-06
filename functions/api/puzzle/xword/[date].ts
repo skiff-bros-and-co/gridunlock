@@ -1,50 +1,79 @@
-import { PuzzleDefinition } from "../../../../src/state/Puzzle";
+import { XWordInfoJsonFormat } from "../../../../src/parsers/parseXWord";
+
+const TIMEOUTS_SEC = {
+  UNAVAILABLE_KV: 1 * 60 * 60,
+  UNAVAILABLE_CACHE_HEADER: 1 * 60 * 60,
+  AVAILABLE_CACHE_HEADER: 4 * 60 * 60,
+};
 
 interface Env {
   // Defined in the Cloudflare Pages config
-  XWORD: KVNamespace;
+  XWORDS: KVNamespace;
 }
 
-interface PuzzleCacheEntry {
-  puzzle: PuzzleDefinition;
+interface PuzzleCacheEntryAvailable {
+  available: true;
+  puzzleString: string;
 }
+
+interface PuzzleCacheEntryUnavailable {
+  available: false;
+}
+
+type PuzzleCacheEntry = PuzzleCacheEntryAvailable | PuzzleCacheEntryUnavailable;
 
 export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
-  try {
-    const date = params.date as string;
-    console.info("Got request for", date);
+  const date = params.date as string;
 
-    const req = await fetch("https://www.xwordinfo.com/JSON/Data.ashx?format=text", {
-      headers: {
-        "authority": "www.xwordinfo.com",
-        "accept":
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "accept-language": "en-US,en;q=0.9",
-        "cache-control": "max-age=0",
-        "cookie":
-          "ASP.NET_SessionId=gboq20agl4ninrrh1zphhex5; _gid=GA1.2.611739922.1665013855; __gads=ID=58bea5a7a870da0a-223467d093d700bb:T=1665015460:RT=1665015460:S=ALNI_MY8SUNh-haTim0qIbYhC4P1yn6ePw; __gpi=UID=0000087b2d606837:T=1665015460:RT=1665015460:S=ALNI_Mbr31WqyshbzyOxmH3iS6lszkaKmg; _ga=GA1.2.1033778194.1665013855; _ga_4N9YZGECSH=GS1.1.1665013855.1.1.1665017235.0.0.0",
-        "referrer": "https://www.xwordinfo.com/JSON/",
-        "sec-ch-ua": '"Google Chrome";v="105", "Not)A;Brand";v="8", "Chromium";v="105"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "document",
-        "sec-fetch-mode": "navigate",
-        "sec-fetch-site": "same-origin",
-        "sec-fetch-user": "?1",
-        "upgrade-insecure-requests": "1",
-        "user-agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
-      },
-      cf: {
-        scrapeShield: false,
-      },
+  try {
+    const puzzleString = await fetchPuzzle(date, env);
+    const available: PuzzleCacheEntry = { available: true, puzzleString };
+    env.XWORDS.put(date, JSON.stringify(available));
+
+    return new Response(puzzleString);
+  } catch (e) {
+    console.error("failed to fetch puzzle", e?.stack ?? e);
+    const unavailable: PuzzleCacheEntry = { available: false };
+    env.XWORDS.put(date, JSON.stringify(unavailable), {
+      expirationTtl: TIMEOUTS_SEC.UNAVAILABLE_KV,
     });
 
-    const body = await req.text();
-
-    return new Response(body);
-  } catch (e) {
-    // There's no logging for Cloudflare Functions, yet :(
-    return new Response(e?.stack ?? JSON.stringify(e), { status: 500 });
+    return new Response("Failed to retrieve puzzle", {
+      status: 500,
+      headers: {
+        "cache-control": `public, max-age=${TIMEOUTS_SEC.UNAVAILABLE_CACHE_HEADER}`,
+      },
+    });
   }
 };
+
+export async function fetchPuzzle(date: string, env: Env) {
+  const existing = await env.XWORDS.get<PuzzleCacheEntry>(date, "json");
+  if (existing != null) {
+    if (!existing.available) {
+      throw new Error("puzzle still isn't available");
+    }
+
+    return existing.puzzleString;
+  }
+
+  const req = await fetch(`https://www.xwordinfo.com/JSON/Data.ashx?format=text&date=${date.replace("-", "/")}`, {
+    headers: {
+      referer: "https://www.xwordinfo.com/JSON/Sample2",
+    },
+  });
+
+  const body = await req.text();
+  if (body == null || body.trim().length === 0) {
+    throw new Error("Somehow failed to get puzzle");
+  }
+
+  const parsed: XWordInfoJsonFormat = JSON.parse(body);
+
+  // Puzzles too far into the future have null values.
+  if (parsed.title == null) {
+    throw new Error("puzzle isn't yet available");
+  }
+
+  return body;
+}

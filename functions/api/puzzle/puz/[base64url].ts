@@ -34,7 +34,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
 
 async function getPuzzle(url: string, env: Env): Promise<PuzzleDefinition> {
   const cached = await env.PUZZLES.get<PuzzleCacheEntry | undefined>(url, "json");
-  if (cached !== null) {
+  if (cached != null) {
     return cached.puzzle;
   }
 

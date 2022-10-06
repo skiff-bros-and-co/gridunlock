@@ -27,8 +27,8 @@ export type SingleLetter =
   | "Z";
 
 export interface Cell extends CellPosition {
-  solution: SingleLetter | ".";
-  initialState: SingleLetter | "" | ".";
+  solution: string;
+  initialState: string;
   isBlocked: boolean;
 
   clueNumber?: number;

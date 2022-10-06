@@ -6,7 +6,7 @@ interface Props {
 }
 
 const getAcrossClueNumber = (puzzleDefinition: PuzzleDefinition, cellPosition: CellPosition | null): number | null => {
-  if (cellPosition === null) {
+  if (cellPosition == null) {
     return null;
   }
 
@@ -14,7 +14,7 @@ const getAcrossClueNumber = (puzzleDefinition: PuzzleDefinition, cellPosition: C
 };
 
 const getDownClueNumber = (puzzleDefinition: PuzzleDefinition, cellPosition: CellPosition | null): number | null => {
-  if (cellPosition === null) {
+  if (cellPosition == null) {
     return null;
   }
 
