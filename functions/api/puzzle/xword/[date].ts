@@ -1,9 +1,12 @@
 import { XWordInfoJsonFormat } from "../../../../src/parsers/parseXWord";
+import { differenceInCalendarDays, parse } from "date-fns";
 
 const TIMEOUTS_SEC = {
   UNAVAILABLE_KV: 1 * 60 * 60,
   AVAILABLE_CACHE_HEADER: 4 * 60 * 60,
 };
+
+const MAX_DAYS_AGO = 7;
 
 interface Env {
   // Defined in the Cloudflare Pages config
@@ -22,8 +25,7 @@ interface PuzzleCacheEntryUnavailable {
 type PuzzleCacheEntry = PuzzleCacheEntryAvailable | PuzzleCacheEntryUnavailable;
 
 export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
-  const date = params.date as string;
-
+  const date = (params.date as string).replace("-", "/");
   try {
     const puzzleString = await fetchPuzzle(date, env);
     const available: PuzzleCacheEntry = { available: true, puzzleString };
@@ -54,7 +56,17 @@ export async function fetchPuzzle(date: string, env: Env) {
     return existing.puzzleString;
   }
 
-  const req = await fetch(`https://www.xwordinfo.com/JSON/Data.ashx?format=text&date=${date.replace("-", "/")}`, {
+  const now = new Date();
+  const dateParsed = parse(date, "M/d/yyyy", now);
+  const howManyDaysAgo = differenceInCalendarDays(now, dateParsed);
+  if (howManyDaysAgo < -1) {
+    throw new Error("We cannot time travel");
+  }
+  if (howManyDaysAgo > MAX_DAYS_AGO) {
+    throw new Error("Requested a puzzle from too long ago");
+  }
+
+  const req = await fetch(`https://www.xwordinfo.com/JSON/Data.ashx?format=text&date=${date}`, {
     headers: {
       referer: "https://www.xwordinfo.com/JSON/Sample2",
     },
