@@ -14,7 +14,7 @@ interface Env {
 
 interface PuzzleCacheEntryAvailable {
   available: true;
-  puzzle: PuzzleDefinition;
+  puzzleString: string;
 }
 
 interface PuzzleCacheEntryUnavailable {
@@ -55,10 +55,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
 
   try {
     const puzzle = await fetchPuzzle(date, env);
-    const available: PuzzleCacheEntry = { available: true, puzzle };
+    const puzzleString = JSON.stringify(puzzle);
+    const available: PuzzleCacheEntry = { available: true, puzzleString };
     env.XWORDS.put(date, JSON.stringify(available));
 
-    return new Response(JSON.stringify(puzzle), {
+    return new Response(puzzleString, {
       headers: {
         "cache-control": `public, max-age=${TIMEOUTS_SEC.AVAILABLE_CACHE_HEADER}`,
       },
@@ -80,14 +81,14 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
 };
 
 export async function fetchPuzzle(date: string, env: Env) {
-  const existing = await env.XWORDS.get<PuzzleCacheEntry>(date, "json");
-  if (existing != null) {
-    if (!existing.available) {
-      throw new Error("puzzle still isn't available");
-    }
+  // const existing = await env.XWORDS.get<PuzzleCacheEntry>(date, "json");
+  // if (existing != null) {
+  //   if (!existing.available) {
+  //     throw new Error("puzzle still isn't available");
+  //   }
 
-    return existing.puzzle;
-  }
+  //   return existing.puzzle;
+  // }
 
   const req = await fetch(`https://www.xwordinfo.com/JSON/Data.ashx?format=text&date=${date.replace("-", "/")}`, {
     headers: {
