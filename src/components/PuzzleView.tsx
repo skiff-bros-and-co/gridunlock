@@ -46,8 +46,10 @@ const getValidInput = (input: string): SingleLetter | "" | null => {
     return "";
   }
 
-  if (input.length === 1 && input[0].match(alphaCharacterRegex)) {
-    return input[0].toUpperCase() as SingleLetter;
+  const inputCharacter = input.slice(-1);
+
+  if (inputCharacter.match(alphaCharacterRegex)) {
+    return inputCharacter.toUpperCase() as SingleLetter;
   }
 
   return null;
@@ -167,13 +169,6 @@ export const PuzzleView = (props: Props): JSX.Element => {
       if (key === "Tab") {
         moveToNextCell();
       }
-      if (key.match(alphaCharacterRegex)) {
-        const input = getValidInput(key);
-        if (input) {
-          updateCellValue(input, selectedCell);
-          moveToNextCell();
-        }
-      }
     },
     [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState],
   );
@@ -185,6 +180,13 @@ export const PuzzleView = (props: Props): JSX.Element => {
         puzzleWidth={props.puzzleDefinition.width}
         selectedCell={selectedCell}
         onSelectCell={updateSelectedCell}
+        onCellValueInput={(position: CellPosition, newValue: string) => {
+          const input = getValidInput(newValue);
+          if (input) {
+            updateCellValue(input, position);
+            moveToNextCell();
+          }
+        }}
       />
       <PuzzleHints selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
     </div>
