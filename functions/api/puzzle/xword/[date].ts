@@ -51,7 +51,6 @@ interface XWordInfoJsonFormat {
 
 export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
   const date = params.date as string;
-  console.info("Got request for", date);
 
   try {
     const puzzle = await fetchPuzzle(date, env);
@@ -59,11 +58,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
     // const available: PuzzleCacheEntry = { available: true, puzzleString };
     // env.XWORDS.put(date, JSON.stringify(available));
 
-    return new Response(puzzleString, {
-      headers: {
-        "cache-control": `public, max-age=${TIMEOUTS_SEC.AVAILABLE_CACHE_HEADER}`,
-      },
-    });
+    return new Response(puzzleString);
   } catch (e) {
     console.error("failed to fetch puzzle", e?.stack ?? e);
     const unavailable: PuzzleCacheEntry = { available: false };
@@ -140,10 +135,6 @@ function generateCells(src: XWordInfoJsonFormat): Cell[][] {
       const index = row * src.size.cols + col;
       const value = src.grid[index];
       cells.push({
-        column: col,
-        row,
-        initialState: value === "." ? "." : "",
-        isBlocked: value === ".",
         solution: value,
         clueNumber: src.gridnums[index],
       });
