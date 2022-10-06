@@ -112,6 +112,7 @@ $cell-border-color: white;
     position: absolute;
     top: 2px;
     left: 2px;
+    pointer-events: none;
   }
 
   .grid-cell-wrapper {
