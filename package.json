@@ -38,7 +38,7 @@
     "vite": "^3.1.4"
   },
   "dependencies": {
-    "@blueprintjs/core": "^4.10.2",
+    "@blueprintjs/core": "^4.11.0",
     "@types/lodash-es": "^4.17.6",
     "bs58": "^5.0.0",
     "immutability-helper": "^3.1.1",
