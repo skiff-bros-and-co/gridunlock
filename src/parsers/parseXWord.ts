@@ -1,3 +1,4 @@
+import { unescape } from "lodash-es";
 import { Cell, CellPosition, Clue, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
 import { buildCellCluesByRowAndColumn } from "../state/PuzzleDataBuilder";
 
@@ -27,21 +28,21 @@ export interface XWordInfoJsonFormat {
   notepad: string;
 }
 
-export function parseXWord(src: XWordInfoJsonFormat) {
+export function parseXWord(src: XWordInfoJsonFormat): PuzzleDefinition {
   const cells = generateCells(src);
   const maxClueNumber = Math.max(
     ...(cells
       .flatMap((row) => row.map((cell) => cell.clueNumber))
       .filter((clueNumber) => clueNumber != null) as number[]),
   );
-  const puzzle: PuzzleDefinition = {
+  return {
     title: src.title,
     author: src.author,
     copyright: src.copyright,
     description: src.notepad,
     height: src.size.rows,
     width: src.size.cols,
-    cells: [],
+    cells,
     clues: {
       across: parseClues(src.clues.across, "across", cells),
       byRowAndColumn: buildCellCluesByRowAndColumn(cells),
@@ -49,23 +50,22 @@ export function parseXWord(src: XWordInfoJsonFormat) {
       down: parseClues(src.clues.down, "down", cells),
     },
   };
-  return puzzle;
 }
 
 function generateCells(src: XWordInfoJsonFormat): Cell[][] {
   const result: Cell[][] = [];
 
   // grid is a flattened, row major array
-  for (let row = 0; src.size.rows; row++) {
+  for (let row = 0; row < src.size.rows; row++) {
     const cells: Cell[] = [];
-    for (let column = 0; src.size.cols; column++) {
+    for (let column = 0; column < src.size.cols; column++) {
       const index = row * src.size.cols + column;
       const value = src.grid[index];
       cells.push({
         row,
         column,
         solution: value,
-        clueNumber: src.gridnums[index],
+        clueNumber: src.gridnums[index] === 0 ? undefined : src.gridnums[index],
         initialState: value === "." ? "." : "",
         isBlocked: value === ".",
       });
@@ -80,8 +80,8 @@ function parseClues(clueStrings: string[], direction: PuzzleDirection, cells: Ce
   const result: { [clueNumber: number]: Clue } = Object.create(null);
 
   const positionLookup: { [clueNumber: number]: CellPosition } = Object.create(null);
-  for (let row = 0; cells.length; row++) {
-    for (let col = 0; cells[row].length; col++) {
+  for (let row = 0; row < cells.length; row++) {
+    for (let col = 0; col < cells[row].length; col++) {
       const cell = cells[row][col];
       if (cell.clueNumber != null) {
         positionLookup[cell.clueNumber] = {
@@ -96,7 +96,7 @@ function parseClues(clueStrings: string[], direction: PuzzleDirection, cells: Ce
     const [clueNumberString, clue] = clueString.split(".", 2);
     const clueNumber = Number(clueNumberString);
     result[clueNumber] = {
-      clue,
+      clue: unescape(clue),
       clueNumber,
       direction,
       position: positionLookup[clueNumber],
