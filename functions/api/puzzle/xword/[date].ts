@@ -108,9 +108,9 @@ export async function fetchPuzzle(date: string, env: Env) {
   }
 
   const cells = generateCells(parsed);
-  const maxClueNumber = Math.max(
-    ...cells.flatMap((row) => row.map((cell) => cell.clueNumber)).filter((clueNumber) => clueNumber != null),
-  );
+  // const maxClueNumber = Math.max(
+  //   ...cells.flatMap((row) => row.map((cell) => cell.clueNumber)).filter((clueNumber) => clueNumber != null),
+  // );
   const puzzle: PuzzleDefinition = {
     title: parsed.title,
     author: parsed.author,
@@ -121,8 +121,8 @@ export async function fetchPuzzle(date: string, env: Env) {
     cells,
     clues: {
       across: parseClues(parsed.clues.across, "across", cells),
-      byRowAndColumn: buildCellCluesByRowAndColumn(cells),
-      clueCount: maxClueNumber,
+      byRowAndColumn: [], //buildCellCluesByRowAndColumn(cells),
+      clueCount: 0,
       down: parseClues(parsed.clues.down, "down", cells),
     },
   };
