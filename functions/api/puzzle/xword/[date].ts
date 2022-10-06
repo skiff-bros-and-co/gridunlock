@@ -2,7 +2,7 @@ import { PuzzleDefinition } from "../../../../src/state/Puzzle";
 
 interface Env {
   // Defined in the Cloudflare Pages config
-  XWORD: KVNamespace;
+  XWORDS: KVNamespace;
 }
 
 interface PuzzleCacheEntry {
@@ -17,9 +17,6 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
     const req = await fetch(`https://www.xwordinfo.com/JSON/Data.ashx?format=text&date=${date.replace("-", "/")}`, {
       headers: {
         referer: "https://www.xwordinfo.com/JSON/Sample2",
-      },
-      cf: {
-        scrapeShield: false,
       },
     });
 
