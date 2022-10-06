@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^4.10.2",
+    "@cloudflare/pages-plugin-sentry": "^1.0.0",
     "@types/lodash-es": "^4.17.6",
     "bs58": "^5.0.0",
     "immutability-helper": "^3.1.1",
