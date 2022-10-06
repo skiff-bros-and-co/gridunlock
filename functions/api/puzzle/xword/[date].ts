@@ -49,7 +49,7 @@ interface XWordInfoJsonFormat {
   notepad: string;
 }
 
-export const onRequestGet: PagesFunction<Env> = async ({ params, env, request }) => {
+export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
   const date = params.date as string;
   console.info("Got request for", date);
 
