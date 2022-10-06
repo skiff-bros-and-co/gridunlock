@@ -25,7 +25,7 @@ interface PuzzleCacheEntryUnavailable {
 type PuzzleCacheEntry = PuzzleCacheEntryAvailable | PuzzleCacheEntryUnavailable;
 
 export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
-  const date = (params.date as string).replace("-", "/");
+  const date = params.date as string;
   try {
     const puzzleString = await fetchPuzzle(date, env);
     const available: PuzzleCacheEntry = { available: true, puzzleString };
@@ -57,7 +57,7 @@ export async function fetchPuzzle(date: string, env: Env) {
   }
 
   const now = new Date();
-  const dateParsed = parse(date, "M/d/yyyy", now);
+  const dateParsed = parse(date, "M-d-yyyy", now);
   const howManyDaysAgo = differenceInCalendarDays(now, dateParsed);
   if (howManyDaysAgo < -1) {
     throw new Error("We cannot time travel");
