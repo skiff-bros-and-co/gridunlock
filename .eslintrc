@@ -23,7 +23,7 @@
     ],
     "@typescript-eslint/no-use-before-define": "off",
     "curly": "warn",
-    "eqeqeq": ["warn", "never"],
+    "eqeqeq": ["warn", "always", { "null": "never" }],
     "no-throw-literal": "warn"
   }
 }
