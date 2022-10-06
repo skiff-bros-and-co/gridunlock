@@ -32,9 +32,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
       },
     });
 
-    const body = await req.json();
+    const body = await req.text();
 
-    return new Response(JSON.stringify(body));
+    return new Response(body);
   } catch (e) {
     // There's no logging for Cloudflare Functions, yet :(
     return new Response(e?.stack ?? JSON.stringify(e), { status: 500 });
