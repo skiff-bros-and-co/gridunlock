@@ -9,8 +9,7 @@
 }
 
 $main-background-color: #293742;
-$inner-cell-dimension: 32px;
-$cell-dimension: $inner-cell-dimension + 1;
+$cell-dimension: 32px;
 $cell-background: #182026;
 
 .root {
@@ -110,14 +109,16 @@ $cell-background: #182026;
     display: grid;
     grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
     grid-template-rows: repeat(auto-fill, $cell-dimension);
+    column-gap: 1px;
+    row-gap: 1px;
 
     .grid-cell-hint-number-selected {
       font-weight: 600;
     }
 
     .grid-cell {
-      height: $inner-cell-dimension;
-      width: $inner-cell-dimension;
+      height: $cell-dimension;
+      width: $cell-dimension;
       display: flex;
       justify-content: center;
       align-items: center;
