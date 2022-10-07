@@ -37,7 +37,7 @@ export class RoomSyncService {
       wrtc: {
         RTCIceCandidate,
         RTCSessionDescription,
-        RTCPeerConnection: ModifiedRTCPeerConnection as any,
+        RTCPeerConnection: ModifiedRTCPeerConnection,
       },
     };
 

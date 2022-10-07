@@ -1,11 +1,8 @@
-import { omit } from "lodash-es";
-
 // see https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Using_data_channels#concerns_with_large_messages
 const MAX_CHUNK_BYTES = 8 * 1024;
 const DEFAULT_BUFFERED_AMOUNT_LOW_BYTES = 64 * 1024;
 
 const FOOTER_LENGTH_BYTE =
-  1 + // chunkId (UINT8)
   4 + // messageBytes (UINT32)
   4; // messageId (UINT32)
 
@@ -71,9 +68,8 @@ function createQueuedSender(delegate: RTCDataChannel, rawSend: RTCDataChannel["s
     new Uint8Array(chunkBuffer).set(chunkContent);
 
     // Add the footer to the buffer
-    chunkBufferView.setUint8(chunkContentSize, currentMessage.nextChunkId++);
-    chunkBufferView.setUint32(chunkContentSize + 1, currentMessage.messageBytes);
-    chunkBufferView.setUint32(chunkContentSize + 5, currentMessage.messageId);
+    chunkBufferView.setUint32(chunkContentSize, currentMessage.messageBytes);
+    chunkBufferView.setUint32(chunkContentSize + 4, currentMessage.messageId);
 
     const chunkData = new Uint8Array(chunkBuffer, 0, chunkContentSize + FOOTER_LENGTH_BYTE);
     rawSend(chunkData);
@@ -127,9 +123,8 @@ function bindChunkedMessageReader(
 
     // Read footer
     const footerOffset = data.byteLength - FOOTER_LENGTH_BYTE;
-    const chunkId = dataView.getUint8(footerOffset);
-    const messageLength = dataView.getUint32(footerOffset + 1);
-    const messageId = dataView.getUint32(footerOffset + 5);
+    const messageLength = dataView.getUint32(footerOffset);
+    const messageId = dataView.getUint32(footerOffset + 4);
 
     if (messageId !== currentMessage?.messageId) {
       if (currentMessage != null) {

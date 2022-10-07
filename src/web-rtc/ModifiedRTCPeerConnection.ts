@@ -1,6 +1,6 @@
 import { wrapRTCDataChannel } from "./wrapRTCDataChannel";
 
-export function ModifiedRTCPeerConnection(configuration?: RTCConfiguration): RTCPeerConnection {
+function InternalRTCPeerConnection(configuration?: RTCConfiguration): RTCPeerConnection {
   const delegate = new RTCPeerConnection(configuration);
   const rawCreateDataChannel = delegate.createDataChannel.bind(delegate);
 
@@ -24,3 +24,6 @@ export function ModifiedRTCPeerConnection(configuration?: RTCConfiguration): RTC
 
   return delegate;
 }
+Object.assign(InternalRTCPeerConnection, RTCPeerConnection);
+
+export const ModifiedRTCPeerConnection = InternalRTCPeerConnection as unknown as typeof RTCPeerConnection;
