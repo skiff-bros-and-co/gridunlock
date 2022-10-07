@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://gridunlock.pages.dev",
+        target: "https://gridunlock-org.pages.dev",
         changeOrigin: true,
         secure: false,
       },
