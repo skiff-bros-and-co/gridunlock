@@ -12,7 +12,6 @@ export default defineConfig({
     react(),
     splitVendorChunkPlugin(),
     VitePWA({
-      registerType: "autoUpdate",
       manifest: {
         name: "Grid Unlock",
         short_name: "Grid Unlock",
