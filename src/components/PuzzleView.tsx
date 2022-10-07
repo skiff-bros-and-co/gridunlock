@@ -58,7 +58,7 @@ const getValidInput = (input: string): SingleLetter | "" | null => {
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
   const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
-  const [entryDirection] = useState<PuzzleDirection | null>("across");
+  const [entryDirection, updateEntryDirection] = useState<PuzzleDirection | null>("across");
   const moveSelectedCell = useCallback(
     (cellPosition: Partial<CellPosition>) => {
       const newSelectedCell = {
@@ -120,6 +120,13 @@ export const PuzzleView = (props: Props): JSX.Element => {
       });
     }
   }, [moveSelectedCell, entryDirection]);
+  const toggleEntryDirection = useCallback(() => {
+    if (entryDirection === "across") {
+      updateEntryDirection("down");
+    } else {
+      updateEntryDirection("across");
+    }
+  }, [entryDirection, updateEntryDirection]);
 
   const handleNewCells = useCallback(
     (data: SyncedPuzzleState) => {
@@ -166,6 +173,9 @@ export const PuzzleView = (props: Props): JSX.Element => {
           column: selectedCell.column + 1,
         });
       }
+      if (key === "Enter") {
+        toggleEntryDirection();
+      }
       if (key === "Backspace") {
         if (puzzleState[selectedCell.row][selectedCell.column].filledValue !== "") {
           updateCellValue("", selectedCell);
@@ -177,7 +187,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         moveToNextCell();
       }
     },
-    [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState],
+    [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState, toggleEntryDirection],
   );
 
   return (
@@ -188,7 +198,19 @@ export const PuzzleView = (props: Props): JSX.Element => {
         puzzleWidth={props.puzzleDefinition.width}
         entryDirection={entryDirection}
         selectedCell={selectedCell}
-        onSelectCell={updateSelectedCell}
+        onSelectCell={(newSelectedCell) => {
+          console.log("onSelectCell", selectedCell, newSelectedCell);
+          if (
+            selectedCell &&
+            newSelectedCell &&
+            newSelectedCell.row === selectedCell.row &&
+            newSelectedCell.column === selectedCell.column
+          ) {
+            toggleEntryDirection();
+          } else {
+            updateSelectedCell(newSelectedCell);
+          }
+        }}
         onCellValueInput={(position: CellPosition, newValue: string) => {
           const input = getValidInput(newValue);
           if (input) {
