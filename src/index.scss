@@ -29,6 +29,7 @@ $cell-background: #182026;
   left: 0;
   right: 0;
   opacity: 0;
+  z-index: 9999;
   transition: 200ms ease-in opacity;
 
   display: flex;
