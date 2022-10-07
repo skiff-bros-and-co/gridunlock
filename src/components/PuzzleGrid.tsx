@@ -1,18 +1,44 @@
 import { useEffect } from "react";
 import type { PuzzleState } from "../state/State";
 import { PuzzleCell } from "./PuzzleCell";
-import { CellPosition } from "../state/Puzzle";
+import { CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
 
 interface Props {
   puzzleWidth: number;
   puzzleState: PuzzleState;
+  puzzleDefinition: PuzzleDefinition;
+  entryDirection: PuzzleDirection | null;
   selectedCell: CellPosition | null;
+  selectedClueNumber: number | null;
   onSelectCell: (position: CellPosition | null) => void;
   onCellValueInput: (position: CellPosition, value: string) => void;
 }
 
 const setColumnCount = (columnCount: number) => {
   document.documentElement.style.setProperty("--grid-column-count", `${columnCount}`);
+};
+
+const isSelectedCell = (rowIndex: number, colIndex: number, selectedCell: CellPosition | null): boolean =>
+  Boolean(selectedCell && selectedCell.column === colIndex && selectedCell.row === rowIndex);
+
+const isInSelectedWord = (
+  rowIndex: number,
+  colIndex: number,
+  selectedClueNumber: number | null,
+  puzzleDefinition: PuzzleDefinition,
+  entryDirection: PuzzleDirection | null,
+): boolean => {
+  if (!selectedClueNumber || !entryDirection) {
+    return false;
+  }
+
+  const clueInfo = puzzleDefinition.clues.byRowAndColumn[rowIndex][colIndex];
+
+  if (entryDirection === "across") {
+    return clueInfo?.acrossClueNumber === selectedClueNumber;
+  }
+
+  return clueInfo?.downClueNumber === selectedClueNumber;
 };
 
 export const PuzzleGrid = (props: Props): JSX.Element => {
@@ -22,8 +48,13 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
     row.map((cell, colIndex) => (
       <PuzzleCell
         key={`${rowIndex}-${colIndex}`}
-        isSelected={Boolean(
-          props.selectedCell && props.selectedCell.column === colIndex && props.selectedCell.row === rowIndex,
+        isSelected={isSelectedCell(rowIndex, colIndex, props.selectedCell)}
+        isInSelectedWord={isInSelectedWord(
+          rowIndex,
+          colIndex,
+          props.selectedClueNumber,
+          props.puzzleDefinition,
+          props.entryDirection,
         )}
         onSelectCell={() => {
           props.onSelectCell({

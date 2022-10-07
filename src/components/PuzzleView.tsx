@@ -1,5 +1,5 @@
 import update from "immutability-helper";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection, SingleLetter } from "../state/Puzzle";
 import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
@@ -58,6 +58,20 @@ const getValidInput = (input: string): SingleLetter | "" | null => {
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
   const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
+  const [entryDirection] = useState<PuzzleDirection | null>("across");
+  const selectedClueNumber = useMemo<number | null>((): number | null => {
+    if (!selectedCell || !entryDirection) {
+      return null;
+    }
+
+    const clueInfo = props.puzzleDefinition.clues.byRowAndColumn[selectedCell.row][selectedCell.column];
+
+    if (!clueInfo) {
+      return null;
+    }
+
+    return entryDirection === "across" ? clueInfo?.acrossClueNumber : clueInfo?.downClueNumber;
+  }, [selectedCell, props.puzzleDefinition, entryDirection]);
   const moveSelectedCell = useCallback(
     (cellPosition: Partial<CellPosition>) => {
       const newSelectedCell = {
@@ -95,7 +109,6 @@ export const PuzzleView = (props: Props): JSX.Element => {
     },
     [updatePuzzleState, puzzleState, props.syncService],
   );
-  const [entryDirection] = useState<PuzzleDirection | null>("across");
   const moveToNextCell = useCallback(() => {
     if (selectedCell && entryDirection === "across") {
       moveSelectedCell({
@@ -177,9 +190,12 @@ export const PuzzleView = (props: Props): JSX.Element => {
     <div className="puzzle-view">
       <PuzzleGrid
         puzzleState={puzzleState}
+        puzzleDefinition={props.puzzleDefinition}
         puzzleWidth={props.puzzleDefinition.width}
+        entryDirection={entryDirection}
         selectedCell={selectedCell}
         onSelectCell={updateSelectedCell}
+        selectedClueNumber={selectedClueNumber}
         onCellValueInput={(position: CellPosition, newValue: string) => {
           const input = getValidInput(newValue);
           if (input) {

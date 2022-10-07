@@ -98,6 +98,14 @@ $cell-background: #182026;
     &:focus {
       outline: none;
     }
+
+    &.grid-cell-selected {
+      background-color: $forest4;
+      border-color: white;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 2px;
+    }
   }
 
   .grid-cell-empty {
@@ -108,7 +116,7 @@ $cell-background: #182026;
     background-color: $cell-background;
   }
 
-  .grid-cell-selected {
+  .grid-cell-in-selected-word {
     background-color: $forest1;
   }
 

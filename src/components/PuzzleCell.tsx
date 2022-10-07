@@ -7,6 +7,7 @@ interface Props {
   onSelectCell: () => void;
   onCellValueInput: (newValue: string) => void;
   isSelected: boolean;
+  isInSelectedWord: boolean;
 }
 
 export const PuzzleCell = (props: Props): JSX.Element => {
@@ -29,13 +30,14 @@ export const PuzzleCell = (props: Props): JSX.Element => {
 
   const inputClassFilled = `grid-cell-${props.gameCell.filledValue === "" ? "empty" : "filled"}`;
   const inputClassSelected = props.isSelected ? "grid-cell-selected" : "";
+  const inputClassInSelectedWord = !props.isSelected && props.isInSelectedWord ? "grid-cell-in-selected-word" : "";
   const hintClassSelected = props.isSelected ? "grid-cell-hint-number-selected" : "";
 
   return (
     <div className="grid-cell-wrapper">
       <input
         ref={inputRef}
-        className={`grid-cell ${inputClassFilled} ${inputClassSelected}`}
+        className={`grid-cell ${inputClassFilled} ${inputClassSelected} ${inputClassInSelectedWord}`}
         onFocus={props.onSelectCell}
         onClick={props.onSelectCell}
         value={props.gameCell.filledValue}
