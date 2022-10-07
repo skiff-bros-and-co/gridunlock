@@ -4,6 +4,7 @@ import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection, SingleLetter } f
 import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPuzzleState } from "../web-rtc/types";
+import { Header } from "./Header";
 import { useKeypress } from "./Hooks";
 import { PuzzleGrid } from "./PuzzleGrid";
 import { PuzzleHints } from "./PuzzleHints";
@@ -182,6 +183,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   return (
     <div className="puzzle-view">
+      <Header />
       <PuzzleGrid
         puzzleState={puzzleState}
         puzzleDefinition={props.puzzleDefinition}
