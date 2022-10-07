@@ -13,9 +13,8 @@ jobs:
         with:
           node-version: 16.x
           cache: "npm"
-      - run: |
-        npm ci
-        npm run build
+      - run: npm ci
+      - run: npm run build
 
   types:
     runs-on: ubuntu-latest
@@ -27,9 +26,8 @@ jobs:
         with:
           node-version: 16.x
           cache: "npm"
-      - run: |
-        npm ci
-        npm run build:types
+      - run: npm ci
+      - run: npm run build:types
 
   test:
     runs-on: ubuntu-latest
@@ -41,7 +39,6 @@ jobs:
         with:
           node-version: 16.x
           cache: "npm"
-      - run: |
-        npm ci
-        npm run test
-        npm run lint
+      - run: npm ci
+      - run: npm run test
+      - run: npm run lint
