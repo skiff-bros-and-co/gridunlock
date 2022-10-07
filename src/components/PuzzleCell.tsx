@@ -38,7 +38,6 @@ export const PuzzleCell = (props: Props): JSX.Element => {
       <input
         ref={inputRef}
         className={`grid-cell ${inputClassFilled} ${inputClassSelected} ${inputClassInSelectedWord}`}
-        onFocus={props.onSelectCell}
         onClick={props.onSelectCell}
         value={props.gameCell.filledValue}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.onCellValueInput(e.target.value)}
