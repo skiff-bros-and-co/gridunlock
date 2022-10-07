@@ -73,5 +73,12 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
     )),
   );
 
-  return <div className="grid-container">{cells}</div>;
+  return (
+    <div className="puzzle-container">
+      <h3 className="puzzle-title">{props.puzzleDefinition.title}</h3>
+      <h4 className="puzzle-author">{props.puzzleDefinition.author}</h4>
+      <div className="grid-container">{cells}</div>
+      <div className="puzzle-copyright">© {props.puzzleDefinition.copyright}</div>
+    </div>
+  );
 };

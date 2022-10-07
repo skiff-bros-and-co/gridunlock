@@ -27,8 +27,8 @@ export const PuzzleHints = (props: Props): JSX.Element => {
 
   return (
     <div className="puzzle-hints-desktop">
+      <h3>across</h3>
       <div className="puzzle-hints-across">
-        <h3>across</h3>
         <ul>
           {Object.values(props.puzzleDefinition.clues.across).map((clue) => {
             return (
@@ -42,8 +42,8 @@ export const PuzzleHints = (props: Props): JSX.Element => {
           })}
         </ul>
       </div>
+      <h3>down</h3>
       <div className="puzzle-hints-down">
-        <h3>down</h3>
         <ul>
           {Object.values(props.puzzleDefinition.clues.down).map((clue) => {
             return (
