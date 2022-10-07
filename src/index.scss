@@ -39,8 +39,8 @@
 }
 
 $inner-cell-dimension: 32px;
-$cell-dimension: $inner-cell-dimension + 4px;
-$cell-border-color: white;
+$cell-dimension: $inner-cell-dimension + 1;
+$cell-background: $dark-gray5;
 
 .page-header {
   display: flex;
@@ -73,8 +73,6 @@ $cell-border-color: white;
   display: grid;
   grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
   grid-template-rows: repeat(auto-fill, $cell-dimension);
-  max-width: 480px;
-  max-height: 480px;
 
   .grid-cell-hint-number-selected {
     font-weight: 600;
@@ -90,22 +88,19 @@ $cell-border-color: white;
     font-size: 16px;
     font-weight: 600;
     caret-color: transparent;
+    border: none;
   }
 
   .grid-cell-empty {
-    border-radius: $pt-border-radius;
-    border: 1px solid $cell-border-color;
-    background-color: $forest2;
+    background-color: $cell-background;
   }
 
   .grid-cell-filled {
-    border-radius: $pt-border-radius;
-    border: 1px solid $cell-border-color;
-    background-color: $forest1;
+    background-color: $cell-background;
   }
 
   .grid-cell-selected {
-    border: 2px solid $cell-border-color;
+    background-color: $forest1;
   }
 
   .grid-cell-hint-number {
@@ -113,6 +108,7 @@ $cell-border-color: white;
     top: 2px;
     left: 2px;
     pointer-events: none;
+    color: $light-gray1;
   }
 
   .grid-cell-wrapper {
