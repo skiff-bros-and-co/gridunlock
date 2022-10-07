@@ -192,6 +192,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   return (
     <div className="puzzle-view">
+      <p>{`"${selectedCell && puzzleState[selectedCell.row][selectedCell.column].filledValue}"`}</p>
       <PuzzleGrid
         puzzleState={puzzleState}
         puzzleDefinition={props.puzzleDefinition}
