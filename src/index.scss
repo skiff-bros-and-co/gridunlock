@@ -93,6 +93,10 @@ $cell-background: $dark-gray5;
     font-weight: 600;
     caret-color: transparent;
     border: none;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .grid-cell-empty {
