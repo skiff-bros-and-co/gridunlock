@@ -5,7 +5,6 @@ import { parseXWord } from "../parsers/parseXWord";
 import { PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
-import { Header } from "./Header";
 import { PuzzleView } from "./PuzzleView";
 
 const ROOM_PATH_PREFIX = "/r/";
@@ -63,7 +62,6 @@ export function Root() {
   const isLoading = puzzleDef === undefined;
   return (
     <div className="root">
-      <Header />
       {!isLoading && <PuzzleView puzzleDefinition={puzzleDef} syncService={syncService!}></PuzzleView>}
       <div className={"loading-overlay " + (isLoading ? "loading" : "")}>
         <Spinner />

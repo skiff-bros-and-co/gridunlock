@@ -45,6 +45,7 @@ $cell-background: #182026;
 }
 
 .page-header {
+  grid-area: header;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -65,72 +66,103 @@ $cell-background: #182026;
 }
 
 .puzzle-view {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.selected-puzzle-hint {
-  background-color: $forest1;
-  font-weight: 600;
-}
-
-.grid-container {
   display: grid;
-  grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
-  grid-template-rows: repeat(auto-fill, $cell-dimension);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "header header"
+    "main sidebar"
+    "footer footer";
+  justify-items: center;
+}
 
-  .grid-cell-hint-number-selected {
-    font-weight: 600;
+.footer {
+  padding-top: 30px;
+  grid-area: footer;
+}
+
+.puzzle-hints-desktop {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .puzzle-hints-across {
+    overflow-y: auto;
+    max-height: 300px;
   }
 
-  .grid-cell {
-    height: $inner-cell-dimension;
-    width: $inner-cell-dimension;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    caret-color: transparent;
-    border: none;
-
-    &:focus {
-      outline: none;
-    }
-
-    &.grid-cell-selected {
-      background-color: $forest4;
-      border-color: white;
-      border-width: 2px;
-      border-style: solid;
-      border-radius: 2px;
-    }
+  .puzzle-hints-down {
+    overflow-y: auto;
+    max-height: 300px;
   }
 
-  .grid-cell-empty {
-    background-color: $cell-background;
-  }
-
-  .grid-cell-filled {
-    background-color: $cell-background;
-  }
-
-  .grid-cell-in-selected-word {
+  .selected-puzzle-hint {
     background-color: $forest1;
+    font-weight: 600;
   }
+}
 
-  .grid-cell-hint-number {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    pointer-events: none;
-    color: $light-gray1;
-  }
+.puzzle-container {
+  grid-area: main;
 
-  .grid-cell-wrapper {
-    position: relative;
-    font-size: xx-small;
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
+    grid-template-rows: repeat(auto-fill, $cell-dimension);
+
+    .grid-cell-hint-number-selected {
+      font-weight: 600;
+    }
+
+    .grid-cell {
+      height: $inner-cell-dimension;
+      width: $inner-cell-dimension;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      caret-color: transparent;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+
+      &.grid-cell-selected {
+        background-color: $forest4;
+        border-color: white;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 2px;
+      }
+    }
+
+    .grid-cell-empty {
+      background-color: $cell-background;
+    }
+
+    .grid-cell-filled {
+      background-color: $cell-background;
+    }
+
+    .grid-cell-in-selected-word {
+      background-color: $forest1;
+    }
+
+    .grid-cell-hint-number {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      pointer-events: none;
+      color: $light-gray1;
+    }
+
+    .grid-cell-wrapper {
+      position: relative;
+      font-size: xx-small;
+    }
   }
 }
