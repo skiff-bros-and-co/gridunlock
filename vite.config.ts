@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, splitVendorChunkPlugin } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 
@@ -7,7 +7,7 @@ export default defineConfig({
   resolve: {
     alias: [{ find: /^~/, replacement: path.join(__dirname, "/node_modules/") }],
   },
-  plugins: [react()],
+  plugins: [react(), splitVendorChunkPlugin()],
   server: {
     proxy: {
       "/api": {
