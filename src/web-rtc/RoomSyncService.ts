@@ -4,6 +4,8 @@ import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { PuzzleDefinition } from "../state/Puzzle";
 import { SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
+import SimplePeer from "simple-peer";
+import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
 
 // This clearly provides no security other than mild obfustication.
 const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
@@ -31,8 +33,17 @@ export class RoomSyncService {
   private isLoaded = false;
 
   constructor(roomName: string) {
+    const peerOpts: SimplePeer.Options = {
+      wrtc: {
+        RTCIceCandidate,
+        RTCSessionDescription,
+        RTCPeerConnection: ModifiedRTCPeerConnection as any,
+      },
+    };
+
     new WebrtcProvider(roomName, this.doc, {
       password: PASSWORD,
+      peerOpts,
       // The types are BAD
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
