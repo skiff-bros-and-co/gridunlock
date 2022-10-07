@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "vite build",
     "build:types": "tsc -noEmit",
     "generate-icons": "ts-node ./scripts/generate-icons.ts",
     "lint": "eslint src --ext ts,tsx",

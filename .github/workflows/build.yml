@@ -4,10 +4,7 @@ on: [push]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -16,7 +13,35 @@ jobs:
         with:
           node-version: 16.x
           cache: "npm"
-      - run: npm install
-      - run: npm run build
-      - run: npm run lint
-      - run: npm run test
+      - run: |
+        npm ci
+        npm run build
+
+  types:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "npm"
+      - run: |
+        npm ci
+        npm run build:types
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "npm"
+      - run: |
+        npm ci
+        npm run test
+        npm run lint
