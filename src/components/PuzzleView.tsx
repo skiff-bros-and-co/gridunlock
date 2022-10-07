@@ -108,6 +108,18 @@ export const PuzzleView = (props: Props): JSX.Element => {
       });
     }
   }, [moveSelectedCell, entryDirection]);
+  const moveToPreviousCell = useCallback(() => {
+    if (selectedCell && entryDirection === "across") {
+      moveSelectedCell({
+        column: selectedCell.column - 1,
+      });
+    }
+    if (selectedCell && entryDirection === "down") {
+      moveSelectedCell({
+        row: selectedCell.row - 1,
+      });
+    }
+  }, [moveSelectedCell, entryDirection]);
 
   const handleNewCells = useCallback(
     (data: SyncedPuzzleState) => {
@@ -155,7 +167,11 @@ export const PuzzleView = (props: Props): JSX.Element => {
         });
       }
       if (key === "Backspace") {
-        updateCellValue("", selectedCell);
+        if (puzzleState[selectedCell.row][selectedCell.column].filledValue !== "") {
+          updateCellValue("", selectedCell);
+        } else {
+          moveToPreviousCell();
+        }
       }
       if (key === "Tab") {
         moveToNextCell();
