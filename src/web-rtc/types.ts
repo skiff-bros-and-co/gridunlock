@@ -1,7 +1,3 @@
-export interface SyncedRoomInfo {
-  puzzleUrl: string | undefined;
-}
-
 export interface SyncedPuzzleState {
   cells: SyncedPuzzleCellState[][];
 }

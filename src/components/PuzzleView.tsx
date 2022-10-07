@@ -109,15 +109,6 @@ export const PuzzleView = (props: Props): JSX.Element => {
     }
   }, [moveSelectedCell, entryDirection]);
 
-  useEffect(() => {
-    if (props.puzzleDefinition.height > 0) {
-      props.syncService.initPuzzle({
-        width: props.puzzleDefinition.width,
-        height: props.puzzleDefinition.height,
-      });
-    }
-  }, [props.puzzleDefinition, props.syncService]);
-
   const handleNewCells = useCallback(
     (data: SyncedPuzzleState) => {
       updatePuzzleState((oldState) =>
