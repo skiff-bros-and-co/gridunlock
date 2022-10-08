@@ -78,8 +78,6 @@ $cell-background: #182026;
     "main sidebar"
     "footer footer";
   justify-items: center;
-  // height: 100vh;
-  // width: 100vh;
 }
 
 .footer {
@@ -136,8 +134,8 @@ $cell-background: #182026;
 
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(var(--grid-column-count), --cell-dimension);
-    grid-template-rows: repeat(auto-fill, --cell-dimension);
+    grid-template-columns: repeat(var(--grid-column-count), var(--cell-dimension));
+    grid-template-rows: repeat(auto-fill, var(--cell-dimension));
     column-gap: 1px;
     row-gap: 1px;
 
