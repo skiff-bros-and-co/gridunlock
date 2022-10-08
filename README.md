@@ -1,5 +1,7 @@
 # gridunlock
 
+![CI](https://github.com/skiff-bros-and-co/gridunlock/actions/workflows/ci.yml/badge.svg)
+
 ### Links
 
 - [dev](https://gridunlock.pages.dev)
