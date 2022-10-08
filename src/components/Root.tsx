@@ -5,7 +5,6 @@ import { useRegisterSW } from "virtual:pwa-register/react";
 import { parseXWord } from "../parsers/parseXWord";
 import { PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
-import { TOASTER } from "../utils/toaster";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { PuzzleView } from "./PuzzleView";
 
@@ -14,15 +13,8 @@ const ROOM_PATH_PREFIX = "/r/";
 export function Root() {
   const { updateServiceWorker } = useRegisterSW({
     onNeedRefresh() {
-      TOASTER.show({
-        message: "New Version Available!",
-        action: {
-          text: "Update",
-          onClick() {
-            updateServiceWorker(true);
-          },
-        },
-      });
+      console.info("upgrading service worker in the background");
+      updateServiceWorker(false);
     },
   });
 
