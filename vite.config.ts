@@ -12,6 +12,7 @@ export default defineConfig({
     react(),
     splitVendorChunkPlugin(),
     VitePWA({
+      injectRegister: "inline",
       manifest: {
         name: "Grid Unlock",
         short_name: "Grid Unlock",

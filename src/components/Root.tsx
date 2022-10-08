@@ -1,15 +1,31 @@
 import { Spinner } from "@blueprintjs/core";
 import { format } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
+import { useRegisterSW } from "virtual:pwa-register/react";
 import { parseXWord } from "../parsers/parseXWord";
 import { PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
+import { TOASTER } from "../utils/toaster";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { PuzzleView } from "./PuzzleView";
 
 const ROOM_PATH_PREFIX = "/r/";
 
 export function Root() {
+  const { updateServiceWorker } = useRegisterSW({
+    onNeedRefresh() {
+      TOASTER.show({
+        message: "New Version Available!",
+        action: {
+          text: "Update",
+          onClick() {
+            updateServiceWorker(true);
+          },
+        },
+      });
+    },
+  });
+
   const roomName = useMemo(() => {
     const path = window.location.pathname;
     const hasRoom = path.startsWith(ROOM_PATH_PREFIX);
