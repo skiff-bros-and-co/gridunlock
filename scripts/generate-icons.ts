@@ -1,10 +1,8 @@
-import { mkdirSync, existsSync } from "fs";
 import * as gm from "gm";
+import { existsSync, mkdirSync } from "node:fs";
 import * as path from "node:path";
 
 const magick = gm.subClass({ imageMagick: "7+" as any });
-
-const sourceSvgPath = path.join(__dirname, "..", "src", "assets", "grid-unlock.svg");
 
 interface IconDimensions {
   width: number;
@@ -26,14 +24,19 @@ const iosDimensions: IconDimensions[] = [
   { width: 180, height: 180 },
 ];
 
-const outputDirectoryPath = path.join(__dirname, "..", "public", "icons");
+const isSvgSquare = (svgPath: string): Promise<boolean> =>
+  new Promise((resolve, reject) =>
+    magick(svgPath).identify((err, imageInfo) => {
+      if (err) {
+        reject(err);
+        return;
+      }
 
-if (!existsSync(outputDirectoryPath)) {
-  console.log(`creating output directory ${outputDirectoryPath}`);
-  mkdirSync(outputDirectoryPath);
-}
+      resolve(imageInfo.size.height === imageInfo.size.width);
+    }),
+  );
 
-[...androidDimensions, ...iosDimensions].forEach(async (iconDimensions) => {
+const buildOutputImage = async (sourceSvgPath: string, outputDirectoryPath: string, iconDimensions: IconDimensions) => {
   const outputPath = path.join(outputDirectoryPath, `icon-${iconDimensions.width}x${iconDimensions.height}.png`);
   console.log(`generating ${outputPath}`);
 
@@ -54,4 +57,27 @@ if (!existsSync(outputDirectoryPath)) {
     console.log(`Failed while generating ${outputPath}`, err);
     throw err;
   }
+};
+
+const generateIcons = async () => {
+  const sourceSvgPath = path.join(__dirname, "..", "src", "assets", "grid-unlock.svg");
+  const outputDirectoryPath = path.join(__dirname, "..", "public", "icons");
+
+  if (!existsSync(outputDirectoryPath)) {
+    console.log(`creating output directory ${outputDirectoryPath}`);
+    mkdirSync(outputDirectoryPath);
+  }
+
+  if (!(await isSvgSquare(sourceSvgPath))) {
+    throw new Error(`${sourceSvgPath} isn't square!`);
+  }
+
+  await Promise.all(
+    [...androidDimensions, ...iosDimensions].map(buildOutputImage.bind(null, sourceSvgPath, outputDirectoryPath)),
+  );
+};
+
+generateIcons().catch((err) => {
+  console.error(err);
+  throw err;
 });
