@@ -15,7 +15,7 @@ export const PuzzleHintRow = (props: Props): JSX.Element => {
   }, [props.isSelected, ref]);
 
   return (
-    <li ref={ref} className={props.isSelected ? "selected-puzzle-hint" : ""}>
+    <li ref={ref} className={props.isSelected ? "puzzle-hint selected-puzzle-hint" : "puzzle-hint"}>
       {props.clue.clueNumber}. {props.clue.clue}
     </li>
   );

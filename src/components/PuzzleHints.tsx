@@ -35,9 +35,9 @@ export const PuzzleHints = (props: Props): JSX.Element => {
 
   return (
     <div className="puzzle-hints-desktop">
-      <h3>across</h3>
+      <h3 className="puzzle-hint-list-title">across</h3>
       <div className="puzzle-hints-across">
-        <ul>
+        <ul className="puzzle-hint-list">
           {Object.values(props.puzzleDefinition.clues.across).map((clue) => (
             <PuzzleHintRow
               key={`across-${clue.clueNumber}`}
@@ -47,9 +47,9 @@ export const PuzzleHints = (props: Props): JSX.Element => {
           ))}
         </ul>
       </div>
-      <h3>down</h3>
+      <h3 className="puzzle-hint-list-title">down</h3>
       <div className="puzzle-hints-down">
-        <ul>
+        <ul className="puzzle-hint-list">
           {Object.values(props.puzzleDefinition.clues.down).map((clue) => (
             <PuzzleHintRow
               key={`down-${clue.clueNumber}`}
