@@ -23,7 +23,8 @@
     "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
     "noUnusedParameters": true,
-    "useUnknownInCatchVariables": true
+    "useUnknownInCatchVariables": true,
+    "types": ["vite-plugin-pwa/client"]
   },
   "include": ["src"],
   "exclude": ["functions/**/*"],
