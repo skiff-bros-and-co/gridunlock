@@ -19,7 +19,7 @@ export function Root() {
         action: {
           text: "Update",
           onClick() {
-            updateServiceWorker();
+            updateServiceWorker(true);
           },
         },
       });
