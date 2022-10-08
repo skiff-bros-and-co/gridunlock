@@ -6,6 +6,9 @@
 
 :root {
   --grid-column-count: 3;
+  --minimum-cell-size: 20px;
+  --minimum-hint-list-size: 120px;
+  --cell-dimension: max(calc(min(70vh, 70vw) / var(--grid-column-count)), var(--minimum-cell-size));
 }
 
 $main-background-color: #293742;
@@ -48,6 +51,7 @@ $cell-background: #182026;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-self: left;
   margin: 0 0 10px 0;
 
   h1 {
@@ -67,12 +71,15 @@ $cell-background: #182026;
 .puzzle-view {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 10vh 95vh 5vh;
   grid-template-rows: auto;
   grid-template-areas:
-    "header header"
+    "main header"
     "main sidebar"
     "footer footer";
   justify-items: center;
+  // height: 100vh;
+  // width: 100vh;
 }
 
 .footer {
@@ -86,29 +93,51 @@ $cell-background: #182026;
   flex-direction: column;
   justify-content: center;
 
+  .puzzle-hint-list-title {
+    margin: 12px 0px;
+  }
+
+  .puzzle-hint-list {
+    margin: 0px;
+    padding-left: 12px;
+  }
+
   .puzzle-hints-across {
     overflow-y: auto;
-    max-height: 300px;
+    max-height: max(30vh, var(--minimum-hint-list-size));
   }
 
   .puzzle-hints-down {
     overflow-y: auto;
-    max-height: 300px;
+    max-height: max(30vh, var(--minimum-hint-list-size));
   }
 
   .selected-puzzle-hint {
     background-color: $forest1;
     font-weight: 600;
   }
+
+  .puzzle-hint {
+    list-style: none;
+    margin: 2px 0px;
+  }
 }
 
 .puzzle-container {
   grid-area: main;
 
+  .puzzle-title {
+    margin: 2px 0px;
+  }
+
+  .puzzle-author {
+    margin: 2px 0px;
+  }
+
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(var(--grid-column-count), $cell-dimension);
-    grid-template-rows: repeat(auto-fill, $cell-dimension);
+    grid-template-columns: repeat(var(--grid-column-count), --cell-dimension);
+    grid-template-rows: repeat(auto-fill, --cell-dimension);
     column-gap: 1px;
     row-gap: 1px;
 
@@ -117,8 +146,8 @@ $cell-background: #182026;
     }
 
     .grid-cell {
-      height: $cell-dimension;
-      width: $cell-dimension;
+      height: var(--cell-dimension);
+      width: var(--cell-dimension);
       display: flex;
       justify-content: center;
       align-items: center;

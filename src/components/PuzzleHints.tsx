@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
+import { PuzzleHintRow } from "./PuzzleHintRow";
 
 interface Props {
   puzzleDefinition: PuzzleDefinition;
@@ -22,39 +24,39 @@ const getDownClueNumber = (puzzleDefinition: PuzzleDefinition, cellPosition: Cel
 };
 
 export const PuzzleHints = (props: Props): JSX.Element => {
-  const selectedAcrossClueNumber = getAcrossClueNumber(props.puzzleDefinition, props.selectedCell);
-  const selectedDownClueNumber = getDownClueNumber(props.puzzleDefinition, props.selectedCell);
+  const selectedAcrossClueNumber = useMemo(
+    () => getAcrossClueNumber(props.puzzleDefinition, props.selectedCell),
+    [props.puzzleDefinition, props.selectedCell],
+  );
+  const selectedDownClueNumber = useMemo(
+    () => getDownClueNumber(props.puzzleDefinition, props.selectedCell),
+    [props.puzzleDefinition, props.selectedCell],
+  );
 
   return (
     <div className="puzzle-hints-desktop">
-      <h3>across</h3>
+      <h3 className="puzzle-hint-list-title">across</h3>
       <div className="puzzle-hints-across">
-        <ul>
-          {Object.values(props.puzzleDefinition.clues.across).map((clue) => {
-            return (
-              <li
-                key={`across-${clue.clueNumber}`}
-                className={clue.clueNumber === selectedAcrossClueNumber ? "selected-puzzle-hint" : ""}
-              >
-                {clue.clueNumber}. {clue.clue}
-              </li>
-            );
-          })}
+        <ul className="puzzle-hint-list">
+          {Object.values(props.puzzleDefinition.clues.across).map((clue) => (
+            <PuzzleHintRow
+              key={`across-${clue.clueNumber}`}
+              clue={clue}
+              isSelected={clue.clueNumber === selectedAcrossClueNumber}
+            />
+          ))}
         </ul>
       </div>
-      <h3>down</h3>
+      <h3 className="puzzle-hint-list-title">down</h3>
       <div className="puzzle-hints-down">
-        <ul>
-          {Object.values(props.puzzleDefinition.clues.down).map((clue) => {
-            return (
-              <li
-                key={`down-${clue.clueNumber}`}
-                className={clue.clueNumber === selectedDownClueNumber ? "selected-puzzle-hint" : ""}
-              >
-                {clue.clueNumber}. {clue.clue}
-              </li>
-            );
-          })}
+        <ul className="puzzle-hint-list">
+          {Object.values(props.puzzleDefinition.clues.down).map((clue) => (
+            <PuzzleHintRow
+              key={`down-${clue.clueNumber}`}
+              clue={clue}
+              isSelected={clue.clueNumber === selectedDownClueNumber}
+            />
+          ))}
         </ul>
       </div>
     </div>
