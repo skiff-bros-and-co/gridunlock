@@ -31,6 +31,15 @@ export default defineConfig({
           { src: "icons/icon-180x180.png", sizes: "180x180", type: "image/png" },
         ],
       },
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: "/api/xword/**",
+            handler: "StaleWhileRevalidate",
+          },
+        ],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,webmanifest,woff2}"],
+      },
     }),
   ],
   server: {
