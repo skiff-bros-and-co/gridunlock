@@ -1,5 +1,5 @@
-import { useMemo, useRef } from "react";
-import { CellPosition, Clue, PuzzleDefinition } from "../state/Puzzle";
+import { useMemo } from "react";
+import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { PuzzleHintRow } from "./PuzzleHintRow";
 
 interface Props {
