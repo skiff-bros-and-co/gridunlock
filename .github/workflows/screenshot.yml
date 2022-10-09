@@ -1,0 +1,14 @@
+on:
+  check_run:
+    types: [completed]
+
+jobs:
+  build:
+    name: Post Screenshot
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get Deployment URL
+        run: echo "DEPLOYMENT_URL=$(echo "${{ github.event.check_run.output.summary }}" | grep -o "href\=.*>https" | cut -c 7-43)" >> $GITHUB_ENV
+      - run: echo $DEPLOYMENT_URL
