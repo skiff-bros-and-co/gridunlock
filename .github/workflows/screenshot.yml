@@ -10,6 +10,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Print summary
+        run: echo "${{ github.event.check_run.output.summary }}"
       - name: Get Deployment URL
-        run: echo "DEPLOYMENT_URL=$(echo "${{ github.event.check_run.output.summary }}" | grep -o "href\=.*>https" | cut -c 7-43)" >> $GITHUB_ENV
+        run: echo "DEPLOYMENT_URL=$(echo "${{ github.event.check_run.output.summary }}" | grep -Eo 'https://[a-zA-Z0-9./?=_%:-]*' | head -1 )" >> $GITHUB_ENV
       - run: echo $DEPLOYMENT_URL
+      - name: install puppeteer-headful
+        uses: mujo-code/puppeteer-headful@master # required for headful puppeteer
+        env:
+          CI: "true"
+      - name: screenshots-ci-action
+        uses: flameddd/screenshots-ci-action@master
+        with:
+          url: $DEPLOYMENT_URL
+          devices: iPhone 12 mini, iPhone 13, Pixel 5, Nexus 10
+          releaseId: 79354733
+      - uses: actions/upload-artifact@v2 # upload screenshots to Actions Artifacts via actions/upload-artifact@v2
+        with:
+          path: screenshots
+          name: Download-screenshots
