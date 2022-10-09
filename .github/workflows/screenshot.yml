@@ -1,10 +1,11 @@
+name: Screenshot
+
 on:
   check_run:
     types: [completed]
 
 jobs:
-  build:
-    name: Post Screenshot
+  run:
     runs-on: ubuntu-latest
 
     steps:
