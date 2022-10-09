@@ -10,8 +10,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Print summary
+        run: echo "${{ github.event.check_run.output.summary }}"
       - name: Get Deployment URL
-        run: echo "DEPLOYMENT_URL=$(echo "${{ github.event.check_run.output.summary }}" | grep -o "href\=.*>https" | cut -c 7-43)" >> $GITHUB_ENV
+        run: echo "DEPLOYMENT_URL=$(echo "${{ github.event.check_run.output.summary }}" | grep -Eo 'https://[a-zA-Z0-9./?=_%:-]*' | head -1 )" >> $GITHUB_ENV
       - run: echo $DEPLOYMENT_URL
       - name: install puppeteer-headful
         uses: mujo-code/puppeteer-headful@master # required for headful puppeteer
