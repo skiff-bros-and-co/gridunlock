@@ -33,6 +33,7 @@ jobs:
         with:
           fetch-depth: 0 # Load all commits
           token: ${{ secrets.GITHUB_TOKEN }}
+          lfs: true
       # Get the SHA and branch name of the comment's pull request
       # We must use the GitHub API to retrieve these information because they're
       # not accessibile within workflows triggered by "issue_comment"
