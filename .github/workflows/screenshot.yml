@@ -22,7 +22,7 @@ jobs:
       - name: screenshots-ci-action
         uses: flameddd/screenshots-ci-action@master
         with:
-          url: $DEPLOYMENT_URL
+          url: ${{ env.DEPLOYMENT_URL }}
           devices: iPhone 12 mini, iPhone 13, Pixel 5, Nexus 10
           releaseId: 79354733
       - uses: actions/upload-artifact@v2 # upload screenshots to Actions Artifacts via actions/upload-artifact@v2
