@@ -27,6 +27,8 @@ jobs:
     if: ${{ github.event.issue.pull_request && github.event.comment.body == '/update-snapshots'}}
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.27.0-focal
     steps:
       # Checkout and do a deep fetch to load all commit IDs
       - uses: actions/checkout@v3
@@ -61,8 +63,6 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
       # Update the snapshots based on the current UI
       - name: Update snapshots
         run: npx playwright test --update-snapshots --reporter=list
