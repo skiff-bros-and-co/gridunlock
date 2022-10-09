@@ -2,6 +2,7 @@
 # https://developers.cloudflare.com/pages/platform/headers/
 
 /*
+  ! access-control-allow-origin
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
