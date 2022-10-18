@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - run: npm run preview
+      - name: Percy Test
+        run: npx @percy/cli snapshot snapshots.yml # or any directory such as public/
