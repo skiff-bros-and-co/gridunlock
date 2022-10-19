@@ -58,11 +58,11 @@ export const PuzzleCell = (props: Props): JSX.Element => {
           "-filling-word-end": props.fillDirection && props.wordPosition[props.fillDirection] === "end",
         })}
         style={{ borderColor: getColorForPlayer(playerToShowForCell) }}
-        onClick={props.onSelectCell}
         value={props.gameCell.filledValue}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.onCellValueInput(e.target.value)}
         type="text"
         autoCapitalize="characters"
+        onClick={props.onSelectCell}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.onCellValueInput(e.target.value)}
       />
       <p className={`grid-cell-clue-number`}>{props.gameCell.clueNumber}</p>
     </div>
