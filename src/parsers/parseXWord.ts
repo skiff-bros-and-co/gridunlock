@@ -1,5 +1,5 @@
 import { unescape } from "lodash-es";
-import { Cell, CellPosition, Clue, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import { Cell, CellPosition, Clue, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { buildCellCluesByRowAndColumn } from "../state/PuzzleDataBuilder";
 
 // see: https://www.xwordinfo.com/JSON/
@@ -76,7 +76,7 @@ function generateCells(src: XWordInfoJsonFormat): Cell[][] {
   return result;
 }
 
-function parseClues(clueStrings: string[], direction: PuzzleDirection, cells: Cell[][]) {
+function parseClues(clueStrings: string[], direction: FillDirection, cells: Cell[][]) {
   const result: { [clueNumber: number]: Clue } = Object.create(null);
 
   const positionLookup: { [clueNumber: number]: CellPosition } = Object.create(null);

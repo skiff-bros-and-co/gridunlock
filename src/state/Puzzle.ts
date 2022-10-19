@@ -9,7 +9,7 @@ export interface Cell extends CellPosition {
 export interface Clue {
   clue: string;
   position: CellPosition;
-  direction: PuzzleDirection;
+  direction: FillDirection;
   clueNumber: number;
 }
 
@@ -27,7 +27,7 @@ export interface PuzzleClues {
   byRowAndColumn: (CellClue | null)[][];
 }
 
-export type PuzzleDirection = "down" | "across";
+export type FillDirection = "down" | "across";
 
 export interface CellPosition {
   row: number;

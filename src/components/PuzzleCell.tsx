@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { useEffect, useRef } from "react";
-import { CellPosition, PuzzleDirection } from "../state/Puzzle";
+import { CellPosition, FillDirection } from "../state/Puzzle";
 import type { PlayerState, PuzzleGameCell } from "../state/State";
 import { CellWordPosition } from "../utils/generateCellWordPositions";
 import { getColorForPlayer } from "../utils/getColorForPlayerIndex";
@@ -14,7 +14,7 @@ interface Props {
   playersState: PlayerState[];
   position: CellPosition;
   wordPosition: CellWordPosition;
-  direction: PuzzleDirection | null;
+  direction: FillDirection | null;
 }
 
 export const PuzzleCell = (props: Props): JSX.Element => {

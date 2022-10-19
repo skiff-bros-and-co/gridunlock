@@ -1,9 +1,9 @@
-import { CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { getNextCell } from "./getNextCell";
 
 export type WordPosition = "start" | "middle" | "end";
 
-export type CellWordPosition = { [direction in PuzzleDirection]: WordPosition };
+export type CellWordPosition = { [direction in FillDirection]: WordPosition };
 
 export type CellWordPositions = CellWordPosition[][];
 
@@ -24,7 +24,7 @@ export function generateCellWordPositions(puzzle: PuzzleDefinition): CellWordPos
   return result;
 }
 
-function wordPosition(position: CellPosition, direction: PuzzleDirection, puzzle: PuzzleDefinition): WordPosition {
+function wordPosition(position: CellPosition, direction: FillDirection, puzzle: PuzzleDefinition): WordPosition {
   const prevPos = getNextCell({
     position,
     direction,

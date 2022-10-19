@@ -1,6 +1,6 @@
 import update from "immutability-helper";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import { Cell, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
@@ -60,7 +60,7 @@ const getValidInput = (input: string): string | null => {
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
   const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
-  const [entryDirection, updateEntryDirection] = useState<PuzzleDirection | null>("across");
+  const [entryDirection, updateEntryDirection] = useState<FillDirection | null>("across");
   const [playersState, setPlayersState] = useState<PlayerState[]>([]);
 
   const moveSelectedCell = useCallback(

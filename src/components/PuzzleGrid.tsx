@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import type { PlayerState, PuzzleState } from "../state/State";
 import { CellWordPositions } from "../utils/generateCellWordPositions";
 import { PuzzleCell } from "./PuzzleCell";
@@ -8,7 +8,7 @@ interface Props {
   puzzleWidth: number;
   puzzleState: PuzzleState;
   puzzleDefinition: PuzzleDefinition;
-  entryDirection: PuzzleDirection | null;
+  entryDirection: FillDirection | null;
   selectedCell: CellPosition | null;
   playersState: PlayerState[];
   cellWordPositions: CellWordPositions;
@@ -27,7 +27,7 @@ const isInSelectedWord = (
   cellToCheck: CellPosition,
   selectedCell: CellPosition | null,
   puzzleDefinition: PuzzleDefinition,
-  entryDirection: PuzzleDirection | null,
+  entryDirection: FillDirection | null,
 ): boolean => {
   if (!selectedCell || !entryDirection) {
     return false;

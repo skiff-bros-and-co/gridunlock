@@ -1,11 +1,11 @@
-import { CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 
 /**
  * Gets the next unblocked cell (regardless of fill state)
  */
 export function getNextCell(opts: {
   position: CellPosition;
-  direction: PuzzleDirection;
+  direction: FillDirection;
   puzzle: PuzzleDefinition;
   backwards?: boolean;
   lockToCurrentWord?: boolean;
@@ -35,7 +35,7 @@ export function getNextCell(opts: {
 }
 
 function nextCell(
-  direction: PuzzleDirection,
+  direction: FillDirection,
   distance: number,
   position: CellPosition,
   puzzle: PuzzleDefinition,
