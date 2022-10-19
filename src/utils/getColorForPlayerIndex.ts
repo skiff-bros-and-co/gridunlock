@@ -13,9 +13,9 @@ const PLAYER_COLORS = [
   "#7157D9",
 ];
 
-export function getColorForPlayer(player: PlayerState | undefined): string {
+export function getColorForPlayer(player: PlayerState | undefined): string | undefined {
   if (player == null) {
-    return "transparent";
+    return undefined;
   }
 
   return PLAYER_COLORS[player.index];

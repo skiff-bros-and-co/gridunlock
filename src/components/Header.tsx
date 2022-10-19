@@ -1,8 +1,8 @@
 import { AnchorButton, Button, ButtonGroup } from "@blueprintjs/core";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 import gridUnlockIcon from "../assets/grid-unlock.svg";
 
-export const Header = (): JSX.Element => {
+function HeaderInternal(): JSX.Element {
   const newRoom = useCallback(() => {
     window.location.pathname = "/";
   }, []);
@@ -19,4 +19,6 @@ export const Header = (): JSX.Element => {
       </ButtonGroup>
     </div>
   );
-};
+}
+
+export const Header = memo(HeaderInternal);

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
+import { getNextCell } from "../utils/getNextCell";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
 import { Footer } from "./Footer";
@@ -12,8 +13,14 @@ import { PuzzleClues } from "./PuzzleClues";
 import { PuzzleGrid } from "./PuzzleGrid";
 
 interface Props {
-  puzzleDefinition: PuzzleDefinition;
+  puzzle: PuzzleDefinition;
   syncService: RoomSyncService;
+}
+
+interface LocalState {
+  selectedPosition: CellPosition | undefined;
+  fillDirection: FillDirection;
+  puzzleState: PuzzleState;
 }
 
 const initializeEmptyCell = (cell: CellDefinition): PuzzleGameCell => ({
@@ -22,23 +29,8 @@ const initializeEmptyCell = (cell: CellDefinition): PuzzleGameCell => ({
   clueNumber: cell.clueNumber,
 });
 
-const initializePuzzleState = (puzzleDefinition: PuzzleDefinition): PuzzleState => {
-  return puzzleDefinition.cells.map((row: CellDefinition[]) => row.map((cell) => initializeEmptyCell(cell)));
-};
-
-const isCellPositionValid = (
-  newCell: Partial<CellPosition>,
-  puzzleDefinition: PuzzleDefinition,
-): newCell is CellPosition => {
-  return Boolean(
-    newCell.column !== undefined &&
-      newCell.column < puzzleDefinition.width &&
-      newCell.column >= 0 &&
-      newCell.row !== undefined &&
-      newCell.row < puzzleDefinition.height &&
-      newCell.row >= 0 &&
-      !puzzleDefinition.cells[newCell.row][newCell.column].isBlocked,
-  );
+const initializePuzzleState = (puzzle: PuzzleDefinition): PuzzleState => {
+  return puzzle.cells.map((row: CellDefinition[]) => row.map((cell) => initializeEmptyCell(cell)));
 };
 
 const alphaCharacterRegex = /^[A-Za-z]$/;
@@ -58,95 +50,100 @@ const getValidInput = (input: string): string | null => {
 };
 
 export const PuzzleView = (props: Props): JSX.Element => {
-  const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
-  const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
-  const [fillDirection, updatefillDirection] = useState<FillDirection>("across");
-  const [playersState, setPlayersState] = useState<PlayerState[]>([]);
+  const { puzzle, syncService } = props;
 
-  const moveSelectedCell = useCallback(
-    (cellPosition: Partial<CellPosition>) => {
-      const newSelectedCell = {
-        ...selectedCell,
-        ...cellPosition,
-      };
-      if (isCellPositionValid(newSelectedCell, props.puzzleDefinition)) {
-        updateSelectedCell(newSelectedCell);
-      }
+  const [playersState, setPlayersState] = useState<PlayerState[]>([]);
+  const [localState, setLocalState] = useState<LocalState>(() => ({
+    fillDirection: "across",
+    selectedPosition: undefined,
+    puzzleState: initializePuzzleState(puzzle),
+  }));
+
+  const moveToNextCell = useCallback(
+    (direction: "forward" | "backward" | "up" | "down" | "left" | "right") => {
+      setLocalState((prev) => {
+        const prevPosition: CellPosition =
+          prev.selectedPosition == null ? { column: 0, row: 0 } : prev.selectedPosition;
+        const isUsingPrevDirection = direction === "forward" || direction === "backward";
+
+        return {
+          ...prev,
+          selectedPosition: getNextCell({
+            direction: isUsingPrevDirection
+              ? prev.fillDirection
+              : direction === "up" || direction === "down"
+              ? "down"
+              : "across",
+            position: prevPosition,
+            puzzle,
+            backwards: direction === "backward" || direction === "up" || direction === "left",
+          }),
+        };
+      });
     },
-    [selectedCell, props.puzzleDefinition],
+    [puzzle],
   );
+
   const updateCellValue = useCallback(
-    (newValue: string, position: CellPosition) => {
-      const newPuzzleState = update(puzzleState, {
-        [position.row]: {
-          [position.column]: {
-            filledValue: {
-              // TODO: set author here
-              $set: newValue,
+    (newValue: string, position?: CellPosition) => {
+      setLocalState((prev) => {
+        position ??= prev.selectedPosition;
+        const newPuzzleState = update(prev.puzzleState, {
+          [position!.row]: {
+            [position!.column]: {
+              filledValue: {
+                // TODO: set author here
+                $set: newValue,
+              },
             },
           },
-        },
-      });
+        });
 
-      props.syncService.changeCell({
-        position,
-        value: {
-          value: newValue,
-        },
+        syncService.changeCell({
+          position: position!,
+          value: {
+            value: newValue,
+          },
+        });
+
+        return {
+          ...prev,
+          puzzleState: newPuzzleState,
+        };
       });
-      updatePuzzleState(newPuzzleState);
     },
-    [updatePuzzleState, puzzleState, props.syncService],
+    [setLocalState, syncService],
   );
-  const moveToNextCell = useCallback(() => {
-    if (selectedCell && fillDirection === "across") {
-      moveSelectedCell({
-        column: selectedCell.column + 1,
-      });
-    }
-    if (selectedCell && fillDirection === "down") {
-      moveSelectedCell({
-        row: selectedCell.row + 1,
-      });
-    }
-  }, [selectedCell, moveSelectedCell, fillDirection]);
-  const moveToPreviousCell = useCallback(() => {
-    if (selectedCell && fillDirection === "across") {
-      moveSelectedCell({
-        column: selectedCell.column - 1,
-      });
-    }
-    if (selectedCell && fillDirection === "down") {
-      moveSelectedCell({
-        row: selectedCell.row - 1,
-      });
-    }
-  }, [selectedCell, moveSelectedCell, fillDirection]);
-  const togglefillDirection = useCallback(() => {
-    if (fillDirection === "across") {
-      updatefillDirection("down");
-    } else {
-      updatefillDirection("across");
-    }
-  }, [fillDirection, updatefillDirection]);
 
-  const handleNewCells = useCallback(
+  const togglefillDirection = useCallback(() => {
+    setLocalState((prev) => ({
+      ...prev,
+      fillDirection: prev.fillDirection === "across" ? "down" : "across",
+    }));
+  }, [setLocalState]);
+
+  const handleNewSync = useCallback(
     (data: SyncedPuzzleState) => {
-      updatePuzzleState((oldState) =>
-        oldState.map((row, rowIndex) =>
-          row.map((cell, colIndex) => ({
-            ...cell,
-            filledValue: data.cells[rowIndex][colIndex].value ?? "",
-          })),
-        ),
+      setLocalState(
+        (prev) =>
+          update(prev, {
+            puzzleState: prev.puzzleState.map((row, rowIndex) =>
+              row.map((_cell, colIndex) => ({
+                filledValue: {
+                  $set: data.cells[rowIndex][colIndex].value ?? "",
+                },
+              })),
+            ),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } as any), // TODO: fix types
       );
     },
-    [updatePuzzleState],
+    [setLocalState],
   );
   useEffect(() => {
-    props.syncService.addEventListener("cellsChanged", handleNewCells);
-    return () => props.syncService.removeEventListener("cellsChanged", handleNewCells);
-  }, [props.syncService, handleNewCells]);
+    syncService.addEventListener("cellsChanged", handleNewSync);
+    return () => syncService.removeEventListener("cellsChanged", handleNewSync);
+  }, [syncService, handleNewSync]);
 
   const handleNewPlayersState = useCallback(
     (state: SyncedPlayerState[]) => {
@@ -161,72 +158,66 @@ export const PuzzleView = (props: Props): JSX.Element => {
     [setPlayersState],
   );
   useEffect(() => {
-    props.syncService.updatePlayerPosition(selectedCell ?? undefined);
-  }, [props.syncService, selectedCell]);
+    syncService.updatePlayerPosition(localState.selectedPosition);
+  }, [syncService, localState.selectedPosition]);
   useEffect(() => {
-    props.syncService.addEventListener("playersStateChanged", handleNewPlayersState);
-    return () => props.syncService.removeEventListener("playersStateChanged", handleNewPlayersState);
-  }, [props.syncService, handleNewPlayersState]);
+    syncService.addEventListener("playersStateChanged", handleNewPlayersState);
+    return () => syncService.removeEventListener("playersStateChanged", handleNewPlayersState);
+  }, [syncService, handleNewPlayersState]);
 
   useKeypress(
     (key) => {
-      if (!selectedCell) {
-        return;
-      }
       if (key === "ArrowDown") {
-        moveSelectedCell({
-          row: selectedCell.row + 1,
-        });
+        moveToNextCell("down");
       }
       if (key === "ArrowUp") {
-        moveSelectedCell({
-          row: selectedCell.row - 1,
-        });
+        moveToNextCell("up");
       }
       if (key === "ArrowLeft") {
-        moveSelectedCell({
-          column: selectedCell.column - 1,
-        });
+        moveToNextCell("left");
       }
       if (key === "ArrowRight") {
-        moveSelectedCell({
-          column: selectedCell.column + 1,
-        });
+        moveToNextCell("right");
       }
       if (key === "Enter") {
         togglefillDirection();
       }
       if (key === "Backspace") {
-        if (puzzleState[selectedCell.row][selectedCell.column].filledValue !== "") {
-          updateCellValue("", selectedCell);
-        } else {
-          moveToPreviousCell();
-        }
+        updateCellValue("");
+        moveToNextCell("backward");
       }
       if (key === "Tab") {
-        moveToNextCell();
+        moveToNextCell("forward");
       }
     },
-    [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState, togglefillDirection],
+    [moveToNextCell, togglefillDirection],
   );
 
-  const cellWordPositions = useMemo(() => generateCellWordPositions(props.puzzleDefinition), [props.puzzleDefinition]);
+  const cellWordPositions = useMemo(() => generateCellWordPositions(puzzle), [puzzle]);
 
   const handleSelectCell = useCallback(
-    (newSelectedCell: CellPosition | null) => {
-      console.log("onSelectCell", selectedCell, newSelectedCell);
-      if (
-        selectedCell &&
-        newSelectedCell &&
-        newSelectedCell.row === selectedCell.row &&
-        newSelectedCell.column === selectedCell.column
-      ) {
-        togglefillDirection();
-      } else {
-        updateSelectedCell(newSelectedCell);
-      }
+    (newSelectedCell: CellPosition | undefined) => {
+      setLocalState((prev) => {
+        console.log("onSelectCell", prev.selectedPosition, newSelectedCell);
+        if (
+          prev.selectedPosition &&
+          newSelectedCell &&
+          newSelectedCell.row === prev.selectedPosition.row &&
+          newSelectedCell.column === prev.selectedPosition.column
+        ) {
+          return {
+            ...prev,
+            fillDirection: prev.fillDirection === "across" ? "down" : "across",
+          };
+        } else {
+          return {
+            ...prev,
+            selectedPosition: newSelectedCell,
+          };
+        }
+      });
     },
-    [selectedCell, togglefillDirection, updateSelectedCell],
+    [setLocalState],
   );
 
   const handleCellValueInput = useCallback(
@@ -234,7 +225,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
       const input = getValidInput(newValue);
       if (input) {
         updateCellValue(input, position);
-        moveToNextCell();
+        moveToNextCell("forward");
       }
     },
     [updateCellValue, moveToNextCell],
@@ -244,17 +235,16 @@ export const PuzzleView = (props: Props): JSX.Element => {
     <div className="puzzle-view">
       <Header />
       <PuzzleGrid
-        puzzleState={puzzleState}
-        puzzleDefinition={props.puzzleDefinition}
-        puzzleWidth={props.puzzleDefinition.width}
-        fillDirection={fillDirection}
-        selectedCell={selectedCell}
+        puzzleState={localState.puzzleState}
+        puzzle={puzzle}
+        fillDirection={localState.fillDirection}
+        selectedCell={localState.selectedPosition}
         playersState={playersState}
         cellWordPositions={cellWordPositions}
         onSelectCell={handleSelectCell}
         onCellValueInput={handleCellValueInput}
       />
-      <PuzzleClues selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
+      <PuzzleClues selectedCell={localState.selectedPosition} puzzle={puzzle} />
       <Footer />
     </div>
   );
