@@ -4,5 +4,4 @@ export interface SyncedPuzzleState {
 
 export interface SyncedPuzzleCellState {
   value: string;
-  writerUserId: string | undefined;
 }

@@ -87,11 +87,9 @@ export const PuzzleView = (props: Props): JSX.Element => {
       });
 
       props.syncService.changeCell({
-        xIndex: position.column,
-        yIndex: position.row,
+        position,
         value: {
           value: newValue,
-          writerUserId: "TODO",
         },
       });
       updatePuzzleState(newPuzzleState);
