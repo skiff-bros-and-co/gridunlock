@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import type { PlayerState, PuzzleState } from "../state/State";
 import { CellWordPositions } from "../utils/generateCellWordPositions";
@@ -64,18 +64,14 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
           props.puzzleDefinition,
           props.fillDirection,
         )}
-        position={useMemo(() => ({ column: colIndex, row: rowIndex }), [rowIndex, colIndex])}
+        row={rowIndex}
+        column={colIndex}
         wordPosition={props.cellWordPositions[rowIndex][colIndex]}
         fillDirection={props.fillDirection}
         playersState={props.playersState}
-        onSelectCell={() => {
-          props.onSelectCell({
-            row: rowIndex,
-            column: colIndex,
-          });
-        }}
-        onCellValueInput={(newValue) => props.onCellValueInput({ row: rowIndex, column: colIndex }, newValue)}
         gameCell={cell}
+        onSelectCell={props.onSelectCell}
+        onCellValueInput={props.onCellValueInput}
       />
     )),
   );
