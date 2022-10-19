@@ -93,10 +93,10 @@ function parseClues(clueStrings: string[], direction: PuzzleDirection, cells: Ce
   }
 
   for (const clueString of clueStrings) {
-    const [clueNumberString, clue] = clueString.split(".", 2);
+    const [clueNumberString, ...clue] = clueString.split(".");
     const clueNumber = Number(clueNumberString);
     result[clueNumber] = {
-      clue: unescape(clue),
+      clue: unescape(clue.join(".")),
       clueNumber,
       direction,
       position: positionLookup[clueNumber],
