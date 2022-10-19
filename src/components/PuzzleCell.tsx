@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { useEffect, useRef } from "react";
-import { CellPosition, FillDirection } from "../state/Puzzle";
+import { FillDirection } from "../state/Puzzle";
 import type { PlayerState, PuzzleGameCell } from "../state/State";
 import { CellWordPosition } from "../utils/generateCellWordPositions";
 import { getColorForPlayer } from "../utils/getColorForPlayerIndex";
@@ -12,7 +12,8 @@ interface Props {
   isSelected: boolean;
   isInSelectedWord: boolean;
   playersState: PlayerState[];
-  position: CellPosition;
+  row: number;
+  column: number;
   wordPosition: CellWordPosition;
   fillDirection: FillDirection | null;
 }
@@ -36,7 +37,7 @@ export const PuzzleCell = (props: Props): JSX.Element => {
   }
 
   const playerToShowForCell = props.playersState.filter(
-    (p) => p.position?.row === props.position?.row && p.position?.column === props.position.column,
+    (p) => p.position?.row === props.row && p.position?.column === props.column,
   )[0];
 
   return (
