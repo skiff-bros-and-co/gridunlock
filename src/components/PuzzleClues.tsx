@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
-import { PuzzleHintRow } from "./PuzzleHintRow";
+import { PuzzleClueRow } from "./PuzzleClueRow";
 
 interface Props {
   puzzleDefinition: PuzzleDefinition;
@@ -23,7 +23,7 @@ const getDownClueNumber = (puzzleDefinition: PuzzleDefinition, cellPosition: Cel
   return puzzleDefinition.clues.byRowAndColumn[cellPosition.row][cellPosition.column]?.downClueNumber || null;
 };
 
-export const PuzzleHints = (props: Props): JSX.Element => {
+export const PuzzleClues = (props: Props): JSX.Element => {
   const selectedAcrossClueNumber = useMemo(
     () => getAcrossClueNumber(props.puzzleDefinition, props.selectedCell),
     [props.puzzleDefinition, props.selectedCell],
@@ -34,12 +34,12 @@ export const PuzzleHints = (props: Props): JSX.Element => {
   );
 
   return (
-    <div className="puzzle-hints-desktop">
-      <h3 className="puzzle-hint-list-title">across</h3>
-      <div className="puzzle-hints-across">
-        <ul className="puzzle-hint-list">
+    <div className="puzzle-clues-desktop">
+      <h3 className="puzzle-clue-list-title">across</h3>
+      <div className="puzzle-clues-across">
+        <ul className="puzzle-clue-list">
           {Object.values(props.puzzleDefinition.clues.across).map((clue) => (
-            <PuzzleHintRow
+            <PuzzleClueRow
               key={`across-${clue.clueNumber}`}
               clue={clue}
               isSelected={clue.clueNumber === selectedAcrossClueNumber}
@@ -47,11 +47,11 @@ export const PuzzleHints = (props: Props): JSX.Element => {
           ))}
         </ul>
       </div>
-      <h3 className="puzzle-hint-list-title">down</h3>
-      <div className="puzzle-hints-down">
-        <ul className="puzzle-hint-list">
+      <h3 className="puzzle-clue-list-title">down</h3>
+      <div className="puzzle-clues-down">
+        <ul className="puzzle-clue-list">
           {Object.values(props.puzzleDefinition.clues.down).map((clue) => (
-            <PuzzleHintRow
+            <PuzzleClueRow
               key={`down-${clue.clueNumber}`}
               clue={clue}
               isSelected={clue.clueNumber === selectedDownClueNumber}

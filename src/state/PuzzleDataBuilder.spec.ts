@@ -1,10 +1,10 @@
+import { describe, expect, it } from "@jest/globals";
 import { Cell } from "./Puzzle";
-import { expect, describe, it } from "@jest/globals";
 import { buildCellCluesByRowAndColumn } from "./PuzzleDataBuilder";
 
 describe("PuzzleDataBuilder", () => {
   describe("buildCellCluesByRowAndColumn", () => {
-    it("should build correct hint 2d array", () => {
+    it("should build correct clue 2d array", () => {
       const givenCells: Cell[][] = [
         [
           { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 1, solution: "G" },
@@ -16,9 +16,9 @@ describe("PuzzleDataBuilder", () => {
         ],
       ];
 
-      const actualHints = buildCellCluesByRowAndColumn(givenCells);
+      const actualClues = buildCellCluesByRowAndColumn(givenCells);
 
-      expect(actualHints).toStrictEqual([
+      expect(actualClues).toStrictEqual([
         [
           {
             isStartOfClue: true,
@@ -58,9 +58,9 @@ describe("PuzzleDataBuilder", () => {
         ],
       ];
 
-      const actualHints = buildCellCluesByRowAndColumn(givenCells);
+      const actualClues = buildCellCluesByRowAndColumn(givenCells);
 
-      expect(actualHints).toStrictEqual([
+      expect(actualClues).toStrictEqual([
         [
           {
             isStartOfClue: true,

@@ -63,7 +63,7 @@ export const PuzzleCell = (props: Props): JSX.Element => {
         type="text"
         autoCapitalize="characters"
       />
-      <p className={`grid-cell-hint-number`}>{props.gameCell.clueNumber}</p>
+      <p className={`grid-cell-clue-number`}>{props.gameCell.clueNumber}</p>
     </div>
   );
 };

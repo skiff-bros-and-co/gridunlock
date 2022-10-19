@@ -6,7 +6,7 @@ interface Props {
   isSelected: boolean;
 }
 
-export const PuzzleHintRow = (props: Props): JSX.Element => {
+export const PuzzleClueRow = (props: Props): JSX.Element => {
   const ref = useRef<null | HTMLLIElement>(null);
   useEffect(() => {
     if (props.isSelected) {
@@ -15,7 +15,7 @@ export const PuzzleHintRow = (props: Props): JSX.Element => {
   }, [props.isSelected, ref]);
 
   return (
-    <li ref={ref} className={props.isSelected ? "puzzle-hint selected-puzzle-hint" : "puzzle-hint"}>
+    <li ref={ref} className={props.isSelected ? "puzzle-clue selected-puzzle-clue" : "puzzle-clue"}>
       {props.clue.clueNumber}. {props.clue.clue}
     </li>
   );

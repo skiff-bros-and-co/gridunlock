@@ -8,8 +8,8 @@ import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { useKeypress } from "./Hooks";
+import { PuzzleClues } from "./PuzzleClues";
 import { PuzzleGrid } from "./PuzzleGrid";
-import { PuzzleHints } from "./PuzzleHints";
 
 interface Props {
   puzzleDefinition: PuzzleDefinition;
@@ -244,7 +244,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
           }
         }}
       />
-      <PuzzleHints selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
+      <PuzzleClues selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
       <Footer />
     </div>
   );
