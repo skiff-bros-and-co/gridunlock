@@ -1,15 +1,15 @@
-import { Cell, CellClue, Clue, PuzzleClues, PuzzleDefinition } from "../state/Puzzle";
+import { CellClue, CellDefinition, Clue, PuzzleClues, PuzzleDefinition } from "../state/Puzzle";
 import { SimpleBufferScanner } from "./SimpleBufferScanner";
 
-function needsAcrossNumber(column: number, row: number, cells: Cell[][]) {
+function needsAcrossNumber(column: number, row: number, cells: CellDefinition[][]) {
   return column === 0 || cells[row][column - 1].isBlocked;
 }
 
-function needsDownNumber(column: number, row: number, cells: Cell[][]) {
+function needsDownNumber(column: number, row: number, cells: CellDefinition[][]) {
   return row === 0 || cells[row - 1][column].isBlocked;
 }
 
-function indexClues(cells: Cell[][], clueList: string[]): PuzzleClues {
+function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues {
   const acrossClues: { [clueNumber: number]: Clue } = {};
   const downClues: { [clueNumber: number]: Clue } = {};
   const cluesByRowAndColumn: (CellClue | null)[][] = [];
@@ -123,10 +123,10 @@ export function parsePuz(source: ArrayBuffer): PuzzleDefinition {
 
   const notes = textDecoder.decode(scanner.readUntil(isNullCharacter));
 
-  const cells: Cell[][] = [];
+  const cells: CellDefinition[][] = [];
   let currentCell = 0;
   for (let currentRow = 0; currentRow < height; currentRow++) {
-    const row: Cell[] = [];
+    const row: CellDefinition[] = [];
 
     for (let currentColumn = 0; currentColumn < width; currentColumn++) {
       let cellState = state[currentCell].trim().toUpperCase();
@@ -158,7 +158,7 @@ export function parsePuz(source: ArrayBuffer): PuzzleDefinition {
         cellSolution = ".";
       }
 
-      const cell: Cell = {
+      const cell: CellDefinition = {
         column: currentColumn,
         row: currentRow,
         solution: cellSolution,

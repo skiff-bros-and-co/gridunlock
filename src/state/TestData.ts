@@ -1,7 +1,7 @@
-import { Cell, PuzzleDefinition } from "./Puzzle";
+import { CellDefinition, PuzzleDefinition } from "./Puzzle";
 import { buildCellCluesByRowAndColumn } from "./PuzzleDataBuilder";
 
-const puzzleCells: Cell[][] = [
+const puzzleCells: CellDefinition[][] = [
   [
     { row: 0, column: 0, initialState: ".", isBlocked: true, solution: "." },
     { row: 0, column: 1, initialState: ".", isBlocked: true, solution: "." },

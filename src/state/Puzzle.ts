@@ -1,11 +1,3 @@
-export interface Cell extends CellPosition {
-  solution: string;
-  initialState: string;
-  isBlocked: boolean;
-
-  clueNumber?: number;
-}
-
 export interface Clue {
   clue: string;
   position: CellPosition;
@@ -34,12 +26,20 @@ export interface CellPosition {
   column: number;
 }
 
+export interface CellDefinition extends CellPosition {
+  solution: string;
+  initialState: string;
+  isBlocked: boolean;
+
+  clueNumber?: number;
+}
+
 export interface PuzzleDefinition {
   title: string;
   author: string;
   description: string;
   copyright: string;
-  cells: Cell[][];
+  cells: CellDefinition[][];
   clues: PuzzleClues;
   width: number;
   height: number;

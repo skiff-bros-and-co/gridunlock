@@ -1,11 +1,11 @@
 import { describe, expect, it } from "@jest/globals";
-import { Cell } from "./Puzzle";
+import { CellDefinition } from "./Puzzle";
 import { buildCellCluesByRowAndColumn } from "./PuzzleDataBuilder";
 
 describe("PuzzleDataBuilder", () => {
   describe("buildCellCluesByRowAndColumn", () => {
     it("should build correct clue 2d array", () => {
-      const givenCells: Cell[][] = [
+      const givenCells: CellDefinition[][] = [
         [
           { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 1, solution: "G" },
           { row: 0, column: 1, initialState: "", isBlocked: false, clueNumber: 2, solution: "O" },
@@ -47,7 +47,7 @@ describe("PuzzleDataBuilder", () => {
     });
 
     it("should handle single word cells", () => {
-      const givenCells: Cell[][] = [
+      const givenCells: CellDefinition[][] = [
         [
           { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 1, solution: "G" },
           { row: 0, column: 1, initialState: "", isBlocked: false, solution: "O" },

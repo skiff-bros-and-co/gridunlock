@@ -1,6 +1,6 @@
 import update from "immutability-helper";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Cell, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
+import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
@@ -16,14 +16,14 @@ interface Props {
   syncService: RoomSyncService;
 }
 
-const initializeEmptyCell = (cell: Cell): PuzzleGameCell => ({
+const initializeEmptyCell = (cell: CellDefinition): PuzzleGameCell => ({
   filledValue: "",
   isBlocked: cell.isBlocked,
   clueNumber: cell.clueNumber,
 });
 
 const initializePuzzleState = (puzzleDefinition: PuzzleDefinition): PuzzleState => {
-  return puzzleDefinition.cells.map((row: Cell[]) => row.map((cell) => initializeEmptyCell(cell)));
+  return puzzleDefinition.cells.map((row: CellDefinition[]) => row.map((cell) => initializeEmptyCell(cell)));
 };
 
 const isCellPositionValid = (

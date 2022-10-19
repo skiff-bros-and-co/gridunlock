@@ -1,6 +1,6 @@
-import { Cell, CellClue } from "./Puzzle";
+import { CellClue, CellDefinition } from "./Puzzle";
 
-export const buildCellCluesByRowAndColumn = (cells: Cell[][]): (CellClue | null)[][] => {
+export const buildCellCluesByRowAndColumn = (cells: CellDefinition[][]): (CellClue | null)[][] => {
   let acrossClueNumber: number | null = null;
   const lastDownClueNumberByColumn: { [colIndex: number]: number | null } = {};
   return cells.map((row) => {
