@@ -126,14 +126,12 @@ function bindChunkedMessageReader(
     const messageLength = dataView.getUint32(footerOffset);
     const messageId = dataView.getUint32(footerOffset + 4);
 
-    if (messageId !== currentMessage?.messageId) {
-      if (currentMessage != null) {
-        callback({
-          ...ev,
-          data: currentMessage.buffer,
-        });
-      }
+    if (currentMessage != null && messageId !== currentMessage.messageId) {
+      console.error("unexpected next message. dropping current", currentMessage.messageId, messageId);
+      currentMessage = undefined;
+    }
 
+    if (currentMessage == null) {
       currentMessage = {
         messageId,
         buffer: new Uint8Array(messageLength),
@@ -147,5 +145,13 @@ function bindChunkedMessageReader(
     const chunkData = new Uint8Array(data, 0, chunkContentSize);
     currentMessage.buffer.set(chunkData, currentMessage.bufferOffset);
     currentMessage.bufferOffset += chunkContentSize;
+
+    if (currentMessage.bufferOffset === messageLength) {
+      callback({
+        ...ev,
+        data: currentMessage.buffer,
+      });
+      currentMessage = undefined;
+    }
   });
 }
