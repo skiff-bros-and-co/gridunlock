@@ -5,7 +5,7 @@ import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
-import { SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
+import { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
 
 // This clearly provides no security other than mild obfustication.
 const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
@@ -16,6 +16,7 @@ const cellKey = (cell: CellPosition) => `${cell.column}:${cell.row}`;
 interface Events {
   cellsChanged: SyncedPuzzleState;
   loaded: PuzzleDefinition;
+  playersStateChanged: SyncedPlayerState[];
 }
 type EventHandler<E extends keyof Events> = (data: Events[E]) => void;
 type EventHandlers = {
@@ -26,9 +27,11 @@ export class RoomSyncService {
   private listeners: EventHandlers = {
     cellsChanged: [],
     loaded: [],
+    playersStateChanged: [],
   };
 
   private indexDbProvider: IndexeddbPersistence;
+  private webrtcProvider: WebrtcProvider;
   private doc = new Y.Doc();
   private cells = this.doc.getMap<SyncedPuzzleCellState>("cells");
   private info = this.doc.getMap<string | undefined>("info");
@@ -43,7 +46,7 @@ export class RoomSyncService {
       },
     };
 
-    new WebrtcProvider(roomName, this.doc, {
+    this.webrtcProvider = new WebrtcProvider(roomName, this.doc, {
       password: PASSWORD,
       peerOpts,
       // The types are BAD
@@ -86,6 +89,14 @@ export class RoomSyncService {
         }
         return this.emitWithData<"loaded">(event, this.readPuzzleDef()!, handler as EventHandler<"loaded">);
       }
+      case "playersStateChanged": {
+        this.emitWithData<"playersStateChanged">(
+          event,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          Array.from(this.webrtcProvider.awareness.getStates().values()) as any,
+          handler as EventHandler<"playersStateChanged">,
+        );
+      }
     }
   }
 
@@ -117,6 +128,10 @@ export class RoomSyncService {
 
     await this.indexDbProvider.whenSynced;
     await storeState(this.indexDbProvider, true);
+  }
+
+  updatePlayerState(state: SyncedPlayerState) {
+    this.webrtcProvider.awareness.setLocalState(state);
   }
 
   private readPuzzleDef(): PuzzleDefinition | undefined {
