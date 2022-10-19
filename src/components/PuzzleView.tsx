@@ -1,7 +1,8 @@
 import update from "immutability-helper";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection, SingleLetter } from "../state/Puzzle";
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
+import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
 import { Footer } from "./Footer";
@@ -209,6 +210,8 @@ export const PuzzleView = (props: Props): JSX.Element => {
     [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState, toggleEntryDirection],
   );
 
+  const cellWordPositions = useMemo(() => generateCellWordPositions(props.puzzleDefinition), [props.puzzleDefinition]);
+
   return (
     <div className="puzzle-view">
       <Header />
@@ -219,6 +222,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         entryDirection={entryDirection}
         selectedCell={selectedCell}
         playersState={playersState}
+        cellWordPositions={cellWordPositions}
         onSelectCell={(newSelectedCell) => {
           console.log("onSelectCell", selectedCell, newSelectedCell);
           if (

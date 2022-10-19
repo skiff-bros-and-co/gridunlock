@@ -1,6 +1,8 @@
+import classnames from "classnames";
 import { useEffect, useRef } from "react";
-import { CellPosition } from "../state/Puzzle";
+import { CellPosition, PuzzleDirection } from "../state/Puzzle";
 import type { PlayerState, PuzzleGameCell } from "../state/State";
+import { CellWordPosition } from "../utils/generateCellWordPositions";
 import { getColorForPlayer } from "../utils/getColorForPlayerIndex";
 
 interface Props {
@@ -11,6 +13,8 @@ interface Props {
   isInSelectedWord: boolean;
   playersState: PlayerState[];
   position: CellPosition;
+  wordPosition: CellWordPosition;
+  direction: PuzzleDirection | null;
 }
 
 export const PuzzleCell = (props: Props): JSX.Element => {
@@ -31,20 +35,27 @@ export const PuzzleCell = (props: Props): JSX.Element => {
     return <div className="grid-cell" />;
   }
 
-  const inputClassFilled = `grid-cell-${props.gameCell.filledValue === "" ? "empty" : "filled"}`;
-  const inputClassInSelectedWord = props.isInSelectedWord ? "grid-cell-in-selected-word" : "";
-  const hintClassSelected = props.isSelected ? "grid-cell-hint-number-selected" : "";
-
   const playerToShowForCell = props.playersState.filter(
     (p) => p.position?.row === props.position?.row && p.position?.column === props.position.column,
   )[0];
-  const inputClassSelected = playerToShowForCell != null ? "grid-cell-selected" : "";
 
   return (
-    <div className="grid-cell-wrapper">
+    <div
+      className={classnames("grid-cell-wrapper", {
+        "-player-selected": playerToShowForCell != null,
+        "-local-player-selected": props.isSelected,
+        "-in-selected-word": props.isInSelectedWord,
+      })}
+    >
       <input
         ref={inputRef}
-        className={`grid-cell ${inputClassFilled} ${inputClassSelected} ${inputClassInSelectedWord}`}
+        className={classnames("grid-cell", {
+          "-filling-across": props.direction === "across",
+          "-filling-down": props.direction === "down",
+          "-filling-word-start": props.direction && props.wordPosition[props.direction] === "start",
+          "-filling-word-middle": props.direction && props.wordPosition[props.direction] === "middle",
+          "-filling-word-end": props.direction && props.wordPosition[props.direction] === "end",
+        })}
         style={{ borderColor: getColorForPlayer(playerToShowForCell) }}
         onClick={props.onSelectCell}
         value={props.gameCell.filledValue}
@@ -52,7 +63,7 @@ export const PuzzleCell = (props: Props): JSX.Element => {
         type="text"
         autoCapitalize="characters"
       />
-      <p className={`grid-cell-hint-number ${hintClassSelected}`}>{props.gameCell.clueNumber}</p>
+      <p className={`grid-cell-hint-number`}>{props.gameCell.clueNumber}</p>
     </div>
   );
 };

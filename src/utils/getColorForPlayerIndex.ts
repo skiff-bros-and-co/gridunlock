@@ -1,10 +1,22 @@
-import { Colors } from "@blueprintjs/core";
 import { PlayerState } from "../state/State";
 
-export function getColorForPlayer(player: PlayerState | undefined) {
+const PLAYER_COLORS = [
+  "#29A634",
+  "#2965CC",
+  "#D99E0B",
+  "#D13913",
+  "#8F398F",
+  "#00B3A4",
+  "#DB2C6F",
+  "#9BBF30",
+  "#96622D",
+  "#7157D9",
+];
+
+export function getColorForPlayer(player: PlayerState | undefined): string {
   if (player == null) {
     return "transparent";
   }
 
-  return [Colors.GREEN1, Colors.BLUE1][player.index];
+  return PLAYER_COLORS[player.index];
 }
