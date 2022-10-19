@@ -124,15 +124,19 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const handleNewSync = useCallback(
     (data: SyncedPuzzleState) => {
-      setLocalState((prev) => ({
-        ...prev,
-        puzzleState: prev.puzzleState.map((row, rowIndex) =>
-          row.map((cell, colIndex) => ({
-            ...cell,
-            filledValue: data.cells[rowIndex][colIndex].value ?? "",
-          })),
-        ),
-      }));
+      setLocalState(
+        (prev) =>
+          update(prev, {
+            puzzleState: prev.puzzleState.map((row, rowIndex) =>
+              row.map((_cell, colIndex) => ({
+                filledValue: {
+                  $set: data.cells[rowIndex][colIndex].value ?? "",
+                },
+              })),
+            ),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } as any), // TODO: fix types
+      );
     },
     [setLocalState],
   );
