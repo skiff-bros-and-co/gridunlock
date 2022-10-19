@@ -109,7 +109,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         row: selectedCell.row + 1,
       });
     }
-  }, [moveSelectedCell, fillDirection]);
+  }, [selectedCell, moveSelectedCell, fillDirection]);
   const moveToPreviousCell = useCallback(() => {
     if (selectedCell && fillDirection === "across") {
       moveSelectedCell({
@@ -121,7 +121,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         row: selectedCell.row - 1,
       });
     }
-  }, [moveSelectedCell, fillDirection]);
+  }, [selectedCell, moveSelectedCell, fillDirection]);
   const togglefillDirection = useCallback(() => {
     if (fillDirection === "across") {
       updatefillDirection("down");
