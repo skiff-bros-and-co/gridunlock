@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { useEffect, useRef } from "react";
-import { CellPosition, PuzzleDirection } from "../state/Puzzle";
+import { CellPosition, FillDirection } from "../state/Puzzle";
 import type { PlayerState, PuzzleGameCell } from "../state/State";
 import { CellWordPosition } from "../utils/generateCellWordPositions";
 import { getColorForPlayer } from "../utils/getColorForPlayerIndex";
@@ -14,7 +14,7 @@ interface Props {
   playersState: PlayerState[];
   position: CellPosition;
   wordPosition: CellWordPosition;
-  direction: PuzzleDirection | null;
+  fillDirection: FillDirection | null;
 }
 
 export const PuzzleCell = (props: Props): JSX.Element => {
@@ -50,11 +50,11 @@ export const PuzzleCell = (props: Props): JSX.Element => {
       <input
         ref={inputRef}
         className={classnames("grid-cell", {
-          "-filling-across": props.direction === "across",
-          "-filling-down": props.direction === "down",
-          "-filling-word-start": props.direction && props.wordPosition[props.direction] === "start",
-          "-filling-word-middle": props.direction && props.wordPosition[props.direction] === "middle",
-          "-filling-word-end": props.direction && props.wordPosition[props.direction] === "end",
+          "-filling-across": props.fillDirection === "across",
+          "-filling-down": props.fillDirection === "down",
+          "-filling-word-start": props.fillDirection && props.wordPosition[props.fillDirection] === "start",
+          "-filling-word-middle": props.fillDirection && props.wordPosition[props.fillDirection] === "middle",
+          "-filling-word-end": props.fillDirection && props.wordPosition[props.fillDirection] === "end",
         })}
         style={{ borderColor: getColorForPlayer(playerToShowForCell) }}
         onClick={props.onSelectCell}
@@ -63,7 +63,7 @@ export const PuzzleCell = (props: Props): JSX.Element => {
         type="text"
         autoCapitalize="characters"
       />
-      <p className={`grid-cell-hint-number`}>{props.gameCell.clueNumber}</p>
+      <p className={`grid-cell-clue-number`}>{props.gameCell.clueNumber}</p>
     </div>
   );
 };

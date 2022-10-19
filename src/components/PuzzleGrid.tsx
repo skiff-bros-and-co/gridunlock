@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import type { PlayerState, PuzzleState } from "../state/State";
 import { CellWordPositions } from "../utils/generateCellWordPositions";
 import { PuzzleCell } from "./PuzzleCell";
@@ -8,7 +8,7 @@ interface Props {
   puzzleWidth: number;
   puzzleState: PuzzleState;
   puzzleDefinition: PuzzleDefinition;
-  entryDirection: PuzzleDirection | null;
+  fillDirection: FillDirection;
   selectedCell: CellPosition | null;
   playersState: PlayerState[];
   cellWordPositions: CellWordPositions;
@@ -27,9 +27,9 @@ const isInSelectedWord = (
   cellToCheck: CellPosition,
   selectedCell: CellPosition | null,
   puzzleDefinition: PuzzleDefinition,
-  entryDirection: PuzzleDirection | null,
+  fillDirection: FillDirection | null,
 ): boolean => {
-  if (!selectedCell || !entryDirection) {
+  if (!selectedCell || !fillDirection) {
     return false;
   }
 
@@ -40,7 +40,7 @@ const isInSelectedWord = (
     return false;
   }
 
-  if (entryDirection === "across") {
+  if (fillDirection === "across") {
     return checkClueInfo.acrossClueNumber === selectedClueInfo.acrossClueNumber;
   }
 
@@ -62,11 +62,11 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
           },
           props.selectedCell,
           props.puzzleDefinition,
-          props.entryDirection,
+          props.fillDirection,
         )}
         position={useMemo(() => ({ column: colIndex, row: rowIndex }), [rowIndex, colIndex])}
         wordPosition={props.cellWordPositions[rowIndex][colIndex]}
-        direction={props.entryDirection}
+        fillDirection={props.fillDirection}
         playersState={props.playersState}
         onSelectCell={() => {
           props.onSelectCell({

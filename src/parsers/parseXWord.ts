@@ -1,5 +1,5 @@
 import { unescape } from "lodash-es";
-import { Cell, CellPosition, Clue, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import { CellDefinition, CellPosition, Clue, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { buildCellCluesByRowAndColumn } from "../state/PuzzleDataBuilder";
 
 // see: https://www.xwordinfo.com/JSON/
@@ -52,12 +52,12 @@ export function parseXWord(src: XWordInfoJsonFormat): PuzzleDefinition {
   };
 }
 
-function generateCells(src: XWordInfoJsonFormat): Cell[][] {
-  const result: Cell[][] = [];
+function generateCells(src: XWordInfoJsonFormat): CellDefinition[][] {
+  const result: CellDefinition[][] = [];
 
   // grid is a flattened, row major array
   for (let row = 0; row < src.size.rows; row++) {
-    const cells: Cell[] = [];
+    const cells: CellDefinition[] = [];
     for (let column = 0; column < src.size.cols; column++) {
       const index = row * src.size.cols + column;
       const value = src.grid[index];
@@ -76,7 +76,7 @@ function generateCells(src: XWordInfoJsonFormat): Cell[][] {
   return result;
 }
 
-function parseClues(clueStrings: string[], direction: PuzzleDirection, cells: Cell[][]) {
+function parseClues(clueStrings: string[], direction: FillDirection, cells: CellDefinition[][]) {
   const result: { [clueNumber: number]: Clue } = Object.create(null);
 
   const positionLookup: { [clueNumber: number]: CellPosition } = Object.create(null);

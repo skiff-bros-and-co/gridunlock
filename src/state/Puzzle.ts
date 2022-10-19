@@ -1,43 +1,7 @@
-export type SingleLetter =
-  | "A"
-  | "B"
-  | "C"
-  | "D"
-  | "E"
-  | "F"
-  | "G"
-  | "H"
-  | "I"
-  | "J"
-  | "K"
-  | "L"
-  | "M"
-  | "N"
-  | "O"
-  | "P"
-  | "Q"
-  | "R"
-  | "S"
-  | "T"
-  | "U"
-  | "V"
-  | "W"
-  | "X"
-  | "Y"
-  | "Z";
-
-export interface Cell extends CellPosition {
-  solution: string;
-  initialState: string;
-  isBlocked: boolean;
-
-  clueNumber?: number;
-}
-
 export interface Clue {
   clue: string;
   position: CellPosition;
-  direction: PuzzleDirection;
+  direction: FillDirection;
   clueNumber: number;
 }
 
@@ -55,11 +19,19 @@ export interface PuzzleClues {
   byRowAndColumn: (CellClue | null)[][];
 }
 
-export type PuzzleDirection = "down" | "across";
+export type FillDirection = "down" | "across";
 
 export interface CellPosition {
   row: number;
   column: number;
+}
+
+export interface CellDefinition extends CellPosition {
+  solution: string;
+  initialState: string;
+  isBlocked: boolean;
+
+  clueNumber?: number;
 }
 
 export interface PuzzleDefinition {
@@ -67,7 +39,7 @@ export interface PuzzleDefinition {
   author: string;
   description: string;
   copyright: string;
-  cells: Cell[][];
+  cells: CellDefinition[][];
   clues: PuzzleClues;
   width: number;
   height: number;
