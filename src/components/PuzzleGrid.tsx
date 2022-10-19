@@ -1,7 +1,8 @@
-import { useEffect } from "react";
-import type { PuzzleState } from "../state/State";
-import { PuzzleCell } from "./PuzzleCell";
+import { useEffect, useMemo } from "react";
 import { CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
+import type { PlayerState, PuzzleState } from "../state/State";
+import { CellWordPositions } from "../utils/generateCellWordPositions";
+import { PuzzleCell } from "./PuzzleCell";
 
 interface Props {
   puzzleWidth: number;
@@ -9,6 +10,8 @@ interface Props {
   puzzleDefinition: PuzzleDefinition;
   entryDirection: PuzzleDirection | null;
   selectedCell: CellPosition | null;
+  playersState: PlayerState[];
+  cellWordPositions: CellWordPositions;
   onSelectCell: (position: CellPosition | null) => void;
   onCellValueInput: (position: CellPosition, value: string) => void;
 }
@@ -61,6 +64,10 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
           props.puzzleDefinition,
           props.entryDirection,
         )}
+        position={useMemo(() => ({ column: colIndex, row: rowIndex }), [rowIndex, colIndex])}
+        wordPosition={props.cellWordPositions[rowIndex][colIndex]}
+        direction={props.entryDirection}
+        playersState={props.playersState}
         onSelectCell={() => {
           props.onSelectCell({
             row: rowIndex,

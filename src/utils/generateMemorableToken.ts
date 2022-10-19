@@ -2,7 +2,7 @@ import { TOKEN_WORDLIST } from "./wordlist";
 
 const BITS_PER_WORD = Math.floor(Math.log2(TOKEN_WORDLIST.length));
 
-export function generateMemorableToken(bits = 128) {
+export function generateMemorableToken(bits = 128, separator = "_") {
   const wordCount = Math.ceil(bits / BITS_PER_WORD);
 
   const result = [];
@@ -10,7 +10,7 @@ export function generateMemorableToken(bits = 128) {
     result.push(pickWord());
   }
 
-  return result.join("_");
+  return result.join(separator);
 }
 
 function pickWord() {

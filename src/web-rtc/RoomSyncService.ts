@@ -1,11 +1,12 @@
-import { pull } from "lodash-es";
+import { pull, sortBy, startCase } from "lodash-es";
 import SimplePeer from "simple-peer";
 import { IndexeddbPersistence, storeState } from "y-indexeddb";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
+import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
-import { SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
+import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
 
 // This clearly provides no security other than mild obfustication.
 const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
@@ -16,6 +17,7 @@ const cellKey = (cell: CellPosition) => `${cell.column}:${cell.row}`;
 interface Events {
   cellsChanged: SyncedPuzzleState;
   loaded: PuzzleDefinition;
+  playersStateChanged: SyncedPlayerState[];
 }
 type EventHandler<E extends keyof Events> = (data: Events[E]) => void;
 type EventHandlers = {
@@ -26,13 +28,19 @@ export class RoomSyncService {
   private listeners: EventHandlers = {
     cellsChanged: [],
     loaded: [],
+    playersStateChanged: [],
   };
 
   private indexDbProvider: IndexeddbPersistence;
+  private webrtcProvider: WebrtcProvider;
   private doc = new Y.Doc();
   private cells = this.doc.getMap<SyncedPuzzleCellState>("cells");
   private info = this.doc.getMap<string | undefined>("info");
   private isLoaded = false;
+  private playerInfo: SyncedPlayerInfo = {
+    name: startCase(generateMemorableToken(24, " ")),
+    joinTimeUtcMs: Date.now(),
+  };
 
   constructor(roomName: string) {
     const peerOpts: SimplePeer.Options = {
@@ -43,7 +51,7 @@ export class RoomSyncService {
       },
     };
 
-    new WebrtcProvider(roomName, this.doc, {
+    this.webrtcProvider = new WebrtcProvider(roomName, this.doc, {
       password: PASSWORD,
       peerOpts,
       // The types are BAD
@@ -60,6 +68,11 @@ export class RoomSyncService {
         this.emit("loaded");
       }
     });
+    this.webrtcProvider.awareness.on("change", () => {
+      this.emit("playersStateChanged");
+    });
+
+    this.updatePlayerPosition();
   }
 
   addEventListener<E extends keyof Events>(event: E, handler: EventHandler<E>) {
@@ -85,6 +98,17 @@ export class RoomSyncService {
           return;
         }
         return this.emitWithData<"loaded">(event, this.readPuzzleDef()!, handler as EventHandler<"loaded">);
+      }
+      case "playersStateChanged": {
+        this.emitWithData<"playersStateChanged">(
+          event,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          sortBy(
+            Array.from(this.webrtcProvider.awareness.getStates().values()) as SyncedPlayerState[],
+            (player) => player.info.joinTimeUtcMs,
+          ),
+          handler as EventHandler<"playersStateChanged">,
+        );
       }
     }
   }
@@ -117,6 +141,14 @@ export class RoomSyncService {
 
     await this.indexDbProvider.whenSynced;
     await storeState(this.indexDbProvider, true);
+  }
+
+  updatePlayerPosition(position?: CellPosition) {
+    const state: SyncedPlayerState = {
+      info: this.playerInfo,
+      position,
+    };
+    this.webrtcProvider.awareness.setLocalState(state);
   }
 
   private readPuzzleDef(): PuzzleDefinition | undefined {
