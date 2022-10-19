@@ -68,26 +68,26 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
 
   const cells: JSX.Element[] = puzzleState.flatMap((row, rowIndex) =>
     row.map((cell, colIndex) => {
-      const selectedCellColor = getSelectedCellColor(rowIndex, colIndex, playersState);
+      const inSelectedWord = isInSelectedWord(
+        {
+          row: rowIndex,
+          column: colIndex,
+        },
+        selectedCell,
+        puzzle,
+        fillDirection,
+      );
 
       return (
         <PuzzleCell
           key={`${rowIndex}-${colIndex}`}
           isSelected={isSelectedCell(rowIndex, colIndex, selectedCell)}
-          isInSelectedWord={isInSelectedWord(
-            {
-              row: rowIndex,
-              column: colIndex,
-            },
-            selectedCell,
-            puzzle,
-            fillDirection,
-          )}
+          isInSelectedWord={inSelectedWord}
           row={rowIndex}
           column={colIndex}
           wordPosition={cellWordPositions[rowIndex][colIndex]}
-          fillDirection={selectedCellColor == null ? null : fillDirection}
-          selectedColor={selectedCellColor}
+          fillDirection={inSelectedWord ? fillDirection : null}
+          selectedColor={getSelectedCellColor(rowIndex, colIndex, playersState)}
           gameCell={cell}
           onSelectCell={onSelectCell}
           onCellValueInput={onCellValueInput}
