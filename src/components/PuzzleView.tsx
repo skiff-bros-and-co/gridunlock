@@ -60,7 +60,7 @@ const getValidInput = (input: string): string | null => {
 export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
   const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
-  const [entryDirection, updateEntryDirection] = useState<FillDirection | null>("across");
+  const [fillDirection, updatefillDirection] = useState<FillDirection>("across");
   const [playersState, setPlayersState] = useState<PlayerState[]>([]);
 
   const moveSelectedCell = useCallback(
@@ -99,36 +99,36 @@ export const PuzzleView = (props: Props): JSX.Element => {
     [updatePuzzleState, puzzleState, props.syncService],
   );
   const moveToNextCell = useCallback(() => {
-    if (selectedCell && entryDirection === "across") {
+    if (selectedCell && fillDirection === "across") {
       moveSelectedCell({
         column: selectedCell.column + 1,
       });
     }
-    if (selectedCell && entryDirection === "down") {
+    if (selectedCell && fillDirection === "down") {
       moveSelectedCell({
         row: selectedCell.row + 1,
       });
     }
-  }, [moveSelectedCell, entryDirection]);
+  }, [moveSelectedCell, fillDirection]);
   const moveToPreviousCell = useCallback(() => {
-    if (selectedCell && entryDirection === "across") {
+    if (selectedCell && fillDirection === "across") {
       moveSelectedCell({
         column: selectedCell.column - 1,
       });
     }
-    if (selectedCell && entryDirection === "down") {
+    if (selectedCell && fillDirection === "down") {
       moveSelectedCell({
         row: selectedCell.row - 1,
       });
     }
-  }, [moveSelectedCell, entryDirection]);
-  const toggleEntryDirection = useCallback(() => {
-    if (entryDirection === "across") {
-      updateEntryDirection("down");
+  }, [moveSelectedCell, fillDirection]);
+  const togglefillDirection = useCallback(() => {
+    if (fillDirection === "across") {
+      updatefillDirection("down");
     } else {
-      updateEntryDirection("across");
+      updatefillDirection("across");
     }
-  }, [entryDirection, updateEntryDirection]);
+  }, [fillDirection, updatefillDirection]);
 
   const handleNewCells = useCallback(
     (data: SyncedPuzzleState) => {
@@ -194,7 +194,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         });
       }
       if (key === "Enter") {
-        toggleEntryDirection();
+        togglefillDirection();
       }
       if (key === "Backspace") {
         if (puzzleState[selectedCell.row][selectedCell.column].filledValue !== "") {
@@ -207,10 +207,38 @@ export const PuzzleView = (props: Props): JSX.Element => {
         moveToNextCell();
       }
     },
-    [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState, toggleEntryDirection],
+    [selectedCell, updateSelectedCell, props.puzzleDefinition, updatePuzzleState, puzzleState, togglefillDirection],
   );
 
   const cellWordPositions = useMemo(() => generateCellWordPositions(props.puzzleDefinition), [props.puzzleDefinition]);
+
+  const handleSelectCell = useCallback(
+    (newSelectedCell: CellPosition | null) => {
+      console.log("onSelectCell", selectedCell, newSelectedCell);
+      if (
+        selectedCell &&
+        newSelectedCell &&
+        newSelectedCell.row === selectedCell.row &&
+        newSelectedCell.column === selectedCell.column
+      ) {
+        togglefillDirection();
+      } else {
+        updateSelectedCell(newSelectedCell);
+      }
+    },
+    [selectedCell, togglefillDirection, updateSelectedCell],
+  );
+
+  const handleCellValueInput = useCallback(
+    (position: CellPosition, newValue: string) => {
+      const input = getValidInput(newValue);
+      if (input) {
+        updateCellValue(input, position);
+        moveToNextCell();
+      }
+    },
+    [updateCellValue, moveToNextCell],
+  );
 
   return (
     <div className="puzzle-view">
@@ -219,30 +247,12 @@ export const PuzzleView = (props: Props): JSX.Element => {
         puzzleState={puzzleState}
         puzzleDefinition={props.puzzleDefinition}
         puzzleWidth={props.puzzleDefinition.width}
-        entryDirection={entryDirection}
+        fillDirection={fillDirection}
         selectedCell={selectedCell}
         playersState={playersState}
         cellWordPositions={cellWordPositions}
-        onSelectCell={(newSelectedCell) => {
-          console.log("onSelectCell", selectedCell, newSelectedCell);
-          if (
-            selectedCell &&
-            newSelectedCell &&
-            newSelectedCell.row === selectedCell.row &&
-            newSelectedCell.column === selectedCell.column
-          ) {
-            toggleEntryDirection();
-          } else {
-            updateSelectedCell(newSelectedCell);
-          }
-        }}
-        onCellValueInput={(position: CellPosition, newValue: string) => {
-          const input = getValidInput(newValue);
-          if (input) {
-            updateCellValue(input, position);
-            moveToNextCell();
-          }
-        }}
+        onSelectCell={handleSelectCell}
+        onCellValueInput={handleCellValueInput}
       />
       <PuzzleClues selectedCell={selectedCell} puzzleDefinition={props.puzzleDefinition} />
       <Footer />

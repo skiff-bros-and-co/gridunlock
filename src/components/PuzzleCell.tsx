@@ -14,7 +14,7 @@ interface Props {
   playersState: PlayerState[];
   position: CellPosition;
   wordPosition: CellWordPosition;
-  direction: FillDirection | null;
+  fillDirection: FillDirection | null;
 }
 
 export const PuzzleCell = (props: Props): JSX.Element => {
@@ -50,11 +50,11 @@ export const PuzzleCell = (props: Props): JSX.Element => {
       <input
         ref={inputRef}
         className={classnames("grid-cell", {
-          "-filling-across": props.direction === "across",
-          "-filling-down": props.direction === "down",
-          "-filling-word-start": props.direction && props.wordPosition[props.direction] === "start",
-          "-filling-word-middle": props.direction && props.wordPosition[props.direction] === "middle",
-          "-filling-word-end": props.direction && props.wordPosition[props.direction] === "end",
+          "-filling-across": props.fillDirection === "across",
+          "-filling-down": props.fillDirection === "down",
+          "-filling-word-start": props.fillDirection && props.wordPosition[props.fillDirection] === "start",
+          "-filling-word-middle": props.fillDirection && props.wordPosition[props.fillDirection] === "middle",
+          "-filling-word-end": props.fillDirection && props.wordPosition[props.fillDirection] === "end",
         })}
         style={{ borderColor: getColorForPlayer(playerToShowForCell) }}
         onClick={props.onSelectCell}
