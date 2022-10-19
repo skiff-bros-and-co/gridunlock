@@ -1,6 +1,6 @@
 import update from "immutability-helper";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection, SingleLetter } from "../state/Puzzle";
+import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection } from "../state/Puzzle";
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
@@ -43,7 +43,7 @@ const isCellPositionValid = (
 
 const alphaCharacterRegex = /^[A-Za-z]$/;
 
-const getValidInput = (input: string): SingleLetter | "" | null => {
+const getValidInput = (input: string): string | null => {
   if (input.length === 0) {
     return "";
   }
@@ -51,7 +51,7 @@ const getValidInput = (input: string): SingleLetter | "" | null => {
   const inputCharacter = input.slice(-1);
 
   if (inputCharacter.match(alphaCharacterRegex)) {
-    return inputCharacter.toUpperCase() as SingleLetter;
+    return inputCharacter.toUpperCase();
   }
 
   return null;
@@ -76,7 +76,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
     [selectedCell, props.puzzleDefinition],
   );
   const updateCellValue = useCallback(
-    (newValue: SingleLetter | "", position: CellPosition) => {
+    (newValue: string, position: CellPosition) => {
       const newPuzzleState = update(puzzleState, {
         [position.row]: {
           [position.column]: {
@@ -136,7 +136,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         oldState.map((row, rowIndex) =>
           row.map((cell, colIndex) => ({
             ...cell,
-            filledValue: (data.cells[rowIndex][colIndex].value ?? "") as SingleLetter,
+            filledValue: data.cells[rowIndex][colIndex].value ?? "",
           })),
         ),
       );

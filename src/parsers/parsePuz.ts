@@ -1,4 +1,4 @@
-import { Cell, Clue, PuzzleClues, PuzzleDefinition, SingleLetter, CellClue } from "../state/Puzzle";
+import { Cell, CellClue, Clue, PuzzleClues, PuzzleDefinition } from "../state/Puzzle";
 import { SimpleBufferScanner } from "./SimpleBufferScanner";
 
 function needsAcrossNumber(column: number, row: number, cells: Cell[][]) {
@@ -129,8 +129,8 @@ export function parsePuz(source: ArrayBuffer): PuzzleDefinition {
     const row: Cell[] = [];
 
     for (let currentColumn = 0; currentColumn < width; currentColumn++) {
-      let cellState = state[currentCell].trim().toUpperCase() as SingleLetter | "-" | "." | "";
-      let cellSolution = solution[currentCell].trim().toUpperCase() as SingleLetter | ".";
+      let cellState = state[currentCell].trim().toUpperCase();
+      let cellSolution = solution[currentCell].trim().toUpperCase();
 
       if (cellState === "-") {
         cellState = "";
