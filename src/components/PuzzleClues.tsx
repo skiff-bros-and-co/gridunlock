@@ -4,10 +4,10 @@ import { PuzzleClueRow } from "./PuzzleClueRow";
 
 interface Props {
   puzzle: PuzzleDefinition;
-  selectedCell: CellPosition | null;
+  selectedCell: CellPosition | undefined;
 }
 
-const getAcrossClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | null): number | null => {
+const getAcrossClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | undefined): number | null => {
   if (cellPosition == null) {
     return null;
   }
@@ -15,7 +15,7 @@ const getAcrossClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPositio
   return puzzle.clues.byRowAndColumn[cellPosition.row][cellPosition.column]?.acrossClueNumber || null;
 };
 
-const getDownClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | null): number | null => {
+const getDownClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | undefined): number | null => {
   if (cellPosition == null) {
     return null;
   }

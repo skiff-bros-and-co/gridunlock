@@ -9,10 +9,10 @@ interface Props {
   puzzle: PuzzleDefinition;
   puzzleState: PuzzleState;
   fillDirection: FillDirection;
-  selectedCell: CellPosition | null;
+  selectedCell: CellPosition | undefined;
   playersState: PlayerState[];
   cellWordPositions: CellWordPositions;
-  onSelectCell: (position: CellPosition | null) => void;
+  onSelectCell: (position: CellPosition | undefined) => void;
   onCellValueInput: (position: CellPosition, value: string) => void;
 }
 
@@ -20,16 +20,16 @@ const setColumnCount = (columnCount: number) => {
   document.documentElement.style.setProperty("--grid-column-count", `${columnCount}`);
 };
 
-const isSelectedCell = (rowIndex: number, colIndex: number, selectedCell: CellPosition | null): boolean =>
+const isSelectedCell = (rowIndex: number, colIndex: number, selectedCell: CellPosition | undefined): boolean =>
   Boolean(selectedCell && selectedCell.column === colIndex && selectedCell.row === rowIndex);
 
 const isInSelectedWord = (
   cellToCheck: CellPosition,
-  selectedCell: CellPosition | null,
+  selectedCell: CellPosition | undefined,
   puzzle: PuzzleDefinition,
-  fillDirection: FillDirection | null,
+  fillDirection: FillDirection,
 ): boolean => {
-  if (!selectedCell || !fillDirection) {
+  if (!selectedCell) {
     return false;
   }
 
