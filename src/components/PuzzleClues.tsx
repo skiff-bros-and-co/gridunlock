@@ -1,36 +1,36 @@
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { PuzzleClueRow } from "./PuzzleClueRow";
 
 interface Props {
-  puzzleDefinition: PuzzleDefinition;
+  puzzle: PuzzleDefinition;
   selectedCell: CellPosition | null;
 }
 
-const getAcrossClueNumber = (puzzleDefinition: PuzzleDefinition, cellPosition: CellPosition | null): number | null => {
+const getAcrossClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | null): number | null => {
   if (cellPosition == null) {
     return null;
   }
 
-  return puzzleDefinition.clues.byRowAndColumn[cellPosition.row][cellPosition.column]?.acrossClueNumber || null;
+  return puzzle.clues.byRowAndColumn[cellPosition.row][cellPosition.column]?.acrossClueNumber || null;
 };
 
-const getDownClueNumber = (puzzleDefinition: PuzzleDefinition, cellPosition: CellPosition | null): number | null => {
+const getDownClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | null): number | null => {
   if (cellPosition == null) {
     return null;
   }
 
-  return puzzleDefinition.clues.byRowAndColumn[cellPosition.row][cellPosition.column]?.downClueNumber || null;
+  return puzzle.clues.byRowAndColumn[cellPosition.row][cellPosition.column]?.downClueNumber || null;
 };
 
-export const PuzzleClues = (props: Props): JSX.Element => {
+function PuzzleCluesInternal(props: Props): JSX.Element {
   const selectedAcrossClueNumber = useMemo(
-    () => getAcrossClueNumber(props.puzzleDefinition, props.selectedCell),
-    [props.puzzleDefinition, props.selectedCell],
+    () => getAcrossClueNumber(props.puzzle, props.selectedCell),
+    [props.puzzle, props.selectedCell],
   );
   const selectedDownClueNumber = useMemo(
-    () => getDownClueNumber(props.puzzleDefinition, props.selectedCell),
-    [props.puzzleDefinition, props.selectedCell],
+    () => getDownClueNumber(props.puzzle, props.selectedCell),
+    [props.puzzle, props.selectedCell],
   );
 
   return (
@@ -38,7 +38,7 @@ export const PuzzleClues = (props: Props): JSX.Element => {
       <h3 className="puzzle-clue-list-title">across</h3>
       <div className="puzzle-clues-across">
         <ul className="puzzle-clue-list">
-          {Object.values(props.puzzleDefinition.clues.across).map((clue) => (
+          {Object.values(props.puzzle.clues.across).map((clue) => (
             <PuzzleClueRow
               key={`across-${clue.clueNumber}`}
               clue={clue}
@@ -50,7 +50,7 @@ export const PuzzleClues = (props: Props): JSX.Element => {
       <h3 className="puzzle-clue-list-title">down</h3>
       <div className="puzzle-clues-down">
         <ul className="puzzle-clue-list">
-          {Object.values(props.puzzleDefinition.clues.down).map((clue) => (
+          {Object.values(props.puzzle.clues.down).map((clue) => (
             <PuzzleClueRow
               key={`down-${clue.clueNumber}`}
               clue={clue}
@@ -61,4 +61,6 @@ export const PuzzleClues = (props: Props): JSX.Element => {
       </div>
     </div>
   );
-};
+}
+
+export const PuzzleClues = memo(PuzzleCluesInternal);

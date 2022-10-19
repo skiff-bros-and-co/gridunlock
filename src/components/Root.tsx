@@ -1,6 +1,6 @@
 import { Spinner } from "@blueprintjs/core";
 import { format } from "date-fns";
-import { useEffect, useMemo, useState } from "react";
+import { StrictMode, useEffect, useMemo, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { parseXWord } from "../parsers/parseXWord";
 import { PuzzleDefinition } from "../state/Puzzle";
@@ -56,24 +56,26 @@ export function Root() {
     return new RoomSyncService(roomName);
   }, [roomName]);
 
-  const [puzzleDef, setPuzzleDef] = useState<PuzzleDefinition | undefined>(undefined);
+  const [puzzle, setPuzzle] = useState<PuzzleDefinition | undefined>(undefined);
   useEffect(() => {
     if (syncService == null) {
       return;
     }
 
-    syncService.addEventListener("loaded", setPuzzleDef);
+    syncService.addEventListener("loaded", setPuzzle);
 
-    return () => syncService.removeEventListener("loaded", setPuzzleDef);
-  }, [syncService, setPuzzleDef]);
+    return () => syncService.removeEventListener("loaded", setPuzzle);
+  }, [syncService, setPuzzle]);
 
-  const isLoading = puzzleDef === undefined;
+  const isLoading = puzzle === undefined;
   return (
-    <div className="root">
-      {!isLoading && <PuzzleView puzzleDefinition={puzzleDef} syncService={syncService!}></PuzzleView>}
-      <div className={"loading-overlay " + (isLoading ? "loading" : "")}>
-        <Spinner />
+    <StrictMode>
+      <div className="root">
+        {!isLoading && <PuzzleView puzzle={puzzle} syncService={syncService!}></PuzzleView>}
+        <div className={"loading-overlay " + (isLoading ? "loading" : "")}>
+          <Spinner />
+        </div>
       </div>
-    </div>
+    </StrictMode>
   );
 }

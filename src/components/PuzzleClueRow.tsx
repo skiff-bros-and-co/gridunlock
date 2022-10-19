@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { Clue } from "../state/Puzzle";
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
   isSelected: boolean;
 }
 
-export const PuzzleClueRow = (props: Props): JSX.Element => {
+function PuzzleClueRowInternal(props: Props): JSX.Element {
   const ref = useRef<null | HTMLLIElement>(null);
   useEffect(() => {
     if (props.isSelected) {
@@ -19,4 +19,6 @@ export const PuzzleClueRow = (props: Props): JSX.Element => {
       {props.clue.clueNumber}. {props.clue.clue}
     </li>
   );
-};
+}
+
+export const PuzzleClueRow = memo(PuzzleClueRowInternal);
