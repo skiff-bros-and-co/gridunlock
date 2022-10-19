@@ -1,14 +1,12 @@
 import classnames from "classnames";
-import { useEffect, useRef } from "react";
-import { FillDirection } from "../state/Puzzle";
+import { useCallback, useEffect, useRef } from "react";
+import { CellPosition, FillDirection } from "../state/Puzzle";
 import type { PlayerState, PuzzleGameCell } from "../state/State";
 import { CellWordPosition } from "../utils/generateCellWordPositions";
 import { getColorForPlayer } from "../utils/getColorForPlayerIndex";
 
 interface Props {
   gameCell: PuzzleGameCell;
-  onSelectCell: () => void;
-  onCellValueInput: (newValue: string) => void;
   isSelected: boolean;
   isInSelectedWord: boolean;
   playersState: PlayerState[];
@@ -16,9 +14,13 @@ interface Props {
   column: number;
   wordPosition: CellWordPosition;
   fillDirection: FillDirection | null;
+
+  onSelectCell: (position: CellPosition) => void;
+  onCellValueInput: (position: CellPosition, newValue: string) => void;
 }
 
 export const PuzzleCell = (props: Props): JSX.Element => {
+  const { row, column, onSelectCell, onCellValueInput } = props;
   const inputRef = useRef<null | HTMLInputElement>(null);
 
   useEffect(() => {
@@ -31,6 +33,15 @@ export const PuzzleCell = (props: Props): JSX.Element => {
       inputRef.current.blur();
     }
   }, [inputRef, props.isSelected]);
+
+  const handleClick = useCallback(() => {
+    onSelectCell({ row, column });
+  }, [row, column, onSelectCell]);
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => onCellValueInput({ row, column }, e.target.value),
+    [column, onCellValueInput, row],
+  );
 
   if (props.gameCell.isBlocked) {
     return <div className="grid-cell" />;
@@ -61,8 +72,8 @@ export const PuzzleCell = (props: Props): JSX.Element => {
         value={props.gameCell.filledValue}
         type="text"
         autoCapitalize="characters"
-        onClick={props.onSelectCell}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.onCellValueInput(e.target.value)}
+        onClick={handleClick}
+        onChange={handleChange}
       />
       <p className={`grid-cell-clue-number`}>{props.gameCell.clueNumber}</p>
     </div>

@@ -70,13 +70,8 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
         fillDirection={props.fillDirection}
         playersState={props.playersState}
         gameCell={cell}
-        onSelectCell={() => {
-          props.onSelectCell({
-            row: rowIndex,
-            column: colIndex,
-          });
-        }}
-        onCellValueInput={(newValue) => props.onCellValueInput({ row: rowIndex, column: colIndex }, newValue)}
+        onSelectCell={props.onSelectCell}
+        onCellValueInput={props.onCellValueInput}
       />
     )),
   );
