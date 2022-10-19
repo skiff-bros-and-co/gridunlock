@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection, SingleLetter } from "../state/Puzzle";
 import { PuzzleGameCell, PuzzleState } from "../state/State";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
-import { SyncedPuzzleState } from "../web-rtc/types";
+import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { useKeypress } from "./Hooks";
@@ -141,12 +141,21 @@ export const PuzzleView = (props: Props): JSX.Element => {
     },
     [updatePuzzleState],
   );
-
   useEffect(() => {
     props.syncService.addEventListener("cellsChanged", handleNewCells);
-
     return () => props.syncService.removeEventListener("cellsChanged", handleNewCells);
   }, [props.syncService, handleNewCells]);
+
+  const handleNewPlayersState = useCallback((state: SyncedPlayerState[]) => {
+    console.info("new state", state);
+  }, []);
+  useEffect(() => {
+    props.syncService.updatePlayerPosition(selectedCell ?? undefined);
+  }, [props.syncService, selectedCell]);
+  useEffect(() => {
+    props.syncService.addEventListener("playersStateChanged", handleNewPlayersState);
+    return () => props.syncService.removeEventListener("playersStateChanged", handleNewPlayersState);
+  }, [props.syncService, handleNewPlayersState]);
 
   useKeypress(
     (key) => {

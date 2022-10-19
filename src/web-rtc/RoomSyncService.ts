@@ -1,11 +1,12 @@
-import { pull } from "lodash-es";
+import { pull, sortBy, startCase } from "lodash-es";
 import SimplePeer from "simple-peer";
 import { IndexeddbPersistence, storeState } from "y-indexeddb";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
+import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
-import { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
+import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
 
 // This clearly provides no security other than mild obfustication.
 const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
@@ -36,6 +37,10 @@ export class RoomSyncService {
   private cells = this.doc.getMap<SyncedPuzzleCellState>("cells");
   private info = this.doc.getMap<string | undefined>("info");
   private isLoaded = false;
+  private playerInfo: SyncedPlayerInfo = {
+    name: startCase(generateMemorableToken(24, " ")),
+    joinTimeUtcMs: Date.now(),
+  };
 
   constructor(roomName: string) {
     const peerOpts: SimplePeer.Options = {
@@ -63,6 +68,11 @@ export class RoomSyncService {
         this.emit("loaded");
       }
     });
+    this.webrtcProvider.awareness.on("change", () => {
+      this.emit("playersStateChanged");
+    });
+
+    this.updatePlayerPosition();
   }
 
   addEventListener<E extends keyof Events>(event: E, handler: EventHandler<E>) {
@@ -93,7 +103,10 @@ export class RoomSyncService {
         this.emitWithData<"playersStateChanged">(
           event,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          Array.from(this.webrtcProvider.awareness.getStates().values()) as any,
+          sortBy(
+            Array.from(this.webrtcProvider.awareness.getStates().values()) as SyncedPlayerState[],
+            (player) => player.info.joinTimeUtcMs,
+          ),
           handler as EventHandler<"playersStateChanged">,
         );
       }
@@ -130,7 +143,11 @@ export class RoomSyncService {
     await storeState(this.indexDbProvider, true);
   }
 
-  updatePlayerState(state: SyncedPlayerState) {
+  updatePlayerPosition(position?: CellPosition) {
+    const state: SyncedPlayerState = {
+      info: this.playerInfo,
+      position,
+    };
     this.webrtcProvider.awareness.setLocalState(state);
   }
 

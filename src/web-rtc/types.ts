@@ -9,7 +9,11 @@ export interface SyncedPuzzleCellState {
 }
 
 export interface SyncedPlayerState {
+  info: SyncedPlayerInfo;
+  position: CellPosition | undefined;
+}
+
+export interface SyncedPlayerInfo {
   name: string;
-  position: CellPosition;
   joinTimeUtcMs: number;
 }
