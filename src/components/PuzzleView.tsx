@@ -1,7 +1,7 @@
 import update from "immutability-helper";
 import { useCallback, useEffect, useState } from "react";
 import { Cell, CellPosition, PuzzleDefinition, PuzzleDirection, SingleLetter } from "../state/Puzzle";
-import { PuzzleGameCell, PuzzleState } from "../state/State";
+import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
 import { Footer } from "./Footer";
@@ -16,7 +16,6 @@ interface Props {
 }
 
 const initializeEmptyCell = (cell: Cell): PuzzleGameCell => ({
-  author: null,
   filledValue: "",
   isBlocked: cell.isBlocked,
   clueNumber: cell.clueNumber,
@@ -61,6 +60,8 @@ export const PuzzleView = (props: Props): JSX.Element => {
   const [puzzleState, updatePuzzleState] = useState(initializePuzzleState(props.puzzleDefinition));
   const [selectedCell, updateSelectedCell] = useState<CellPosition | null>(null);
   const [entryDirection, updateEntryDirection] = useState<PuzzleDirection | null>("across");
+  const [playersState, setPlayersState] = useState<PlayerState[]>([]);
+
   const moveSelectedCell = useCallback(
     (cellPosition: Partial<CellPosition>) => {
       const newSelectedCell = {
@@ -146,9 +147,18 @@ export const PuzzleView = (props: Props): JSX.Element => {
     return () => props.syncService.removeEventListener("cellsChanged", handleNewCells);
   }, [props.syncService, handleNewCells]);
 
-  const handleNewPlayersState = useCallback((state: SyncedPlayerState[]) => {
-    console.info("new state", state);
-  }, []);
+  const handleNewPlayersState = useCallback(
+    (state: SyncedPlayerState[]) => {
+      setPlayersState(
+        state.map((player, index) => ({
+          index: index,
+          name: player.info.name,
+          position: player.position,
+        })),
+      );
+    },
+    [setPlayersState],
+  );
   useEffect(() => {
     props.syncService.updatePlayerPosition(selectedCell ?? undefined);
   }, [props.syncService, selectedCell]);
@@ -208,6 +218,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         puzzleWidth={props.puzzleDefinition.width}
         entryDirection={entryDirection}
         selectedCell={selectedCell}
+        playersState={playersState}
         onSelectCell={(newSelectedCell) => {
           console.log("onSelectCell", selectedCell, newSelectedCell);
           if (

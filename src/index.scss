@@ -14,6 +14,7 @@
 $main-background-color: #293742;
 $cell-dimension: 32px;
 $cell-background: #182026;
+$cell-selected-run-background: #202b33;
 
 .root {
   background-color: $main-background-color;
@@ -169,8 +170,6 @@ $cell-background: #182026;
       }
 
       &.grid-cell-selected {
-        background-color: $forest4;
-        border-color: white;
         border-width: 2px;
         border-style: solid;
         border-radius: 2px;
@@ -186,7 +185,7 @@ $cell-background: #182026;
     }
 
     .grid-cell-in-selected-word {
-      background-color: $forest1;
+      background-color: $cell-selected-run-background;
     }
 
     .grid-cell-hint-number {
