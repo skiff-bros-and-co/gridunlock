@@ -93,6 +93,10 @@ export const PuzzleView = (props: Props): JSX.Element => {
   const updateCellValue = useCallback(
     (newValue: string, position?: CellPosition) => {
       setLocalState((prev) => {
+        if (prev.isPuzzleWon) {
+          return prev;
+        }
+
         position ??= prev.selectedPosition;
         syncService.changeCell({
           position: position!,
@@ -159,12 +163,10 @@ export const PuzzleView = (props: Props): JSX.Element => {
     return () => syncService.removeEventListener("playersStateChanged", handleNewPlayersState);
   }, [syncService, handleNewPlayersState]);
   useEffect(() => {
-    if (isPuzzleComplete(localState.puzzleState, puzzle)) {
-      setLocalState((prev) => ({
-        ...prev,
-        isPuzzleWon: true,
-      }));
-    }
+    setLocalState((prev) => ({
+      ...prev,
+      isPuzzleWon: isPuzzleComplete(localState.puzzleState, puzzle),
+    }));
   }, [localState.puzzleState, puzzle]);
 
   useKeypress(
@@ -206,17 +208,13 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const handleCellValueInput = useCallback(
     (position: CellPosition, newValue: string) => {
-      if (localState.isPuzzleWon) {
-        return;
-      }
-
       const input = getValidInput(newValue);
       if (input) {
         updateCellValue(input, position);
         moveToNextCell("forward");
       }
     },
-    [updateCellValue, moveToNextCell, localState.isPuzzleWon],
+    [updateCellValue, moveToNextCell],
   );
 
   const handleCheckPuzzle = useCallback(() => {
