@@ -15,11 +15,12 @@ interface Props {
   selectedColor: string | undefined;
 
   onSelectCell: (position: CellPosition) => void;
+  onToggleFillDirection: () => void;
   onCellValueInput: (position: CellPosition, newValue: string) => void;
 }
 
 function PuzzleCellInternal(props: Props): JSX.Element {
-  const { row, column, selectedColor, onSelectCell, onCellValueInput } = props;
+  const { row, column, selectedColor, isSelected, onSelectCell, onToggleFillDirection, onCellValueInput } = props;
   const inputRef = useRef<null | HTMLInputElement>(null);
 
   useEffect(() => {
@@ -34,8 +35,12 @@ function PuzzleCellInternal(props: Props): JSX.Element {
   }, [inputRef, props.isSelected]);
 
   const handleClick = useCallback(() => {
-    onSelectCell({ row, column });
-  }, [row, column, onSelectCell]);
+    if (isSelected) {
+      onToggleFillDirection();
+    } else {
+      onSelectCell({ row, column });
+    }
+  }, [isSelected, onToggleFillDirection, onSelectCell, row, column]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => onCellValueInput({ row, column }, e.target.value),

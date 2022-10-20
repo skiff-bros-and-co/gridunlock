@@ -13,6 +13,7 @@ interface Props {
   playersState: PlayerState[];
   cellWordPositions: CellWordPositions;
   onSelectCell: (position: CellPosition | undefined) => void;
+  onToggleFillDirection: () => void;
   onCellValueInput: (position: CellPosition, value: string) => void;
 }
 
@@ -48,9 +49,10 @@ const isInSelectedWord = (
 };
 
 function getSelectedCellColor(row: number, column: number, playersState: PlayerState[]) {
-  const player = playersState.filter((p) => p.position?.row === row && p.position?.column === column)[0];
+  const playersOnCell = playersState.filter((p) => p.position?.row === row && p.position?.column === column);
+  const playerToShow = playersOnCell.find((p) => p.isLocalPlayer) ?? playersOnCell[0];
 
-  return getColorForPlayer(player);
+  return getColorForPlayer(playerToShow);
 }
 
 export const PuzzleGrid = (props: Props): JSX.Element => {
@@ -63,6 +65,7 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
     playersState,
     onCellValueInput,
     onSelectCell,
+    onToggleFillDirection,
   } = props;
   useEffect(() => setColumnCount(puzzle.width), [puzzle.width]);
 
@@ -89,6 +92,7 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
           fillDirection={inSelectedWord ? fillDirection : null}
           selectedColor={getSelectedCellColor(rowIndex, colIndex, playersState)}
           gameCell={cell}
+          onToggleFillDirection={onToggleFillDirection}
           onSelectCell={onSelectCell}
           onCellValueInput={onCellValueInput}
         />
