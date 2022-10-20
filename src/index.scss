@@ -2,6 +2,7 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 @import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+@import "~@fontsource/libre-franklin/variable.css";
 
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
@@ -10,6 +11,8 @@
   --minimum-cell-size: 20px;
   --minimum-clue-list-size: 120px;
   --cell-dimension: max(calc(min(70vh, 70vw) / var(--grid-column-count)), var(--minimum-cell-size));
+  --cell-font-size: 14px;
+  --cell-clue-font-size: calc(var(--cell-font-size) * 0.4);
 }
 
 $main-background-color: #293742;
@@ -19,12 +22,16 @@ $selected-clue-background: #404854;
 $selected-clue-border: #e1e8ed;
 $selected-clue-border-width: 1px;
 
+body {
+  font-family: "Libre FranklinVariable";
+  font-variation-settings: "wght" 400;
+}
+
 .root {
   background-color: $main-background-color;
   height: 100vh;
   width: 100vw;
   padding: 20px;
-  font-family: "Libre Franklin";
 
   overflow: auto;
 }
@@ -125,7 +132,7 @@ $selected-clue-border-width: 1px;
 
   .selected-puzzle-clue {
     background-color: $selected-clue-background;
-    font-weight: 600;
+    font-variation-settings: "wght" 600;
     box-shadow: inset 0 0 0 $selected-clue-border-width $selected-clue-border;
   }
 
@@ -169,7 +176,7 @@ $selected-clue-border-width: 1px;
 
   &.-local-player-selected {
     .grid-cell-clue-number {
-      font-weight: 600;
+      font-variation-settings: "wght" 600;
     }
   }
 
@@ -226,14 +233,12 @@ $selected-clue-border-width: 1px;
     background-color: $cell-background;
     height: var(--cell-dimension);
     width: var(--cell-dimension);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     text-align: center;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: var(--cell-font-size);
+    font-variation-settings: "wght" 600;
     caret-color: transparent;
     border: none;
+    padding-top: calc(var(--cell-clue-font-size) + 1px);
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -249,12 +254,13 @@ $selected-clue-border-width: 1px;
 
   .grid-cell-clue-number {
     position: absolute;
-    top: 2px;
+    top: 1px;
     left: 2px;
     pointer-events: none;
     color: $light-gray1;
     background: transparent;
-    font-size: xx-small;
+    font-size: var(--cell-clue-font-size);
+    font-variation-settings: "wght" 600;
   }
 }
 
