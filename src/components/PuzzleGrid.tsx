@@ -13,6 +13,7 @@ interface Props {
   playersState: PlayerState[];
   cellWordPositions: CellWordPositions;
   onSelectCell: (position: CellPosition | undefined) => void;
+  onToggleFillDirection: () => void;
   onCellValueInput: (position: CellPosition, value: string) => void;
 }
 
@@ -63,6 +64,7 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
     playersState,
     onCellValueInput,
     onSelectCell,
+    onToggleFillDirection,
   } = props;
   useEffect(() => setColumnCount(puzzle.width), [puzzle.width]);
 
@@ -89,6 +91,7 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
           fillDirection={inSelectedWord ? fillDirection : null}
           selectedColor={getSelectedCellColor(rowIndex, colIndex, playersState)}
           gameCell={cell}
+          onToggleFillDirection={onToggleFillDirection}
           onSelectCell={onSelectCell}
           onCellValueInput={onCellValueInput}
         />

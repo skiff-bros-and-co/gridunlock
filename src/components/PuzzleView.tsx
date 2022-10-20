@@ -209,25 +209,10 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const handleSelectCell = useCallback(
     (newSelectedCell: CellPosition | undefined) => {
-      setLocalState((prev) => {
-        console.log("onSelectCell", prev.selectedPosition, newSelectedCell);
-        if (
-          prev.selectedPosition &&
-          newSelectedCell &&
-          newSelectedCell.row === prev.selectedPosition.row &&
-          newSelectedCell.column === prev.selectedPosition.column
-        ) {
-          return {
-            ...prev,
-            fillDirection: prev.fillDirection === "across" ? "down" : "across",
-          };
-        } else {
-          return {
-            ...prev,
-            selectedPosition: newSelectedCell,
-          };
-        }
-      });
+      setLocalState((prev) => ({
+        ...prev,
+        selectedPosition: newSelectedCell,
+      }));
     },
     [setLocalState],
   );
@@ -258,6 +243,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         playersState={playersState}
         cellWordPositions={cellWordPositions}
         onSelectCell={handleSelectCell}
+        onToggleFillDirection={togglefillDirection}
         onCellValueInput={handleCellValueInput}
       />
       <PuzzleClues selectedCell={localState.selectedPosition} puzzle={puzzle} />
