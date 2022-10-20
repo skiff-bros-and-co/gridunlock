@@ -47,7 +47,7 @@ function nextCell(
     direction === "across" ? [puzzle.width, puzzle.height] : [puzzle.height, puzzle.width];
 
   const nextPrimary = (primary + distance + primaryLimit) % primaryLimit;
-  const secondaryDelta = Math.trunc((primary + distance) / primaryLimit);
+  const secondaryDelta = Math.floor((primary + distance) / primaryLimit);
   const nextSecondary = (secondary + secondaryDelta + secondaryLimit) % secondaryLimit;
 
   return direction === "across"
