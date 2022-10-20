@@ -5,6 +5,7 @@ import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
+import { CellValidState } from "../utils/validatePuzzleState";
 import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
 import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
 
@@ -126,6 +127,21 @@ export class RoomSyncService {
     this.cells.set(cellKey(position), value);
   }
 
+  markInvalidCells(validation: CellValidState[][]) {
+    this.doc.transact(() => {
+      for (let row = 0; row < validation.length; row++) {
+        for (let column = 0; column < validation[row].length; column++) {
+          const key = cellKey({ row, column });
+          const prev = this.cells.get(key)!;
+          this.cells.set(key, {
+            ...prev,
+            isMarkedIncorrect: validation[row][column] === "incorrect",
+          });
+        }
+      }
+    });
+  }
+
   async initPuzzle(puzzleDef: PuzzleDefinition) {
     const width = puzzleDef.width;
     const height = puzzleDef.height;
@@ -133,7 +149,7 @@ export class RoomSyncService {
     this.doc.transact(() => {
       for (let row = 0; row < height; row++) {
         for (let column = 0; column < width; column++) {
-          this.cells.set(cellKey({ row, column }), { value: "" });
+          this.cells.set(cellKey({ row, column }), { value: "", isMarkedIncorrect: false });
         }
       }
 

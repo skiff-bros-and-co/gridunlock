@@ -94,31 +94,15 @@ export const PuzzleView = (props: Props): JSX.Element => {
     (newValue: string, position?: CellPosition) => {
       setLocalState((prev) => {
         position ??= prev.selectedPosition;
-        const newPuzzleState = update(prev.puzzleState, {
-          [position!.row]: {
-            [position!.column]: {
-              filledValue: {
-                // TODO: set author here
-                $set: newValue,
-              },
-              isMarkedIncorrect: {
-                $set: false,
-              },
-            },
-          },
-        });
-
         syncService.changeCell({
           position: position!,
           value: {
             value: newValue,
+            isMarkedIncorrect: false,
           },
         });
 
-        return {
-          ...prev,
-          puzzleState: newPuzzleState,
-        };
+        return prev;
       });
     },
     [syncService],
@@ -139,6 +123,9 @@ export const PuzzleView = (props: Props): JSX.Element => {
             row.map((_cell, colIndex) => ({
               filledValue: {
                 $set: data.cells[rowIndex][colIndex].value ?? "",
+              },
+              isMarkedIncorrect: {
+                $set: data.cells[rowIndex][colIndex].isMarkedIncorrect,
               },
             })),
           ),
@@ -234,20 +221,10 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const handleCheckPuzzle = useCallback(() => {
     setLocalState((prev) => {
-      const validation = validatePuzzleState(prev.puzzleState, puzzle);
-
-      return update(prev, {
-        puzzleState: prev.puzzleState.map((row, rowIndex) =>
-          row.map((_cell, colIndex) => ({
-            isMarkedIncorrect: {
-              $set: validation[rowIndex][colIndex] === "incorrect",
-            },
-          })),
-        ),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any); // TODO: fix types
+      syncService.markInvalidCells(validatePuzzleState(prev.puzzleState, puzzle));
+      return prev;
     });
-  }, [puzzle]);
+  }, [puzzle, syncService]);
 
   return (
     <div className={classnames("puzzle-view", { "-puzzle-won": localState.isPuzzleWon })}>
