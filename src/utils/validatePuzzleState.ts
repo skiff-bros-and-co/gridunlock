@@ -15,7 +15,8 @@ export function validatePuzzleState(puzzleState: PuzzleState, puzzle: PuzzleDefi
         return "empty";
       }
 
-      if (cellState.filledValue !== cell.solution) {
+      // NOTE: This allows rebus' answers to match any of the valid letters
+      if (!cell.solution.includes(cellState.filledValue)) {
         return "incorrect";
       }
 
