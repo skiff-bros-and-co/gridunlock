@@ -1,4 +1,5 @@
 import { Spinner } from "@blueprintjs/core";
+import classNames from "classnames";
 import { format } from "date-fns";
 import { StrictMode, useEffect, useMemo, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
@@ -72,7 +73,7 @@ export function Root() {
     <StrictMode>
       <div className="root">
         {!isLoading && <PuzzleView puzzle={puzzle} syncService={syncService!}></PuzzleView>}
-        <div className={"loading-overlay " + (isLoading ? "loading" : "")}>
+        <div className={classNames("loading-overlay", { loading: isLoading })}>
           <Spinner />
         </div>
       </div>

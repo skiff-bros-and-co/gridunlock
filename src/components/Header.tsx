@@ -21,7 +21,7 @@ function HeaderInternal(props: Props): JSX.Element {
   }, []);
 
   return (
-    <div className="page-header">
+    <div className="header">
       <h1>Grid Unlock</h1>
       <img src={gridUnlockIcon} className="grid-unlock-icon" alt="Grid Unlock Logo" />
       <ButtonGroup className="buttons" minimal={true}>

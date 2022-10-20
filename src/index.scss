@@ -32,31 +32,31 @@ body {
   padding: 20px;
 
   overflow: auto;
-}
 
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  opacity: 0;
-  z-index: 9999;
-  transition: 200ms ease-in opacity;
+  .loading-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    z-index: 9999;
+    transition: 200ms ease-in opacity;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  background-color: $main-background-color;
-  pointer-events: none;
+    background-color: $main-background-color;
+    pointer-events: none;
 
-  &.loading {
-    opacity: 1;
+    &.loading {
+      opacity: 1;
+    }
   }
 }
 
-.page-header {
+.header {
   grid-area: header;
   display: flex;
   flex-direction: row;
@@ -72,35 +72,28 @@ body {
     margin-left: 10px;
     width: 150px;
   }
-}
 
-.grid-unlock-icon {
-  margin-left: 8px;
-  height: 28px;
-  width: 28px;
+  .grid-unlock-icon {
+    margin-left: 8px;
+    height: 28px;
+    width: 28px;
+  }
 }
 
 .puzzle-view {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 10vh 95vh 5vh;
-  grid-template-rows: auto;
   grid-template-areas:
     "main header"
-    "main sidebar"
-    "footer footer";
+    "main sidebar";
   justify-items: center;
 
   &.-puzzle-won {
-    .grid-cell-wrapper .grid-cell {
+    .puzzle-cell.unblocked {
       background: darken(#0a6640, 5%);
     }
   }
-}
-
-.footer {
-  padding-top: 30px;
-  grid-area: footer;
 }
 
 .puzzle-clues-desktop {
@@ -165,7 +158,7 @@ body {
   }
 }
 
-.grid-cell-wrapper {
+.puzzle-cell {
   --border-width: 2px;
   --inner-dimension: calc(var(--cell-dimension) - 2 * var(--border-width));
   --cell-height: calc(var(--inner-dimension) * 0.66);
@@ -173,7 +166,6 @@ body {
   --separator: 1px;
   --cell-font-size: calc(var(--letter-height) - var(--separator));
 
-  background-color: $cell-background;
   height: var(--cell-dimension);
   width: var(--cell-dimension);
   border: var(--border-width) solid transparent;
@@ -181,7 +173,7 @@ body {
   flex-direction: column;
   line-height: 1;
 
-  .grid-cell {
+  .content {
     height: var(--cell-height);
     width: var(--inner-dimension);
     border: none;
@@ -205,7 +197,7 @@ body {
     }
   }
 
-  .grid-cell-clue-number {
+  .clue-number {
     pointer-events: none;
     color: $light-gray1;
     background: transparent;
@@ -216,8 +208,12 @@ body {
     margin: 0;
   }
 
+  &.-unblocked {
+    background-color: $cell-background;
+  }
+
   &.-local-player-selected {
-    .grid-cell-clue-number {
+    .clue-number {
       font-variation-settings: "wght" 600;
     }
   }
@@ -264,7 +260,7 @@ body {
   }
 
   &.-marked-incorrect {
-    .grid-cell {
+    .content {
       color: $red3;
     }
   }
