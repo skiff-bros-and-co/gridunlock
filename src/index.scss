@@ -1,6 +1,7 @@
 @import "~normalize.css";
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
@@ -211,6 +212,12 @@ $selected-clue-border-width: 1px;
           );
         }
       }
+    }
+  }
+
+  &.-marked-incorrect {
+    .grid-cell {
+      color: $red1;
     }
   }
 

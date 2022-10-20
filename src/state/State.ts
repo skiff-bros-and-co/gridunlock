@@ -4,6 +4,7 @@ export interface PuzzleGameCell {
   filledValue: string;
   isBlocked: boolean;
   clueNumber?: number;
+  isMarkedIncorrect: boolean;
 }
 
 export type PuzzleState = PuzzleGameCell[][];

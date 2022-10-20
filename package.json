@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^4.11.4",
+    "@blueprintjs/popover2": "^1.7.4",
     "@cloudflare/pages-plugin-sentry": "^1.0.0",
     "bs58": "^5.0.0",
     "bundlemon": "^1.4.0",

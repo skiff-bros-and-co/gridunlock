@@ -6,6 +6,7 @@ import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { getNextCell } from "../utils/getNextCell";
 import { isPuzzleComplete } from "../utils/isPuzzleComplete";
+import { validatePuzzleState } from "../utils/validatePuzzleState";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
 import { Footer } from "./Footer";
@@ -30,6 +31,7 @@ const initializeEmptyCell = (cell: CellDefinition): PuzzleGameCell => ({
   filledValue: "",
   isBlocked: cell.isBlocked,
   clueNumber: cell.clueNumber,
+  isMarkedIncorrect: false,
 });
 
 const initializePuzzleState = (puzzle: PuzzleDefinition): PuzzleState => {
@@ -98,6 +100,9 @@ export const PuzzleView = (props: Props): JSX.Element => {
               filledValue: {
                 // TODO: set author here
                 $set: newValue,
+              },
+              isMarkedIncorrect: {
+                $set: false,
               },
             },
           },
@@ -227,9 +232,26 @@ export const PuzzleView = (props: Props): JSX.Element => {
     [updateCellValue, moveToNextCell, localState.isPuzzleWon],
   );
 
+  const handleCheckPuzzle = useCallback(() => {
+    setLocalState((prev) => {
+      const validation = validatePuzzleState(prev.puzzleState, puzzle);
+
+      return update(prev, {
+        puzzleState: prev.puzzleState.map((row, rowIndex) =>
+          row.map((_cell, colIndex) => ({
+            isMarkedIncorrect: {
+              $set: validation[rowIndex][colIndex] === "incorrect",
+            },
+          })),
+        ),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any); // TODO: fix types
+    });
+  }, [puzzle]);
+
   return (
     <div className={classnames("puzzle-view", { "-puzzle-won": localState.isPuzzleWon })}>
-      <Header />
+      <Header onCheckPuzzle={handleCheckPuzzle} />
       <PuzzleGrid
         puzzleState={localState.puzzleState}
         puzzle={puzzle}
