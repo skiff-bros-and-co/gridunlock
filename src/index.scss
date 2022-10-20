@@ -11,8 +11,6 @@
   --minimum-cell-size: 20px;
   --minimum-clue-list-size: 120px;
   --cell-dimension: max(calc(min(70vh, 70vw) / var(--grid-column-count)), var(--minimum-cell-size));
-  --cell-font-size: 14px;
-  --cell-clue-font-size: calc(var(--cell-font-size) * 0.4);
 }
 
 $main-background-color: #293742;
@@ -160,12 +158,20 @@ body {
     grid-template-rows: repeat(auto-fill, var(--cell-dimension));
     column-gap: 1px;
     row-gap: 1px;
+
+    * {
+      user-select: none;
+    }
   }
 }
 
 .grid-cell-wrapper {
   --border-width: 2px;
   --inner-dimension: calc(var(--cell-dimension) - 2 * var(--border-width));
+  --cell-height: calc(var(--inner-dimension) * 0.66);
+  --clue-height: calc(var(--inner-dimension) - var(--cell-height));
+  --separator: 1px;
+  --cell-font-size: calc(var(--letter-height) - var(--separator));
 
   background-color: $cell-background;
   height: var(--cell-dimension);
@@ -173,6 +179,42 @@ body {
   border: var(--border-width) solid transparent;
   display: flex;
   flex-direction: column;
+  line-height: 1;
+
+  .grid-cell {
+    height: var(--cell-height);
+    width: var(--inner-dimension);
+    border: none;
+    padding: var(--separator) 0 0 0;
+
+    text-align: center;
+    font-size: var(--cell-font-size);
+    font-variation-settings: "wght" 600;
+    caret-color: transparent;
+    background: transparent;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .grid-cell-clue-number {
+    pointer-events: none;
+    color: $light-gray1;
+    background: transparent;
+    font-size: var(--clue-height);
+    font-variation-settings: "wght" 600;
+    height: var(--clue-height);
+    width: var(--inner-dimension);
+    margin: 0;
+  }
 
   &.-local-player-selected {
     .grid-cell-clue-number {
@@ -225,41 +267,6 @@ body {
     .grid-cell {
       color: $red3;
     }
-  }
-
-  .grid-cell {
-    height: calc(var(--inner-dimension) - var(--cell-clue-font-size));
-    width: var(--inner-dimension);
-    border: none;
-    padding: 0;
-
-    text-align: center;
-    font-size: var(--cell-font-size);
-    font-variation-settings: "wght" 600;
-    caret-color: transparent;
-    background: transparent;
-
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  .grid-cell-clue-number {
-    pointer-events: none;
-    color: $light-gray1;
-    background: transparent;
-    font-size: var(--cell-clue-font-size);
-    font-variation-settings: "wght" 600;
-    height: var(--cell-clue-font-size);
-    width: var(--inner-dimension);
-    margin: 0;
   }
 }
 
