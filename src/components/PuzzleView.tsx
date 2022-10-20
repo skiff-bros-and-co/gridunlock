@@ -4,6 +4,7 @@ import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from ".
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { getNextCell } from "../utils/getNextCell";
+import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
 import { Footer } from "./Footer";
@@ -21,6 +22,7 @@ interface LocalState {
   selectedPosition: CellPosition | undefined;
   fillDirection: FillDirection;
   puzzleState: PuzzleState;
+  isPuzzleWon: boolean;
 }
 
 const initializeEmptyCell = (cell: CellDefinition): PuzzleGameCell => ({
@@ -57,6 +59,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
     fillDirection: "across",
     selectedPosition: undefined,
     puzzleState: initializePuzzleState(puzzle),
+    isPuzzleWon: false,
   }));
 
   const moveToNextCell = useCallback(
@@ -164,6 +167,14 @@ export const PuzzleView = (props: Props): JSX.Element => {
     syncService.addEventListener("playersStateChanged", handleNewPlayersState);
     return () => syncService.removeEventListener("playersStateChanged", handleNewPlayersState);
   }, [syncService, handleNewPlayersState]);
+  useEffect(() => {
+    if (isPuzzleComplete(localState.puzzleState, puzzle)) {
+      setLocalState((prev) => ({
+        ...prev,
+        isPuzzleWon: true,
+      }));
+    }
+  }, [localState.puzzleState, puzzle]);
 
   useKeypress(
     (key) => {
