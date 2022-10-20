@@ -22,8 +22,8 @@ function HeaderInternal(props: Props): JSX.Element {
 
   return (
     <div className="header">
-      <h1>Grid Unlock</h1>
-      <img src={gridUnlockIcon} className="grid-unlock-icon" alt="Grid Unlock Logo" />
+      <h1 className="app-title">Grid Unlock</h1>
+      <img src={gridUnlockIcon} className="app-icon" alt="Grid Unlock Logo" />
       <ButtonGroup className="buttons" minimal={true}>
         <Button icon="grid-view" onClick={newRoom}>
           New Room
