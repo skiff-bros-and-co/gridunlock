@@ -8,8 +8,6 @@ import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { PuzzleView } from "./PuzzleView";
 
-import "@fontsource/libre-franklin";
-
 const ROOM_PATH_PREFIX = "/r/";
 
 export function Root() {

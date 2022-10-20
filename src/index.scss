@@ -2,6 +2,7 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 @import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+@import "~@fontsource/libre-franklin/variable.css";
 
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
@@ -19,12 +20,16 @@ $selected-clue-background: #404854;
 $selected-clue-border: #e1e8ed;
 $selected-clue-border-width: 1px;
 
+body {
+  font-family: "Libre FranklinVariable";
+  font-variation-settings: "wght" 400;
+}
+
 .root {
   background-color: $main-background-color;
   height: 100vh;
   width: 100vw;
   padding: 20px;
-  font-family: "Libre Franklin";
 
   overflow: auto;
 }
@@ -125,7 +130,7 @@ $selected-clue-border-width: 1px;
 
   .selected-puzzle-clue {
     background-color: $selected-clue-background;
-    font-weight: 600;
+    font-variation-settings: "wght" 600;
     box-shadow: inset 0 0 0 $selected-clue-border-width $selected-clue-border;
   }
 
@@ -153,87 +158,40 @@ $selected-clue-border-width: 1px;
     grid-template-rows: repeat(auto-fill, var(--cell-dimension));
     column-gap: 1px;
     row-gap: 1px;
+
+    * {
+      user-select: none;
+    }
   }
 }
 
 .grid-cell-wrapper {
-  position: relative;
+  --border-width: 2px;
+  --inner-dimension: calc(var(--cell-dimension) - 2 * var(--border-width));
+  --cell-height: calc(var(--inner-dimension) * 0.66);
+  --clue-height: calc(var(--inner-dimension) - var(--cell-height));
+  --separator: 1px;
+  --cell-font-size: calc(var(--letter-height) - var(--separator));
 
-  &.-player-selected {
-    .grid-cell {
-      border-width: 2px;
-      border-style: solid;
-      border-radius: 2px;
-    }
-  }
-
-  &.-local-player-selected {
-    .grid-cell-clue-number {
-      font-weight: 600;
-    }
-  }
-
-  &.-in-selected-word {
-    .grid-cell {
-      background-color: $selected-clue-background;
-      box-shadow: 0 0 0 $selected-clue-border-width $selected-clue-border;
-
-      &.-filling-across {
-        &.-filling-word-start {
-          clip-path: inset(
-            #{-$selected-clue-border-width} 0 #{-$selected-clue-border-width} #{-$selected-clue-border-width}
-          );
-        }
-
-        &.-filling-word-middle {
-          clip-path: inset(#{-$selected-clue-border-width} 0 #{-$selected-clue-border-width} 0);
-        }
-
-        &.-filling-word-end {
-          clip-path: inset(
-            #{-$selected-clue-border-width} #{-$selected-clue-border-width} #{-$selected-clue-border-width} 0
-          );
-        }
-      }
-
-      &.-filling-down {
-        &.-filling-word-start {
-          clip-path: inset(
-            #{-$selected-clue-border-width} #{-$selected-clue-border-width} 0 #{-$selected-clue-border-width}
-          );
-        }
-
-        &.-filling-word-middle {
-          clip-path: inset(0 #{-$selected-clue-border-width} 0 #{-$selected-clue-border-width});
-        }
-
-        &.-filling-word-end {
-          clip-path: inset(
-            0 #{-$selected-clue-border-width} #{-$selected-clue-border-width} #{-$selected-clue-border-width}
-          );
-        }
-      }
-    }
-  }
-
-  &.-marked-incorrect {
-    .grid-cell {
-      color: $red3;
-    }
-  }
+  background-color: $cell-background;
+  height: var(--cell-dimension);
+  width: var(--cell-dimension);
+  border: var(--border-width) solid transparent;
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
 
   .grid-cell {
-    background-color: $cell-background;
-    height: var(--cell-dimension);
-    width: var(--cell-dimension);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    caret-color: transparent;
+    height: var(--cell-height);
+    width: var(--inner-dimension);
     border: none;
+    padding: var(--separator) 0 0 0;
+
+    text-align: center;
+    font-size: var(--cell-font-size);
+    font-variation-settings: "wght" 600;
+    caret-color: transparent;
+    background: transparent;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -248,13 +206,67 @@ $selected-clue-border-width: 1px;
   }
 
   .grid-cell-clue-number {
-    position: absolute;
-    top: 2px;
-    left: 2px;
     pointer-events: none;
     color: $light-gray1;
     background: transparent;
-    font-size: xx-small;
+    font-size: var(--clue-height);
+    font-variation-settings: "wght" 600;
+    height: var(--clue-height);
+    width: var(--inner-dimension);
+    margin: 0;
+  }
+
+  &.-local-player-selected {
+    .grid-cell-clue-number {
+      font-variation-settings: "wght" 600;
+    }
+  }
+
+  &.-in-selected-word {
+    background-color: $selected-clue-background;
+    box-shadow: 0 0 0 $selected-clue-border-width $selected-clue-border;
+
+    &.-filling-across {
+      &.-filling-word-start {
+        clip-path: inset(
+          #{-$selected-clue-border-width} 0 #{-$selected-clue-border-width} #{-$selected-clue-border-width}
+        );
+      }
+
+      &.-filling-word-middle {
+        clip-path: inset(#{-$selected-clue-border-width} 0 #{-$selected-clue-border-width} 0);
+      }
+
+      &.-filling-word-end {
+        clip-path: inset(
+          #{-$selected-clue-border-width} #{-$selected-clue-border-width} #{-$selected-clue-border-width} 0
+        );
+      }
+    }
+
+    &.-filling-down {
+      &.-filling-word-start {
+        clip-path: inset(
+          #{-$selected-clue-border-width} #{-$selected-clue-border-width} 0 #{-$selected-clue-border-width}
+        );
+      }
+
+      &.-filling-word-middle {
+        clip-path: inset(0 #{-$selected-clue-border-width} 0 #{-$selected-clue-border-width});
+      }
+
+      &.-filling-word-end {
+        clip-path: inset(
+          0 #{-$selected-clue-border-width} #{-$selected-clue-border-width} #{-$selected-clue-border-width}
+        );
+      }
+    }
+  }
+
+  &.-marked-incorrect {
+    .grid-cell {
+      color: $red3;
+    }
   }
 }
 
