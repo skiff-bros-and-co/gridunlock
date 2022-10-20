@@ -83,6 +83,12 @@ $selected-clue-border-width: 1px;
     "main sidebar"
     "footer footer";
   justify-items: center;
+
+  &.-puzzle-won {
+    .grid-cell-wrapper .grid-cell {
+      background: darken(#0a6640, 5%);
+    }
+  }
 }
 
 .footer {

@@ -1,3 +1,4 @@
+import classnames from "classnames";
 import update from "immutability-helper";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
@@ -233,17 +234,21 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const handleCellValueInput = useCallback(
     (position: CellPosition, newValue: string) => {
+      if (localState.isPuzzleWon) {
+        return;
+      }
+
       const input = getValidInput(newValue);
       if (input) {
         updateCellValue(input, position);
         moveToNextCell("forward");
       }
     },
-    [updateCellValue, moveToNextCell],
+    [updateCellValue, moveToNextCell, localState.isPuzzleWon],
   );
 
   return (
-    <div className="puzzle-view">
+    <div className={classnames("puzzle-view", { "-puzzle-won": localState.isPuzzleWon })}>
       <Header />
       <PuzzleGrid
         puzzleState={localState.puzzleState}
