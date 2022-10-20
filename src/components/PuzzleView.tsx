@@ -116,7 +116,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         };
       });
     },
-    [setLocalState, syncService],
+    [syncService],
   );
 
   const togglefillDirection = useCallback(() => {
@@ -124,26 +124,23 @@ export const PuzzleView = (props: Props): JSX.Element => {
       ...prev,
       fillDirection: prev.fillDirection === "across" ? "down" : "across",
     }));
-  }, [setLocalState]);
+  }, []);
 
-  const handleNewSync = useCallback(
-    (data: SyncedPuzzleState) => {
-      setLocalState(
-        (prev) =>
-          update(prev, {
-            puzzleState: prev.puzzleState.map((row, rowIndex) =>
-              row.map((_cell, colIndex) => ({
-                filledValue: {
-                  $set: data.cells[rowIndex][colIndex].value ?? "",
-                },
-              })),
-            ),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any), // TODO: fix types
-      );
-    },
-    [setLocalState],
-  );
+  const handleNewSync = useCallback((data: SyncedPuzzleState) => {
+    setLocalState(
+      (prev) =>
+        update(prev, {
+          puzzleState: prev.puzzleState.map((row, rowIndex) =>
+            row.map((_cell, colIndex) => ({
+              filledValue: {
+                $set: data.cells[rowIndex][colIndex].value ?? "",
+              },
+            })),
+          ),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any), // TODO: fix types
+    );
+  }, []);
   useEffect(() => {
     syncService.addEventListener("cellsChanged", handleNewSync);
     return () => syncService.removeEventListener("cellsChanged", handleNewSync);
@@ -156,10 +153,11 @@ export const PuzzleView = (props: Props): JSX.Element => {
           index: index,
           name: player.info.name,
           position: player.position,
+          isLocalPlayer: player.info.clientID === syncService.clientID,
         })),
       );
     },
-    [setPlayersState],
+    [syncService.clientID],
   );
   useEffect(() => {
     syncService.updatePlayerPosition(localState.selectedPosition);
@@ -207,15 +205,12 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const cellWordPositions = useMemo(() => generateCellWordPositions(puzzle), [puzzle]);
 
-  const handleSelectCell = useCallback(
-    (newSelectedCell: CellPosition | undefined) => {
-      setLocalState((prev) => ({
-        ...prev,
-        selectedPosition: newSelectedCell,
-      }));
-    },
-    [setLocalState],
-  );
+  const handleSelectCell = useCallback((newSelectedCell: CellPosition | undefined) => {
+    setLocalState((prev) => ({
+      ...prev,
+      selectedPosition: newSelectedCell,
+    }));
+  }, []);
 
   const handleCellValueInput = useCallback(
     (position: CellPosition, newValue: string) => {

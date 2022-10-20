@@ -49,9 +49,10 @@ const isInSelectedWord = (
 };
 
 function getSelectedCellColor(row: number, column: number, playersState: PlayerState[]) {
-  const player = playersState.filter((p) => p.position?.row === row && p.position?.column === column)[0];
+  const playersOnCell = playersState.filter((p) => p.position?.row === row && p.position?.column === column);
+  const playerToShow = playersOnCell.find((p) => p.isLocalPlayer) ?? playersOnCell[0];
 
-  return getColorForPlayer(player);
+  return getColorForPlayer(playerToShow);
 }
 
 export const PuzzleGrid = (props: Props): JSX.Element => {

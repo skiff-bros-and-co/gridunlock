@@ -12,4 +12,5 @@ export interface PlayerState {
   name: string;
   index: number;
   position: CellPosition | undefined;
+  isLocalPlayer: boolean;
 }

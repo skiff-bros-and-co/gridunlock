@@ -40,6 +40,7 @@ export class RoomSyncService {
   private playerInfo: SyncedPlayerInfo = {
     name: startCase(generateMemorableToken(24, " ")),
     joinTimeUtcMs: Date.now(),
+    clientID: this.doc.clientID,
   };
 
   constructor(roomName: string) {
@@ -149,6 +150,10 @@ export class RoomSyncService {
       position,
     };
     this.webrtcProvider.awareness.setLocalState(state);
+  }
+
+  get clientID() {
+    return this.doc.clientID;
   }
 
   private readPuzzleDef(): PuzzleDefinition | undefined {

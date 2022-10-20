@@ -16,4 +16,5 @@ export interface SyncedPlayerState {
 export interface SyncedPlayerInfo {
   name: string;
   joinTimeUtcMs: number;
+  clientID: number;
 }
