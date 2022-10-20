@@ -171,7 +171,7 @@ body {
   --cell-height: calc(var(--inner-dimension) * 0.66);
   --clue-height: calc(var(--inner-dimension) - var(--cell-height));
   --separator: 1px;
-  --cell-font-size: calc(var(--letter-height) - var(--separator));
+  --cell-font-size: calc(var(--cell-height) - var(--separator));
 
   height: var(--cell-dimension);
   width: var(--cell-dimension);
