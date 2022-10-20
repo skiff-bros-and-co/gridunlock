@@ -54,29 +54,27 @@ function PuzzleCellInternal(props: Props): JSX.Element {
   return (
     <div
       className={classnames("grid-cell-wrapper", {
-        "-player-selected": selectedColor != null,
         "-local-player-selected": props.isSelected,
         "-in-selected-word": props.isInSelectedWord,
         "-marked-incorrect": props.gameCell.isMarkedIncorrect,
+        "-filling-across": props.fillDirection === "across",
+        "-filling-down": props.fillDirection === "down",
+        "-filling-word-start": props.fillDirection && props.wordPosition[props.fillDirection] === "start",
+        "-filling-word-middle": props.fillDirection && props.wordPosition[props.fillDirection] === "middle",
+        "-filling-word-end": props.fillDirection && props.wordPosition[props.fillDirection] === "end",
       })}
+      style={{ borderColor: selectedColor }}
+      onClick={handleClick}
     >
+      <div className="grid-cell-clue-number">{props.gameCell.clueNumber}</div>
       <input
         ref={inputRef}
-        className={classnames("grid-cell", {
-          "-filling-across": props.fillDirection === "across",
-          "-filling-down": props.fillDirection === "down",
-          "-filling-word-start": props.fillDirection && props.wordPosition[props.fillDirection] === "start",
-          "-filling-word-middle": props.fillDirection && props.wordPosition[props.fillDirection] === "middle",
-          "-filling-word-end": props.fillDirection && props.wordPosition[props.fillDirection] === "end",
-        })}
-        style={{ borderColor: selectedColor }}
+        className="grid-cell"
         value={props.gameCell.filledValue}
         type="text"
         autoCapitalize="characters"
-        onClick={handleClick}
         onChange={handleChange}
       />
-      <p className={`grid-cell-clue-number`}>{props.gameCell.clueNumber}</p>
     </div>
   );
 }
