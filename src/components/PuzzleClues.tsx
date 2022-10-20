@@ -1,10 +1,11 @@
 import { memo, useMemo } from "react";
-import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
+import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { PuzzleClueRow } from "./PuzzleClueRow";
 
 interface Props {
   puzzle: PuzzleDefinition;
-  selectedCell: CellPosition | undefined;
+  selectedCell: CellPosition;
+  fillDirection: FillDirection;
 }
 
 const getAcrossClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | undefined): number | null => {

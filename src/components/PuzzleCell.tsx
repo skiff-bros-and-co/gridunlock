@@ -48,12 +48,12 @@ function PuzzleCellInternal(props: Props): JSX.Element {
   );
 
   if (props.gameCell.isBlocked) {
-    return <div className="grid-cell" />;
+    return <div className="puzzle-cell" />;
   }
 
   return (
     <div
-      className={classnames("grid-cell-wrapper", {
+      className={classnames("puzzle-cell -unblocked", {
         "-local-player-selected": props.isSelected,
         "-in-selected-word": props.isInSelectedWord,
         "-marked-incorrect": props.gameCell.isMarkedIncorrect,
@@ -66,10 +66,10 @@ function PuzzleCellInternal(props: Props): JSX.Element {
       style={{ borderColor: selectedColor }}
       onClick={handleClick}
     >
-      <div className="grid-cell-clue-number">{props.gameCell.clueNumber}</div>
+      <div className="clue-number">{props.gameCell.clueNumber}</div>
       <input
         ref={inputRef}
-        className="grid-cell"
+        className="content"
         value={props.gameCell.filledValue}
         type="text"
         autoCapitalize="characters"

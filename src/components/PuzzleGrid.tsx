@@ -9,10 +9,10 @@ interface Props {
   puzzle: PuzzleDefinition;
   puzzleState: PuzzleState;
   fillDirection: FillDirection;
-  selectedCell: CellPosition | undefined;
+  selectedCell: CellPosition;
   playersState: PlayerState[];
   cellWordPositions: CellWordPositions;
-  onSelectCell: (position: CellPosition | undefined) => void;
+  onSelectCell: (position: CellPosition) => void;
   onToggleFillDirection: () => void;
   onCellValueInput: (position: CellPosition, value: string) => void;
 }
@@ -26,7 +26,7 @@ const isSelectedCell = (rowIndex: number, colIndex: number, selectedCell: CellPo
 
 const isInSelectedWord = (
   cellToCheck: CellPosition,
-  selectedCell: CellPosition | undefined,
+  selectedCell: CellPosition,
   puzzle: PuzzleDefinition,
   fillDirection: FillDirection,
 ): boolean => {
