@@ -9,7 +9,6 @@ import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { validatePuzzleState } from "../utils/validatePuzzleState";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
-import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { useKeypress } from "./Hooks";
 import { PuzzleClues } from "./PuzzleClues";
@@ -21,7 +20,7 @@ interface Props {
 }
 
 interface LocalState {
-  selectedPosition: CellPosition | undefined;
+  selectedPosition: CellPosition;
   fillDirection: FillDirection;
   puzzleState: PuzzleState;
   isPuzzleWon: boolean;
@@ -37,6 +36,19 @@ const initializeEmptyCell = (cell: CellDefinition): PuzzleGameCell => ({
 const initializePuzzleState = (puzzle: PuzzleDefinition): PuzzleState => {
   return puzzle.cells.map((row: CellDefinition[]) => row.map((cell) => initializeEmptyCell(cell)));
 };
+
+function getInitPosition(puzzle: PuzzleDefinition): CellPosition {
+  const origin: CellPosition = { row: 0, column: 0 };
+  if (!puzzle.cells[0][0].isBlocked) {
+    return origin;
+  }
+
+  return getNextCell({
+    puzzle,
+    position: origin,
+    direction: "across",
+  });
+}
 
 const alphaCharacterRegex = /^[A-Za-z]$/;
 
@@ -60,7 +72,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
   const [playersState, setPlayersState] = useState<PlayerState[]>([]);
   const [localState, setLocalState] = useState<LocalState>(() => ({
     fillDirection: "across",
-    selectedPosition: undefined,
+    selectedPosition: getInitPosition(puzzle),
     puzzleState: initializePuzzleState(puzzle),
     isPuzzleWon: false,
   }));
@@ -68,8 +80,6 @@ export const PuzzleView = (props: Props): JSX.Element => {
   const moveToNextCell = useCallback(
     (direction: "forward" | "backward" | "up" | "down" | "left" | "right") => {
       setLocalState((prev) => {
-        const prevPosition: CellPosition =
-          prev.selectedPosition == null ? { column: 0, row: 0 } : prev.selectedPosition;
         const isUsingPrevDirection = direction === "forward" || direction === "backward";
 
         return {
@@ -80,7 +90,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
               : direction === "up" || direction === "down"
               ? "down"
               : "across",
-            position: prevPosition,
+            position: prev.selectedPosition,
             puzzle,
             backwards: direction === "backward" || direction === "up" || direction === "left",
           }),
@@ -199,7 +209,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const cellWordPositions = useMemo(() => generateCellWordPositions(puzzle), [puzzle]);
 
-  const handleSelectCell = useCallback((newSelectedCell: CellPosition | undefined) => {
+  const handleSelectCell = useCallback((newSelectedCell: CellPosition) => {
     setLocalState((prev) => ({
       ...prev,
       selectedPosition: newSelectedCell,
@@ -238,8 +248,11 @@ export const PuzzleView = (props: Props): JSX.Element => {
         onToggleFillDirection={togglefillDirection}
         onCellValueInput={handleCellValueInput}
       />
-      <PuzzleClues selectedCell={localState.selectedPosition} puzzle={puzzle} />
-      <Footer />
+      <PuzzleClues
+        selectedCell={localState.selectedPosition}
+        fillDirection={localState.fillDirection}
+        puzzle={puzzle}
+      />
     </div>
   );
 };
