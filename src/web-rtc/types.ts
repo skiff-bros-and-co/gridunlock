@@ -6,6 +6,7 @@ export interface SyncedPuzzleState {
 
 export interface SyncedPuzzleCellState {
   value: string;
+  isMarkedIncorrect: boolean;
 }
 
 export interface SyncedPlayerState {

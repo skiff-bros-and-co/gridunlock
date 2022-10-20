@@ -57,6 +57,7 @@ function PuzzleCellInternal(props: Props): JSX.Element {
         "-player-selected": selectedColor != null,
         "-local-player-selected": props.isSelected,
         "-in-selected-word": props.isInSelectedWord,
+        "-marked-incorrect": props.gameCell.isMarkedIncorrect,
       })}
     >
       <input
