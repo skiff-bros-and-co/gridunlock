@@ -1,9 +1,11 @@
+import classnames from "classnames";
 import update from "immutability-helper";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { getNextCell } from "../utils/getNextCell";
+import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
 import { Footer } from "./Footer";
@@ -21,6 +23,7 @@ interface LocalState {
   selectedPosition: CellPosition | undefined;
   fillDirection: FillDirection;
   puzzleState: PuzzleState;
+  isPuzzleWon: boolean;
 }
 
 const initializeEmptyCell = (cell: CellDefinition): PuzzleGameCell => ({
@@ -57,6 +60,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
     fillDirection: "across",
     selectedPosition: undefined,
     puzzleState: initializePuzzleState(puzzle),
+    isPuzzleWon: false,
   }));
 
   const moveToNextCell = useCallback(
@@ -164,6 +168,14 @@ export const PuzzleView = (props: Props): JSX.Element => {
     syncService.addEventListener("playersStateChanged", handleNewPlayersState);
     return () => syncService.removeEventListener("playersStateChanged", handleNewPlayersState);
   }, [syncService, handleNewPlayersState]);
+  useEffect(() => {
+    if (isPuzzleComplete(localState.puzzleState, puzzle)) {
+      setLocalState((prev) => ({
+        ...prev,
+        isPuzzleWon: true,
+      }));
+    }
+  }, [localState.puzzleState, puzzle]);
 
   useKeypress(
     (key) => {
@@ -222,17 +234,21 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const handleCellValueInput = useCallback(
     (position: CellPosition, newValue: string) => {
+      if (localState.isPuzzleWon) {
+        return;
+      }
+
       const input = getValidInput(newValue);
       if (input) {
         updateCellValue(input, position);
         moveToNextCell("forward");
       }
     },
-    [updateCellValue, moveToNextCell],
+    [updateCellValue, moveToNextCell, localState.isPuzzleWon],
   );
 
   return (
-    <div className="puzzle-view">
+    <div className={classnames("puzzle-view", { "-puzzle-won": localState.isPuzzleWon })}>
       <Header />
       <PuzzleGrid
         puzzleState={localState.puzzleState}
