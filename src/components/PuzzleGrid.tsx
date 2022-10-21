@@ -18,7 +18,7 @@ interface Props {
 }
 
 const setColumnCount = (columnCount: number) => {
-  document.documentElement.style.setProperty("--grid-column-count", `${columnCount}`);
+  document.documentElement.style.setProperty("--puzzle-column-count", `${columnCount}`);
 };
 
 const isSelectedCell = (rowIndex: number, colIndex: number, selectedCell: CellPosition | undefined): boolean =>

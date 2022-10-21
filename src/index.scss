@@ -7,13 +7,20 @@
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
 :root {
-  --page-padding: 20px;
-  --page-content-width: calc(100vw - 2 * var(--page-padding));
-  --cell-spacing: 1px;
-  --grid-column-count: 3;
   --minimum-cell-size: 20px;
   --minimum-clue-list-size: 120px;
-  --cell-dimension: max(calc(min(70vh, 70vw) / var(--grid-column-count)), var(--minimum-cell-size));
+
+  --puzzle-column-count: 3;
+  --puzzle-cell-spacing: 1px;
+  --puzzle-cell-size: max(calc(min(70vh, 70vw) / var(--puzzle-column-count)), var(--minimum-cell-size));
+  --puzzle-cell-selection-border-width: 2px;
+  --puzzle-cell-inner-size: calc(var(--puzzle-cell-size) - 2 * var(--puzzle-cell-selection-border-width));
+  --puzzle-cell-content-font-size: calc(var(--puzzle-cell-inner-size) * 0.66);
+  --puzzle-cell-clue-font-size: calc(var(--puzzle-cell-inner-size) - var(--puzzle-cell-content-font-size));
+
+  --virtual-keyboard-button-margin: 1vw;
+  --virtual-keyboard-button-width: calc((100vw - 11 * var(--virtual-keyboard-button-margin)) / 10);
+  --virtual-keyboard-button-height: calc(var(--virtual-keyboard-button-width) * 1.3);
 }
 
 $main-background-color: #293742;
@@ -33,7 +40,7 @@ body {
   width: 100vw;
   height: 100vh;
   height: stretch;
-  padding: var(--page-padding);
+  padding: 20px;
 
   overflow: hidden;
 
@@ -88,7 +95,7 @@ body {
 .puzzle-view {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 10vh 95vh 5vh;
+  grid-template-rows: 0fr 1fr;
   grid-template-areas:
     "main header"
     "main clues";
@@ -110,6 +117,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-self: left;
 
   .puzzle-clue-list-title {
     margin: 12px 0px;
@@ -156,10 +164,10 @@ body {
 
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(var(--grid-column-count), var(--cell-dimension));
-    grid-template-rows: repeat(auto-fill, var(--cell-dimension));
-    column-gap: var(--cell-spacing);
-    row-gap: var(--cell-spacing);
+    grid-template-columns: repeat(var(--puzzle-column-count), var(--puzzle-cell-size));
+    grid-template-rows: repeat(auto-fill, var(--puzzle-cell-size));
+    column-gap: var(--puzzle-cell-spacing);
+    row-gap: var(--puzzle-cell-spacing);
 
     * {
       user-select: none;
@@ -172,14 +180,9 @@ body {
 }
 
 .puzzle-cell {
-  --border-width: 2px;
-  --inner-dimension: calc(var(--cell-dimension) - 2 * var(--border-width));
-  --content-height: calc(var(--inner-dimension) * 0.66);
-  --clue-height: calc(var(--inner-dimension) - var(--content-height));
-
-  height: var(--cell-dimension);
-  width: var(--cell-dimension);
-  border: var(--border-width) solid transparent;
+  height: var(--puzzle-cell-size);
+  width: var(--puzzle-cell-size);
+  border: var(--puzzle-cell-selection-border-width) solid transparent;
   position: relative;
 
   .content {
@@ -188,17 +191,17 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    height: var(--inner-dimension);
-    width: var(--inner-dimension);
+    height: var(--puzzle-cell-inner-size);
+    width: var(--puzzle-cell-inner-size);
 
     border: none;
     padding: 0;
-    padding-top: var(--clue-height);
+    padding-top: var(--puzzle-cell-clue-font-size);
     margin: 0;
     line-height: 1;
 
     text-align: center;
-    font-size: var(--content-height);
+    font-size: var(--puzzle-cell-content-font-size);
     font-variation-settings: "wght" 600;
     caret-color: transparent;
     background: transparent;
@@ -215,7 +218,7 @@ body {
     pointer-events: none;
     color: $light-gray1;
     background: transparent;
-    font-size: var(--clue-height);
+    font-size: var(--puzzle-cell-clue-font-size);
     font-variation-settings: "wght" 600;
     margin: 0;
     line-height: 1;
@@ -280,11 +283,7 @@ body {
 }
 
 .mobile-footer {
-  --button-margin: 1vw;
-  --button-width: calc((100vw - 11 * var(--button-margin)) / 10);
-  --button-height: calc(var(--button-width) * 1.3);
-
-  height: calc(3 * var(--button-height) + 4 * var(--button-margin));
+  height: calc(3 * var(--virtual-keyboard-button-height) + 4 * var(--virtual-keyboard-button-margin));
   grid-area: mobile-footer;
   display: none;
 
@@ -304,19 +303,19 @@ body {
     }
 
     .hg-row {
-      flex: 0 0 var(--button-height);
+      flex: 0 0 var(--virtual-keyboard-button-height);
 
       display: flex;
       justify-content: center;
-      margin-top: var(--button-margin);
+      margin-top: var(--virtual-keyboard-button-margin);
 
       &:last-child {
-        margin-bottom: var(--button-margin);
+        margin-bottom: var(--virtual-keyboard-button-margin);
       }
     }
 
     .hg-button {
-      flex: 0 0 var(--button-width);
+      flex: 0 0 var(--virtual-keyboard-button-width);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -326,10 +325,10 @@ body {
       font-size: 14px;
 
       background: $gray1;
-      margin-left: var(--button-margin);
+      margin-left: var(--virtual-keyboard-button-margin);
 
       &:last-child {
-        margin-right: var(--button-margin);
+        margin-right: var(--virtual-keyboard-button-margin);
       }
 
       &.hg-activeButton {
@@ -352,7 +351,7 @@ body {
 @media only screen and (max-width: 750px) {
   :root {
     --page-padding: 0px;
-    --cell-dimension: calc(var(--page-content-width) / var(--grid-column-count) - 2 * var(--cell-spacing));
+    --puzzle-cell-size: calc(100vw / var(--puzzle-column-count) - 2 * var(--puzzle-cell-spacing));
   }
 
   // TODO: Add info panel
