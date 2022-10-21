@@ -207,6 +207,7 @@ body {
     background: transparent;
     overflow: hidden;
     user-select: none;
+    -webkit-touch-callout: none;
 
     &:focus {
       outline: none;
@@ -350,8 +351,11 @@ body {
 
 @media only screen and (max-width: 750px) {
   :root {
-    --page-padding: 0px;
     --puzzle-cell-size: calc(100vw / var(--puzzle-column-count) - 2 * var(--puzzle-cell-spacing));
+  }
+
+  .root {
+    padding: 0;
   }
 
   // TODO: Add info panel
