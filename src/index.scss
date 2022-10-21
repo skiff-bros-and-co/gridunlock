@@ -348,7 +348,7 @@ body {
   }
 }
 
-@media only screen and (max-width: 3in) {
+@media only screen and (hover: none) {
   :root {
     --puzzle-cell-size: calc(100vw / var(--puzzle-column-count) - 2 * var(--puzzle-cell-spacing));
   }
