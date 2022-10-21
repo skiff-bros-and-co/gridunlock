@@ -18,9 +18,10 @@
   --puzzle-cell-content-font-size: calc(var(--puzzle-cell-inner-size) * 0.66);
   --puzzle-cell-clue-font-size: calc(var(--puzzle-cell-inner-size) - var(--puzzle-cell-content-font-size));
 
-  --virtual-keyboard-button-margin: 1vw;
-  --virtual-keyboard-button-width: calc((100vw - 11 * var(--virtual-keyboard-button-margin)) / 10);
-  --virtual-keyboard-button-height: calc(var(--virtual-keyboard-button-width) * 1.3);
+  --virtual-keyboard-button-horiz-margin: 1vw;
+  --virtual-keyboard-button-vert-margin: 2vw;
+  --virtual-keyboard-button-width: calc((100vw - 11 * var(--virtual-keyboard-button-horiz-margin)) / 10);
+  --virtual-keyboard-button-height: calc(var(--virtual-keyboard-button-width) * 1.4);
 }
 
 $main-background-color: #293742;
@@ -36,10 +37,11 @@ body {
 }
 
 .root {
+  position: relative;
+
   background-color: $main-background-color;
   width: 100vw;
   height: 100vh;
-  height: stretch;
   padding: 20px;
 
   overflow: hidden;
@@ -102,8 +104,7 @@ body {
   justify-items: center;
   width: 100vw;
   height: 100vh;
-  height: stretch;
-  overflow: auto;
+  overflow: hidden;
 
   &.-puzzle-won {
     .puzzle-cell.unblocked {
@@ -169,8 +170,10 @@ body {
     column-gap: var(--puzzle-cell-spacing);
     row-gap: var(--puzzle-cell-spacing);
 
+    &,
     * {
       user-select: none;
+      -webkit-touch-callout: none;
     }
   }
 
@@ -206,8 +209,6 @@ body {
     caret-color: transparent;
     background: transparent;
     overflow: hidden;
-    user-select: none;
-    -webkit-touch-callout: none;
 
     &:focus {
       outline: none;
@@ -284,7 +285,7 @@ body {
 }
 
 .mobile-footer {
-  height: calc(3 * var(--virtual-keyboard-button-height) + 4 * var(--virtual-keyboard-button-margin));
+  height: calc(3 * var(--virtual-keyboard-button-height) + 4 * var(--virtual-keyboard-button-vert-margin));
   grid-area: mobile-footer;
   display: none;
 
@@ -308,10 +309,10 @@ body {
 
       display: flex;
       justify-content: center;
-      margin-top: var(--virtual-keyboard-button-margin);
+      margin-top: var(--virtual-keyboard-button-vert-margin);
 
       &:last-child {
-        margin-bottom: var(--virtual-keyboard-button-margin);
+        margin-bottom: var(--virtual-keyboard-button-vert-margin);
       }
     }
 
@@ -323,13 +324,13 @@ body {
       justify-content: center;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       border-radius: 10%;
-      font-size: 14px;
+      font-size: 16px;
 
       background: $gray1;
-      margin-left: var(--virtual-keyboard-button-margin);
+      margin-left: var(--virtual-keyboard-button-horiz-margin);
 
       &:last-child {
-        margin-right: var(--virtual-keyboard-button-margin);
+        margin-right: var(--virtual-keyboard-button-horiz-margin);
       }
 
       &.hg-activeButton {
@@ -349,13 +350,19 @@ body {
   }
 }
 
-@media only screen and (max-width: 750px) {
+// Only used on mobile
+@media only screen and (hover: none) {
   :root {
     --puzzle-cell-size: calc(100vw / var(--puzzle-column-count) - 2 * var(--puzzle-cell-spacing));
   }
 
   .root {
     padding: 0;
+    height: stretch;
+  }
+
+  .puzzle-view {
+    height: stretch;
   }
 
   // TODO: Add info panel
@@ -376,6 +383,15 @@ body {
     padding: 1px;
   }
 
+  .puzzle-cell {
+    .content {
+      // On mobile, we use a virtual keyboard
+      // Furthermore, the existing input interactions on iOS lead
+      // to a selection callout appearing
+      pointer-events: none;
+    }
+  }
+
   .puzzle-view {
     grid-template-columns: 100%;
     grid-template-rows: 0fr 1fr 0fr;
@@ -383,5 +399,13 @@ body {
       "header"
       "main"
       "mobile-footer";
+  }
+
+  // https://stackoverflow.com/questions/29001977/safari-in-ios8-is-scrolling-screen-when-fixed-elements-get-focus
+  html,
+  body {
+    -webkit-overflow-scrolling: touch !important;
+    overflow: hidden !important;
+    height: stretch !important;
   }
 }
