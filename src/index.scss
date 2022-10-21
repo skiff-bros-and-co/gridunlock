@@ -349,7 +349,7 @@ body {
   }
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 3in) {
   :root {
     --puzzle-cell-size: calc(100vw / var(--puzzle-column-count) - 2 * var(--puzzle-cell-spacing));
   }
@@ -374,6 +374,15 @@ body {
   .puzzle-container {
     overflow-y: auto;
     padding: 1px;
+  }
+
+  .puzzle-cell {
+    .content {
+      // On mobile, we use a virtual keyboard
+      // Furthermore, the existing input interactions on iOS lead
+      // to a selection callout appearing
+      pointer-events: none;
+    }
   }
 
   .puzzle-view {
