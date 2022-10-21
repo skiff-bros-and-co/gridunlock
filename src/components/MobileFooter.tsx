@@ -8,12 +8,7 @@ interface Props {
 
 function MobileFooterInternal(props: Props): JSX.Element {
   return (
-    <div
-      className="mobile-footer"
-      onTouchStart={(ev) => {
-        ev.preventDefault();
-      }}
-    >
+    <div className="mobile-footer">
       <VirtualKeyboard onKeyboardInput={props.onVirtualKeyboardInput} onBackspace={props.onVirtualKeyboardBackspace} />
     </div>
   );

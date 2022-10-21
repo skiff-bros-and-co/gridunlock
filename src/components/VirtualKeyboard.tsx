@@ -20,6 +20,8 @@ function VirtualKeyboardInternal(props: Props): JSX.Element {
       } else {
         onKeyboardInput(key);
       }
+
+      document.body.scrollIntoView();
     },
     [onBackspace, onKeyboardInput],
   );
