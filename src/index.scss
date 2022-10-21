@@ -182,10 +182,10 @@ body {
   border: var(--border-width) solid transparent;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
 
   .content {
-    height: var(--content-height);
-    width: var(--inner-dimension);
+    flex-grow: 1;
     border: none;
     padding: 0;
     margin: 0;
@@ -210,13 +210,12 @@ body {
   }
 
   .clue-number {
+    flex: 0 0 var(--clue-height);
     pointer-events: none;
     color: $light-gray1;
     background: transparent;
     font-size: var(--clue-height);
     font-variation-settings: "wght" 600;
-    height: var(--clue-height);
-    width: var(--inner-dimension);
     margin: 0;
     line-height: 1;
   }
