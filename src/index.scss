@@ -31,8 +31,9 @@ body {
 
 .root {
   background-color: $main-background-color;
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+  height: stretch;
   padding: var(--page-padding);
 
   overflow: hidden;
@@ -93,8 +94,9 @@ body {
     "main header"
     "main clues";
   justify-items: center;
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+  height: stretch;
   overflow: auto;
 
   &.-puzzle-won {
@@ -279,7 +281,7 @@ body {
 }
 
 .mobile-footer {
-  --button-margin: 1vw;
+  --button-margin: 2vw;
   --button-size: calc((100vw - 11 * var(--button-margin)) / 10);
 
   height: calc(3 * var(--button-size) + 4 * var(--button-margin));
@@ -324,7 +326,7 @@ body {
       align-items: center;
       justify-content: center;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      border-radius: 5%;
+      border-radius: 10%;
 
       background: $gray1;
       margin-left: var(--button-margin);
