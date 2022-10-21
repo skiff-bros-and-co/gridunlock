@@ -29,7 +29,6 @@ function VirtualKeyboardInternal(props: Props): JSX.Element {
       theme="virtual-keyboard"
       layout={LAYOUT}
       buttonTheme={[{ buttons: "⌫", class: "-backspace" }]}
-      maxLength={1}
       useTouchEvents={true}
       onKeyPress={handleKeyPress}
     />
