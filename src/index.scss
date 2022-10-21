@@ -174,26 +174,25 @@ body {
 .puzzle-cell {
   --border-width: 2px;
   --inner-dimension: calc(var(--cell-dimension) - 2 * var(--border-width));
-  --cell-height: calc(var(--inner-dimension) * 0.66);
-  --clue-height: calc(var(--inner-dimension) - var(--cell-height));
-  --cell-font-size: calc(var(--cell-height));
+  --content-height: calc(var(--inner-dimension) * 0.66);
+  --clue-height: calc(var(--inner-dimension) - var(--content-height));
 
   height: var(--cell-dimension);
   width: var(--cell-dimension);
   border: var(--border-width) solid transparent;
   display: flex;
   flex-direction: column;
-  line-height: 1;
 
   .content {
-    height: var(--cell-height);
+    height: var(--content-height);
     width: var(--inner-dimension);
     border: none;
     padding: 0;
     margin: 0;
+    line-height: 1;
 
     text-align: center;
-    font-size: var(--cell-font-size);
+    font-size: var(--content-height);
     font-variation-settings: "wght" 600;
     caret-color: transparent;
     background: transparent;
@@ -219,6 +218,7 @@ body {
     height: var(--clue-height);
     width: var(--inner-dimension);
     margin: 0;
+    line-height: 1;
   }
 
   &.-unblocked {
@@ -340,8 +340,8 @@ body {
       }
 
       &.-backspace {
-        font-size: 16px;
-        font-weight: 800;
+        font-size: 18px;
+        font-weight: 600;
       }
 
       span {
