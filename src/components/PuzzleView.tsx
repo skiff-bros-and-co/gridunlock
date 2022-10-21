@@ -254,7 +254,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         fillDirection={localState.fillDirection}
         puzzle={puzzle}
       />
-      <VirtualKeyboard onChange={handleCellValueInput} />
+      <VirtualKeyboard onChange={(input) => handleCellValueInput(localState.selectedPosition, input)} />
     </div>
   );
 };
