@@ -3,7 +3,6 @@
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 @import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 @import "~@fontsource/libre-franklin/variable.css";
-@import "~react-simple-keyboard/build/css/index.css";
 
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
@@ -327,6 +326,7 @@ body {
       justify-content: center;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       border-radius: 10%;
+      font-size: 14px;
 
       background: $gray1;
       margin-left: var(--button-margin);
@@ -337,6 +337,11 @@ body {
 
       &.hg-activeButton {
         background: $gray5;
+      }
+
+      &.-backspace {
+        font-size: 16px;
+        font-weight: 800;
       }
 
       span {

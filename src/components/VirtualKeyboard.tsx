@@ -1,8 +1,6 @@
 import { memo, useCallback } from "react";
 import SimpleKeyboard, { KeyboardLayoutObject } from "react-simple-keyboard";
 
-// const BACKSPACE = "{bksp}";
-
 interface Props {
   onKeyboardInput: (input: string) => void;
   onBackspace: () => void;
@@ -11,10 +9,6 @@ interface Props {
 const LAYOUT: KeyboardLayoutObject = {
   default: ["Q W E R T Y U I O P", "A S D F G H J K L", `Z X C V B N M ⌫`],
 };
-
-// const DISPLAY = {
-//   "{bksp}": "⌫",
-// };
 
 function VirtualKeyboardInternal(props: Props): JSX.Element {
   const { onBackspace, onKeyboardInput } = props;
@@ -30,7 +24,15 @@ function VirtualKeyboardInternal(props: Props): JSX.Element {
     [onBackspace, onKeyboardInput],
   );
 
-  return <SimpleKeyboard theme="virtual-keyboard" layout={LAYOUT} maxLength={1} onKeyPress={handleKeyPress} />;
+  return (
+    <SimpleKeyboard
+      theme="virtual-keyboard"
+      layout={LAYOUT}
+      buttonTheme={[{ buttons: "⌫", class: "-backspace" }]}
+      maxLength={1}
+      onKeyPress={handleKeyPress}
+    />
+  );
 }
 
 export const VirtualKeyboard = memo(VirtualKeyboardInternal);
