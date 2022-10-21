@@ -9,6 +9,7 @@
 
 :root {
   --page-padding: 20px;
+  --page-content-width: calc(100vw - 2 * var(--page-padding));
   --cell-spacing: 1px;
   --grid-column-count: 3;
   --minimum-cell-size: 20px;
@@ -34,7 +35,7 @@ body {
   width: 100vw;
   padding: var(--page-padding);
 
-  overflow: auto;
+  overflow: hidden;
 
   .loading-overlay {
     position: absolute;
@@ -92,6 +93,9 @@ body {
     "main header"
     "main clues";
   justify-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
 
   &.-puzzle-won {
     .puzzle-cell.unblocked {
@@ -274,15 +278,47 @@ body {
   }
 }
 
-.virtual-keyboard {
-  grid-area: virtual-keyboard;
+.mobile-footer {
+  --button-size: calc(100vw / 13);
+
+  height: calc(var(--button-size) * 4);
+  grid-area: mobile-footer;
   display: none;
+
+  .virtual-keyboard {
+    width: 100vw;
+
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    background: $main-background-color;
+
+    .hg-rows {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hg-row {
+      flex: 0 0 var(--button-size);
+
+      display: flex;
+      justify-content: center;
+    }
+
+    .hg-button-bksp {
+      flex: 0 0 calc(2 * var(--button-size));
+    }
+
+    .hg-button.hg-standardBtn {
+      flex: 0 0 var(--button-size);
+    }
+  }
 }
 
 @media only screen and (max-width: 750px) {
   :root {
-    --page-padding: 5px;
-    --cell-dimension: calc((100vw - 2 * var(--page-padding)) / var(--grid-column-count) - 2 * var(--cell-spacing));
+    --page-padding: 0px;
+    --cell-dimension: calc(var(--page-content-width) / var(--grid-column-count) - 2 * var(--cell-spacing));
   }
 
   // TODO: Add info panel
@@ -294,8 +330,12 @@ body {
     display: none;
   }
 
-  .virtual-keyboard {
+  .mobile-footer {
     display: block;
+  }
+
+  .puzzle-container {
+    overflow-y: auto;
   }
 
   .puzzle-view {
@@ -304,7 +344,6 @@ body {
     grid-template-areas:
       "header"
       "main"
-      "clues"
-      "virtual-keyboard";
+      "mobile-footer";
   }
 }
