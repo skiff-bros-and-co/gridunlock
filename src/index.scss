@@ -170,7 +170,7 @@ body {
   --inner-dimension: calc(var(--cell-dimension) - 2 * var(--border-width));
   --cell-height: calc(var(--inner-dimension) * 0.66);
   --clue-height: calc(var(--inner-dimension) - var(--cell-height));
-  --separator: 1px;
+  --separator: calc(var(--cell-dimension) / 20);
   --cell-font-size: calc(var(--cell-height) - var(--separator));
 
   height: var(--cell-dimension);
@@ -275,6 +275,7 @@ body {
 
 @media only screen and (max-width: 750px) {
   :root {
+    --page-padding: 5px;
     --cell-dimension: calc((100vw - 2 * var(--page-padding)) / var(--grid-column-count) - 2 * var(--cell-spacing));
   }
 
@@ -285,10 +286,6 @@ body {
   .puzzle-clues-desktop,
   .app-title {
     display: none;
-  }
-
-  .header .app-icon {
-    margin: 0;
   }
 
   .puzzle-view {
