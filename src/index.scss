@@ -89,7 +89,7 @@ body {
   grid-template-rows: 10vh 95vh 5vh;
   grid-template-areas:
     "main header"
-    "main sidebar";
+    "main clues";
   justify-items: center;
 
   &.-puzzle-won {
@@ -100,7 +100,7 @@ body {
 }
 
 .puzzle-clues-desktop {
-  grid-area: sidebar;
+  grid-area: clues;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -170,8 +170,7 @@ body {
   --inner-dimension: calc(var(--cell-dimension) - 2 * var(--border-width));
   --cell-height: calc(var(--inner-dimension) * 0.66);
   --clue-height: calc(var(--inner-dimension) - var(--cell-height));
-  --separator: calc(var(--cell-dimension) / 20);
-  --cell-font-size: calc(var(--cell-height) - var(--separator));
+  --cell-font-size: calc(var(--cell-height));
 
   height: var(--cell-dimension);
   width: var(--cell-dimension);
@@ -184,7 +183,8 @@ body {
     height: var(--cell-height);
     width: var(--inner-dimension);
     border: none;
-    padding: var(--separator) 0 0 0;
+    padding: 0;
+    margin: 0;
 
     text-align: center;
     font-size: var(--cell-font-size);
@@ -294,6 +294,6 @@ body {
     grid-template-areas:
       "header"
       "main"
-      "sidebar";
+      "clues";
   }
 }
