@@ -350,6 +350,7 @@ body {
   }
 }
 
+// Only used on mobile
 @media only screen and (hover: none) {
   :root {
     --puzzle-cell-size: calc(100vw / var(--puzzle-column-count) - 2 * var(--puzzle-cell-spacing));
@@ -400,11 +401,11 @@ body {
       "mobile-footer";
   }
 
+  // https://stackoverflow.com/questions/29001977/safari-in-ios8-is-scrolling-screen-when-fixed-elements-get-focus
   html,
   body {
     -webkit-overflow-scrolling: touch !important;
     overflow: hidden !important;
-    height: 100% !important;
     height: stretch !important;
   }
 }
