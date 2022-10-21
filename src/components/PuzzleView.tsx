@@ -102,15 +102,14 @@ export const PuzzleView = (props: Props): JSX.Element => {
   );
 
   const updateCellValue = useCallback(
-    (newValue: string, position?: CellPosition) => {
+    (newValue: string) => {
       setLocalState((prev) => {
         if (prev.isPuzzleWon) {
           return prev;
         }
 
-        position ??= prev.selectedPosition;
         syncService.changeCell({
-          position: position!,
+          position: prev.selectedPosition,
           value: {
             value: newValue,
             isMarkedIncorrect: false,
@@ -122,6 +121,10 @@ export const PuzzleView = (props: Props): JSX.Element => {
     },
     [syncService],
   );
+  const handleBackspace = useCallback(() => {
+    updateCellValue("");
+    moveToNextCell("backward");
+  }, [moveToNextCell, updateCellValue]);
 
   const togglefillDirection = useCallback(() => {
     setLocalState((prev) => ({
@@ -198,14 +201,13 @@ export const PuzzleView = (props: Props): JSX.Element => {
         togglefillDirection();
       }
       if (key === "Backspace") {
-        updateCellValue("");
-        moveToNextCell("backward");
+        handleBackspace();
       }
       if (key === "Tab") {
         moveToNextCell("forward");
       }
     },
-    [moveToNextCell, togglefillDirection],
+    [moveToNextCell, togglefillDirection, handleBackspace],
   );
 
   const cellWordPositions = useMemo(() => generateCellWordPositions(puzzle), [puzzle]);
@@ -218,10 +220,10 @@ export const PuzzleView = (props: Props): JSX.Element => {
   }, []);
 
   const handleCellValueInput = useCallback(
-    (position: CellPosition, newValue: string) => {
+    (newValue) => {
       const input = getValidInput(newValue);
       if (input) {
-        updateCellValue(input, position);
+        updateCellValue(input);
         moveToNextCell("forward");
       }
     },
@@ -254,7 +256,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         fillDirection={localState.fillDirection}
         puzzle={puzzle}
       />
-      <MobileFooter onKeyboardInput={(input) => handleCellValueInput(localState.selectedPosition, input)} />
+      <MobileFooter onVirtualKeyboardInput={handleCellValueInput} onVirtualKeyboardBackspace={handleBackspace} />
     </div>
   );
 };

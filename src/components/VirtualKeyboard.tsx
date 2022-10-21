@@ -1,27 +1,36 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import SimpleKeyboard, { KeyboardLayoutObject } from "react-simple-keyboard";
 
+// const BACKSPACE = "{bksp}";
+
 interface Props {
-  onChange: (input: string) => void;
+  onKeyboardInput: (input: string) => void;
+  onBackspace: () => void;
 }
 
 const LAYOUT: KeyboardLayoutObject = {
-  default: ["q w e r t y u i o p", "a s d f g h j k l", "< > z x c v b n m {bksp}"],
+  default: ["Q W E R T Y U I O P", "A S D F G H J K L", `Z X C V B N M ⌫`],
 };
 
-const DISPLAY = {
-  "{bksp}": "⌫",
-};
+// const DISPLAY = {
+//   "{bksp}": "⌫",
+// };
 
 function VirtualKeyboardInternal(props: Props): JSX.Element {
-  return (
-    <SimpleKeyboard
-      theme="hg-theme-default virtual-keyboard"
-      layout={LAYOUT}
-      display={DISPLAY}
-      onChange={props.onChange}
-    />
+  const { onBackspace, onKeyboardInput } = props;
+
+  const handleKeyPress = useCallback(
+    (key: string) => {
+      if (key === "⌫") {
+        onBackspace();
+      } else {
+        onKeyboardInput(key);
+      }
+    },
+    [onBackspace, onKeyboardInput],
   );
+
+  return <SimpleKeyboard theme="virtual-keyboard" layout={LAYOUT} maxLength={1} onKeyPress={handleKeyPress} />;
 }
 
 export const VirtualKeyboard = memo(VirtualKeyboardInternal);

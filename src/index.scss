@@ -279,9 +279,10 @@ body {
 }
 
 .mobile-footer {
-  --button-size: calc(100vw / 13);
+  --button-margin: 1vw;
+  --button-size: calc((100vw - 11 * var(--button-margin)) / 10);
 
-  height: calc(var(--button-size) * 4);
+  height: calc(3 * var(--button-size) + 4 * var(--button-margin));
   grid-area: mobile-footer;
   display: none;
 
@@ -292,6 +293,8 @@ body {
     border-radius: 0;
     overflow: hidden;
     background: $main-background-color;
+    user-select: none;
+    touch-action: manipulation;
 
     .hg-rows {
       display: flex;
@@ -303,14 +306,41 @@ body {
 
       display: flex;
       justify-content: center;
+      margin-top: var(--button-margin);
+
+      &:last-child {
+        margin-bottom: var(--button-margin);
+      }
     }
 
     .hg-button-bksp {
       flex: 0 0 calc(2 * var(--button-size));
     }
 
-    .hg-button.hg-standardBtn {
+    .hg-button {
       flex: 0 0 var(--button-size);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      border-radius: 5%;
+
+      background: $gray1;
+      margin-left: var(--button-margin);
+
+      &:last-child {
+        margin-right: var(--button-margin);
+      }
+
+      &.hg-activeButton {
+        background: $gray5;
+      }
+
+      span {
+        pointer-events: none;
+        color: $white;
+      }
     }
   }
 }

@@ -16,7 +16,7 @@ interface Props {
 
   onSelectCell: (position: CellPosition) => void;
   onToggleFillDirection: () => void;
-  onCellValueInput: (position: CellPosition, newValue: string) => void;
+  onCellValueInput: (newValue: string) => void;
 }
 
 function PuzzleCellInternal(props: Props): JSX.Element {
@@ -43,8 +43,8 @@ function PuzzleCellInternal(props: Props): JSX.Element {
   }, [isSelected, onToggleFillDirection, onSelectCell, row, column]);
 
   const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => onCellValueInput({ row, column }, e.target.value),
-    [column, onCellValueInput, row],
+    (e: React.ChangeEvent<HTMLInputElement>) => onCellValueInput(e.target.value),
+    [onCellValueInput],
   );
 
   if (props.gameCell.isBlocked) {

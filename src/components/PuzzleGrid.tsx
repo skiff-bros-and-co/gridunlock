@@ -14,7 +14,7 @@ interface Props {
   cellWordPositions: CellWordPositions;
   onSelectCell: (position: CellPosition) => void;
   onToggleFillDirection: () => void;
-  onCellValueInput: (position: CellPosition, value: string) => void;
+  onCellValueInput: (value: string) => void;
 }
 
 const setColumnCount = (columnCount: number) => {
