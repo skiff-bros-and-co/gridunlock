@@ -399,4 +399,12 @@ body {
       "main"
       "mobile-footer";
   }
+
+  html,
+  body {
+    -webkit-overflow-scrolling: touch !important;
+    overflow: hidden !important;
+    height: 100% !important;
+    height: stretch !important;
+  }
 }
