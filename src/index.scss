@@ -3,6 +3,7 @@
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 @import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 @import "~@fontsource/libre-franklin/variable.css";
+@import "~react-simple-keyboard/build/css/index.css";
 
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
@@ -273,6 +274,11 @@ body {
   }
 }
 
+.virtual-keyboard {
+  grid-area: virtual-keyboard;
+  display: none;
+}
+
 @media only screen and (max-width: 750px) {
   :root {
     --page-padding: 5px;
@@ -288,12 +294,17 @@ body {
     display: none;
   }
 
+  .virtual-keyboard {
+    display: block;
+  }
+
   .puzzle-view {
     grid-template-columns: 100%;
     grid-template-rows: 0fr 1fr 0fr;
     grid-template-areas:
       "header"
       "main"
-      "clues";
+      "clues"
+      "virtual-keyboard";
   }
 }

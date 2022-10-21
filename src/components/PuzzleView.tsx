@@ -13,6 +13,7 @@ import { Header } from "./Header";
 import { useKeypress } from "./Hooks";
 import { PuzzleClues } from "./PuzzleClues";
 import { PuzzleGrid } from "./PuzzleGrid";
+import { VirtualKeyboard } from "./VirtualKeyboard";
 
 interface Props {
   puzzle: PuzzleDefinition;
@@ -253,6 +254,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
         fillDirection={localState.fillDirection}
         puzzle={puzzle}
       />
+      <VirtualKeyboard />
     </div>
   );
 };
