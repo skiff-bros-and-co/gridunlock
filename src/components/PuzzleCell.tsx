@@ -73,6 +73,11 @@ function PuzzleCellInternal(props: Props): JSX.Element {
         value={props.gameCell.filledValue}
         type="text"
         autoCapitalize="characters"
+        autoComplete="off"
+        autoCorrect="off"
+        pattern="[A-Z]?"
+        enterKeyHint="next"
+        results={0}
         onChange={handleChange}
       />
     </div>
