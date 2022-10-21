@@ -180,14 +180,20 @@ body {
   height: var(--cell-dimension);
   width: var(--cell-dimension);
   border: var(--border-width) solid transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  position: relative;
 
   .content {
-    flex-grow: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: var(--inner-dimension);
+    width: var(--inner-dimension);
+
     border: none;
     padding: 0;
+    padding-top: var(--clue-height);
     margin: 0;
     line-height: 1;
 
@@ -196,6 +202,7 @@ body {
     font-variation-settings: "wght" 600;
     caret-color: transparent;
     background: transparent;
+    overflow: hidden;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -210,7 +217,7 @@ body {
   }
 
   .clue-number {
-    flex: 0 0 var(--clue-height);
+    flex: 0 1;
     pointer-events: none;
     color: $light-gray1;
     background: transparent;
