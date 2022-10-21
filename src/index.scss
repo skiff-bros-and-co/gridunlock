@@ -39,7 +39,6 @@ body {
   background-color: $main-background-color;
   width: 100vw;
   height: 100vh;
-  height: stretch;
   padding: 20px;
 
   overflow: hidden;
@@ -356,6 +355,7 @@ body {
 
   .root {
     padding: 0;
+    height: stretch;
   }
 
   // TODO: Add info panel
