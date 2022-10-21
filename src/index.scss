@@ -169,8 +169,10 @@ body {
     column-gap: var(--puzzle-cell-spacing);
     row-gap: var(--puzzle-cell-spacing);
 
+    &,
     * {
       user-select: none;
+      -webkit-touch-callout: none;
     }
   }
 
@@ -206,8 +208,6 @@ body {
     caret-color: transparent;
     background: transparent;
     overflow: hidden;
-    user-select: none;
-    -webkit-touch-callout: none;
 
     &:focus {
       outline: none;
