@@ -76,6 +76,8 @@ function PuzzleCellInternal(props: Props): JSX.Element {
         autoComplete="off"
         autoCorrect="off"
         pattern="[A-Z]?"
+        enterKeyHint="next"
+        results={0}
         onChange={handleChange}
       />
     </div>
