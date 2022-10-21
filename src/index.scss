@@ -104,8 +104,7 @@ body {
   justify-items: center;
   width: 100vw;
   height: 100vh;
-  height: stretch;
-  overflow: auto;
+  overflow: hidden;
 
   &.-puzzle-won {
     .puzzle-cell.unblocked {
@@ -358,6 +357,10 @@ body {
 
   .root {
     padding: 0;
+    height: stretch;
+  }
+
+  .puzzle-view {
     height: stretch;
   }
 
