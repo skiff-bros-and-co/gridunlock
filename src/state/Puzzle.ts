@@ -7,8 +7,8 @@ export interface Clue {
 
 export interface CellClue {
   isStartOfClue: boolean;
-  acrossClueNumber: number | null;
-  downClueNumber: number | null;
+  acrossClueNumber: number | undefined;
+  downClueNumber: number | undefined;
 }
 
 export interface PuzzleClues {
