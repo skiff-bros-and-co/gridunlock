@@ -7,18 +7,22 @@ export function getNextCell(opts: {
   position: CellPosition;
   direction: FillDirection;
   puzzle: PuzzleDefinition;
+  wrapLine: boolean;
   backwards?: boolean;
   lockToCurrentWord?: boolean;
 }): CellPosition {
-  const { position, direction, puzzle } = opts;
+  const { position, direction, puzzle, wrapLine } = opts;
   let { backwards, lockToCurrentWord } = opts;
   backwards ??= false;
   lockToCurrentWord ??= false;
   const distance = backwards ? -1 : 1;
 
-  let nextPos = nextCell(direction, distance, position, puzzle);
-  while (puzzle.cells[nextPos.row][nextPos.column].isBlocked) {
-    nextPos = nextCell(direction, distance, nextPos, puzzle);
+  let nextPos = nextCell(direction, distance, position, puzzle, wrapLine);
+  while (
+    puzzle.cells[nextPos.row][nextPos.column].isBlocked &&
+    !(nextPos.column === position.column && nextPos.row === position.row)
+  ) {
+    nextPos = nextCell(direction, distance, nextPos, puzzle, wrapLine);
   }
 
   if (lockToCurrentWord) {
@@ -39,6 +43,7 @@ function nextCell(
   distance: number,
   position: CellPosition,
   puzzle: PuzzleDefinition,
+  wrapLine: boolean,
 ): CellPosition {
   const [primary, secondary] =
     direction === "across" ? [position.column, position.row] : [position.row, position.column];
@@ -47,9 +52,8 @@ function nextCell(
     direction === "across" ? [puzzle.width, puzzle.height] : [puzzle.height, puzzle.width];
 
   const nextPrimary = (primary + distance + primaryLimit) % primaryLimit;
-  const secondaryDelta = Math.floor((primary + distance) / primaryLimit);
+  const secondaryDelta = wrapLine ? Math.floor((primary + distance) / primaryLimit) : 0;
   const nextSecondary = (secondary + secondaryDelta + secondaryLimit) % secondaryLimit;
-
   return direction === "across"
     ? {
         row: nextSecondary,
