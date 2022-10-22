@@ -1,16 +1,16 @@
 import { CellClue, CellDefinition } from "./Puzzle";
 
-export const buildCellCluesByRowAndColumn = (cells: CellDefinition[][]): (CellClue | null)[][] => {
-  let acrossClueNumber: number | null = null;
-  const lastDownClueNumberByColumn: { [colIndex: number]: number | null } = {};
+export const buildCellCluesByRowAndColumn = (cells: CellDefinition[][]): (CellClue | undefined)[][] => {
+  let acrossClueNumber: number | undefined = undefined;
+  const lastDownClueNumberByColumn: { [colIndex: number]: number | undefined } = {};
   return cells.map((row) => {
     return row.map((cell, colIndex) => {
       if (colIndex === 0) {
-        acrossClueNumber = null;
+        acrossClueNumber = undefined;
       }
       if (cell.isBlocked) {
-        acrossClueNumber = null;
-        lastDownClueNumberByColumn[colIndex] = null;
+        acrossClueNumber = undefined;
+        lastDownClueNumberByColumn[colIndex] = undefined;
       }
 
       if (!acrossClueNumber && cell.clueNumber) {
@@ -22,12 +22,12 @@ export const buildCellCluesByRowAndColumn = (cells: CellDefinition[][]): (CellCl
 
       const downClueNumber = lastDownClueNumberByColumn[colIndex];
       if (!acrossClueNumber && !downClueNumber) {
-        return null;
+        return undefined;
       }
       return {
         isStartOfClue: Boolean(cell.clueNumber),
-        acrossClueNumber: acrossClueNumber || null,
-        downClueNumber: downClueNumber || null,
+        acrossClueNumber: acrossClueNumber || undefined,
+        downClueNumber: downClueNumber || undefined,
       };
     });
   });

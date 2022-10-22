@@ -31,6 +31,7 @@ function wordPosition(position: CellPosition, direction: FillDirection, puzzle: 
     puzzle,
     lockToCurrentWord: true,
     backwards: true,
+    wrapToNextClue: true,
   });
   const nextPos = getNextCell({
     position,
@@ -38,6 +39,7 @@ function wordPosition(position: CellPosition, direction: FillDirection, puzzle: 
     puzzle,
     lockToCurrentWord: true,
     backwards: false,
+    wrapToNextClue: true,
   });
 
   if (prevPos === position) {

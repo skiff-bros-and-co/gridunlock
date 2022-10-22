@@ -49,6 +49,7 @@ function getInitPosition(puzzle: PuzzleDefinition): CellPosition {
     puzzle,
     position: origin,
     direction: "across",
+    wrapToNextClue: true,
   });
 }
 
@@ -131,6 +132,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
             position: prev.selectedPosition,
             puzzle,
             backwards: direction === "backward" || direction === "up" || direction === "left",
+            wrapToNextClue: direction === "forward" || direction === "backward",
           }),
         };
       });
