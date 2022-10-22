@@ -186,7 +186,6 @@ body {
   width: var(--puzzle-cell-size);
   border: var(--puzzle-cell-selection-border-width) solid transparent;
   display: grid;
-  line-height: 1;
   cursor: text;
 
   .content {
@@ -200,6 +199,8 @@ body {
     caret-color: transparent;
     background: transparent;
     overflow: hidden;
+    line-height: 1;
+    padding: 0;
 
     &:focus {
       outline: none;
@@ -208,10 +209,12 @@ body {
 
   .clue-number {
     grid-area: 1/-1/2;
+    height: var(--puzzle-cell-clue-font-size);
     pointer-events: none;
     color: $light-gray1;
     font-size: var(--puzzle-cell-clue-font-size);
     font-variation-settings: "wght" 600;
+    line-height: 1;
   }
 
   &.-unblocked {
