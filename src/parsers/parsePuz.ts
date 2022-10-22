@@ -12,7 +12,7 @@ function needsDownNumber(column: number, row: number, cells: CellDefinition[][])
 function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues {
   const acrossClues: { [clueNumber: number]: Clue } = {};
   const downClues: { [clueNumber: number]: Clue } = {};
-  const cluesByRowAndColumn: (CellClue | null)[][] = [];
+  const cluesByRowAndColumn: (CellClue | undefined)[][] = [];
 
   let nextClueNumber = 1;
   let nextClueListIndex = 0;
@@ -25,7 +25,7 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
 
     row.forEach((cell, columnIndex) => {
       if (cell.isBlocked) {
-        cluesByRowAndColumn[rowIndex].push(null);
+        cluesByRowAndColumn[rowIndex].push(undefined);
         return;
       }
 
@@ -164,6 +164,7 @@ export function parsePuz(source: ArrayBuffer): PuzzleDefinition {
         solution: cellSolution,
         initialState: cellState,
         isBlocked: cellSolution === ".",
+        clueNumber: undefined, // filled in by indexClues as needed
       };
       row.push(cell);
       currentCell += 1;

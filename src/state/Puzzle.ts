@@ -16,7 +16,7 @@ export interface PuzzleClues {
   across: { [clueNumber: number]: Clue };
   clueCount: number;
 
-  byRowAndColumn: (CellClue | null)[][];
+  byRowAndColumn: (CellClue | undefined)[][];
 }
 
 export type FillDirection = "down" | "across";
@@ -31,7 +31,7 @@ export interface CellDefinition extends CellPosition {
   initialState: string;
   isBlocked: boolean;
 
-  clueNumber?: number;
+  clueNumber: number | undefined;
 }
 
 export interface PuzzleDefinition {
