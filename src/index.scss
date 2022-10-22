@@ -299,12 +299,14 @@ body {
     user-select: none;
     touch-action: manipulation;
 
-    .hg-rows {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
+
+    * {
+      user-select: none;
     }
 
-    .hg-row {
+    .row {
       flex: 0 0 var(--virtual-keyboard-button-height);
 
       display: flex;
@@ -316,7 +318,7 @@ body {
       }
     }
 
-    .hg-button {
+    .key {
       flex: 0 0 var(--virtual-keyboard-button-width);
       cursor: pointer;
       display: flex;
@@ -326,6 +328,7 @@ body {
       border-radius: 10%;
       font-size: 16px;
 
+      color: $white;
       background: $gray1;
       margin-left: var(--virtual-keyboard-button-horiz-margin);
 
@@ -333,18 +336,13 @@ body {
         margin-right: var(--virtual-keyboard-button-horiz-margin);
       }
 
-      &.hg-activeButton {
+      &.-active {
         background: $gray5;
       }
 
       &.-backspace {
         font-size: 26px;
         font-weight: 400;
-      }
-
-      span {
-        pointer-events: none;
-        color: $white;
       }
     }
   }
