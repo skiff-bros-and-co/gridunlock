@@ -12,7 +12,7 @@ describe("PuzzleDataBuilder", () => {
         ],
         [
           { row: 1, column: 0, initialState: "", isBlocked: false, clueNumber: 3, solution: "A" },
-          { row: 1, column: 1, initialState: "", isBlocked: false, solution: "N" },
+          { row: 1, column: 1, initialState: "", isBlocked: false, clueNumber: undefined, solution: "N" },
         ],
       ];
 
@@ -50,11 +50,11 @@ describe("PuzzleDataBuilder", () => {
       const givenCells: CellDefinition[][] = [
         [
           { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 1, solution: "G" },
-          { row: 0, column: 1, initialState: "", isBlocked: false, solution: "O" },
+          { row: 0, column: 1, initialState: "", isBlocked: false, clueNumber: undefined, solution: "O" },
         ],
         [
-          { row: 1, column: 0, initialState: "", isBlocked: false, solution: "O" },
-          { row: 1, column: 1, initialState: "", isBlocked: true, solution: "." },
+          { row: 1, column: 0, initialState: "", isBlocked: false, clueNumber: undefined, solution: "O" },
+          { row: 1, column: 1, initialState: "", isBlocked: true, clueNumber: undefined, solution: "." },
         ],
       ];
 
@@ -70,16 +70,16 @@ describe("PuzzleDataBuilder", () => {
           {
             isStartOfClue: false,
             acrossClueNumber: 1,
-            downClueNumber: null,
+            downClueNumber: undefined,
           },
         ],
         [
           {
             isStartOfClue: false,
-            acrossClueNumber: null,
+            acrossClueNumber: undefined,
             downClueNumber: 1,
           },
-          null,
+          undefined,
         ],
       ]);
     });
