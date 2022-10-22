@@ -66,7 +66,7 @@ function PuzzleCellInternal(props: Props): JSX.Element {
       style={{ borderColor: selectedColor }}
       onClick={handleClick}
     >
-      <div className="clue-number">{props.gameCell.clueNumber}</div>
+      <div className="clue-number">{props.gameCell.clueNumber} </div>
       <input
         ref={inputRef}
         className="content"

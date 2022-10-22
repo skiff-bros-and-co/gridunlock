@@ -209,12 +209,12 @@ body {
 
   .clue-number {
     grid-area: 1/-1/2;
-    height: var(--puzzle-cell-clue-font-size);
     pointer-events: none;
     color: $light-gray1;
     font-size: var(--puzzle-cell-clue-font-size);
     font-variation-settings: "wght" 600;
     line-height: 1;
+    white-space: pre-wrap;
   }
 
   &.-unblocked {
