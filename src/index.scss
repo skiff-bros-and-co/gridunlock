@@ -185,22 +185,13 @@ body {
   height: var(--puzzle-cell-size);
   width: var(--puzzle-cell-size);
   border: var(--puzzle-cell-selection-border-width) solid transparent;
-  position: relative;
+  display: grid;
+  cursor: text;
 
   .content {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: var(--puzzle-cell-inner-size);
-    width: var(--puzzle-cell-inner-size);
+    grid-area: 2/-1/2;
 
     border: none;
-    padding: 0;
-    padding-top: var(--puzzle-cell-clue-font-size);
-    margin: 0;
-    line-height: 1;
 
     text-align: center;
     font-size: var(--puzzle-cell-content-font-size);
@@ -208,6 +199,8 @@ body {
     caret-color: transparent;
     background: transparent;
     overflow: hidden;
+    line-height: 1;
+    padding: 0;
 
     &:focus {
       outline: none;
@@ -215,14 +208,13 @@ body {
   }
 
   .clue-number {
-    flex: 0 1;
+    grid-area: 1/-1/2;
     pointer-events: none;
     color: $light-gray1;
-    background: transparent;
     font-size: var(--puzzle-cell-clue-font-size);
     font-variation-settings: "wght" 600;
-    margin: 0;
     line-height: 1;
+    white-space: pre-wrap;
   }
 
   &.-unblocked {

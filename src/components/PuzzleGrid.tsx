@@ -30,10 +30,6 @@ const isInSelectedWord = (
   puzzle: PuzzleDefinition,
   fillDirection: FillDirection,
 ): boolean => {
-  if (!selectedCell) {
-    return false;
-  }
-
   const selectedClueInfo = puzzle.clues.byRowAndColumn[selectedCell.row][selectedCell.column];
   const checkClueInfo = puzzle.clues.byRowAndColumn[cellToCheck.row][cellToCheck.column];
 
