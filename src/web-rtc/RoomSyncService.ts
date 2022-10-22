@@ -13,7 +13,7 @@ import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzl
 const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
 const PUZZLE_DEF_KEY = "puzzleDef";
 
-const cellKey = (cell: CellPosition) => `${cell.column}:${cell.row}`;
+export const getSyncedCellKey = (cell: CellPosition) => `${cell.column}:${cell.row}`;
 
 interface Events {
   cellsChanged: SyncedPuzzleState;
@@ -124,14 +124,14 @@ export class RoomSyncService {
   }
 
   changeCell({ position, value }: { position: CellPosition; value: SyncedPuzzleCellState }) {
-    this.cells.set(cellKey(position), value);
+    this.cells.set(getSyncedCellKey(position), value);
   }
 
   markInvalidCells(validation: CellValidState[][]) {
     this.doc.transact(() => {
       for (let row = 0; row < validation.length; row++) {
         for (let column = 0; column < validation[row].length; column++) {
-          const key = cellKey({ row, column });
+          const key = getSyncedCellKey({ row, column });
           const prev = this.cells.get(key)!;
           this.cells.set(key, {
             ...prev,
@@ -149,7 +149,7 @@ export class RoomSyncService {
     this.doc.transact(() => {
       for (let row = 0; row < height; row++) {
         for (let column = 0; column < width; column++) {
-          this.cells.set(cellKey({ row, column }), { value: "", isMarkedIncorrect: false });
+          this.cells.set(getSyncedCellKey({ row, column }), { value: "", isMarkedIncorrect: false });
         }
       }
 
@@ -172,6 +172,10 @@ export class RoomSyncService {
     return this.doc.clientID;
   }
 
+  get syncedPuzzleState() {
+    return this.cells;
+  }
+
   private readPuzzleDef(): PuzzleDefinition | undefined {
     const puzzleDef = this.info.get(PUZZLE_DEF_KEY);
     if (puzzleDef == null) {
@@ -187,7 +191,7 @@ export class RoomSyncService {
     for (let row = 0; row < puzzleDef.height; row++) {
       const resultRow: SyncedPuzzleCellState[] = [];
       for (let column = 0; column < puzzleDef.width; column++) {
-        resultRow.push(this.cells.get(cellKey({ row, column }))!);
+        resultRow.push(this.cells.get(getSyncedCellKey({ row, column }))!);
       }
       result.push(resultRow);
     }
