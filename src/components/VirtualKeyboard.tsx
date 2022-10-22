@@ -52,11 +52,7 @@ function VirtualKeyboardInternal(props: Props): JSX.Element {
     [onBackspace, onKeyboardInput],
   );
 
-  const handleTouchMove = useCallback((ev: TouchEvent<HTMLDivElement>) => {
-    setActiveKeys(getKeysFromTouchList(ev.targetTouches));
-  }, []);
-
-  const handleTouchCancel = useCallback((ev: TouchEvent<HTMLDivElement>) => {
+  const handleTouchEvent = useCallback((ev: TouchEvent<HTMLDivElement>) => {
     setActiveKeys(getKeysFromTouchList(ev.targetTouches));
   }, []);
 
@@ -74,8 +70,9 @@ function VirtualKeyboardInternal(props: Props): JSX.Element {
   return (
     <div
       className="virtual-keyboard"
-      onTouchMove={handleTouchMove}
-      onTouchCancel={handleTouchCancel}
+      onTouchStart={handleTouchEvent}
+      onTouchMove={handleTouchEvent}
+      onTouchCancel={handleTouchEvent}
       onTouchEnd={handleTouchEnd}
     >
       {LAYOUT.map((row, rowIndex) => (
