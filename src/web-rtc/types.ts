@@ -1,4 +1,4 @@
-import { SyncedImmutableMap } from "../components/useSyncedMap";
+import { SyncedImmutableMap } from "../components/SyncingHooks";
 import { CellPosition } from "../state/Puzzle";
 
 export type SyncedPuzzleState = SyncedImmutableMap<SyncedPuzzleCellState>;

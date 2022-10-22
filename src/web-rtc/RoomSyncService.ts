@@ -7,7 +7,7 @@ import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { CellValidState } from "../utils/validatePuzzleState";
 import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
-import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "./types";
+import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState } from "./types";
 
 // This clearly provides no security other than mild obfustication.
 const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
@@ -16,7 +16,6 @@ const PUZZLE_DEF_KEY = "puzzleDef";
 export const getSyncedCellKey = (cell: CellPosition) => `${cell.column}:${cell.row}`;
 
 interface Events {
-  cellsChanged: SyncedPuzzleState;
   loaded: PuzzleDefinition;
   playersStateChanged: SyncedPlayerState[];
 }
@@ -27,7 +26,6 @@ type EventHandlers = {
 
 export class RoomSyncService {
   private listeners: EventHandlers = {
-    cellsChanged: [],
     loaded: [],
     playersStateChanged: [],
   };
@@ -61,9 +59,6 @@ export class RoomSyncService {
     } as any);
     this.indexDbProvider = new IndexeddbPersistence("room-" + roomName, this.doc);
 
-    this.cells.observeDeep(() => {
-      this.emit("cellsChanged");
-    });
     this.info.observeDeep(() => {
       if (this.isLoaded === false && this.info.get(PUZZLE_DEF_KEY) != null) {
         this.isLoaded = true;
@@ -88,13 +83,6 @@ export class RoomSyncService {
 
   private emit<E extends keyof Events & string>(event: E, handler?: EventHandler<E>) {
     switch (event) {
-      case "cellsChanged": {
-        return this.emitWithData<"cellsChanged">(
-          event,
-          { cells: this.readCells() },
-          handler as EventHandler<"cellsChanged">,
-        );
-      }
       case "loaded": {
         if (!this.isLoaded) {
           return;
@@ -121,10 +109,6 @@ export class RoomSyncService {
     } else {
       this.listeners[event].forEach((l) => l(data));
     }
-  }
-
-  changeCell({ position, value }: { position: CellPosition; value: SyncedPuzzleCellState }) {
-    this.cells.set(getSyncedCellKey(position), value);
   }
 
   markInvalidCells(validation: CellValidState[][]) {
@@ -182,19 +166,5 @@ export class RoomSyncService {
       return undefined;
     }
     return JSON.parse(puzzleDef);
-  }
-
-  private readCells() {
-    const puzzleDef = this.readPuzzleDef()!;
-
-    const result: SyncedPuzzleCellState[][] = [];
-    for (let row = 0; row < puzzleDef.height; row++) {
-      const resultRow: SyncedPuzzleCellState[] = [];
-      for (let column = 0; column < puzzleDef.width; column++) {
-        resultRow.push(this.cells.get(getSyncedCellKey({ row, column }))!);
-      }
-      result.push(resultRow);
-    }
-    return result;
   }
 }

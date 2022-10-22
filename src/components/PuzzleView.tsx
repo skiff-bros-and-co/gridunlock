@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
-import { applyArrayChanges } from "../utils/deepMergeArrays";
+import { applyArrayChanges } from "../utils/applyArrayChanges";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { getNextCell } from "../utils/getNextCell";
 import { isPuzzleComplete } from "../utils/isPuzzleComplete";
@@ -14,7 +14,7 @@ import { useEventCallback, useKeypress } from "./Hooks";
 import { MobileFooter } from "./MobileFooter";
 import { PuzzleClues } from "./PuzzleClues";
 import { PuzzleGrid } from "./PuzzleGrid";
-import { useSyncedMap } from "./useSyncedMap";
+import { useSyncedMap } from "./SyncingHooks";
 
 interface Props {
   puzzle: PuzzleDefinition;
@@ -158,13 +158,16 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
   const handleNewPlayersState = useCallback(
     (state: SyncedPlayerState[]) => {
-      setPlayersState(
-        state.map((player, index) => ({
-          index: index,
-          name: player.info.name,
-          position: player.position,
-          isLocalPlayer: player.info.clientID === syncService.clientID,
-        })),
+      setPlayersState((prev) =>
+        applyArrayChanges(
+          prev,
+          state.map((player, index) => ({
+            index: index,
+            name: player.info.name,
+            position: player.position,
+            isLocalPlayer: player.info.clientID === syncService.clientID,
+          })),
+        ),
       );
     },
     [syncService.clientID],
