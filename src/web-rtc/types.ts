@@ -1,8 +1,7 @@
+import { SyncedImmutableMap } from "../components/SyncingHooks";
 import { CellPosition } from "../state/Puzzle";
 
-export interface SyncedPuzzleState {
-  cells: SyncedPuzzleCellState[][];
-}
+export type SyncedPuzzleState = SyncedImmutableMap<SyncedPuzzleCellState>;
 
 export interface SyncedPuzzleCellState {
   value: string;

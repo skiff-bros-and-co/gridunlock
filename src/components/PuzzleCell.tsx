@@ -73,7 +73,6 @@ function PuzzleCellInternal(props: Props): JSX.Element {
         value={props.gameCell.filledValue}
         type="text"
         inputMode="none"
-        maxLength={1}
         spellCheck="false"
         onChange={handleChange}
       />

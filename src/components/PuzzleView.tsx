@@ -1,19 +1,20 @@
 import classnames from "classnames";
-import update from "immutability-helper";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
+import { applyArrayChanges } from "../utils/applyArrayChanges";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { getNextCell } from "../utils/getNextCell";
 import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { validatePuzzleState } from "../utils/validatePuzzleState";
-import { RoomSyncService } from "../web-rtc/RoomSyncService";
-import { SyncedPlayerState, SyncedPuzzleState } from "../web-rtc/types";
+import { getSyncedCellKey, RoomSyncService } from "../web-rtc/RoomSyncService";
+import { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "../web-rtc/types";
 import { Header } from "./Header";
-import { useKeypress } from "./Hooks";
+import { useEventCallback, useKeypress } from "./Hooks";
 import { MobileFooter } from "./MobileFooter";
 import { PuzzleClues } from "./PuzzleClues";
 import { PuzzleGrid } from "./PuzzleGrid";
+import { useSyncedMap } from "./SyncingHooks";
 
 interface Props {
   puzzle: PuzzleDefinition;
@@ -67,8 +68,33 @@ const getValidInput = (input: string): string | null => {
   return null;
 };
 
+const mapSyncState = (state: SyncedPuzzleState, puzzle: PuzzleDefinition) => {
+  const result: PuzzleState = [];
+  for (let row = 0; row < puzzle.height; row++) {
+    const resultRow: PuzzleGameCell[] = [];
+    for (let column = 0; column < puzzle.width; column++) {
+      const syncedCell = state[getSyncedCellKey({ row, column })];
+      const cellDef = puzzle.cells[row][column];
+      resultRow.push({
+        filledValue: syncedCell.value,
+        isMarkedIncorrect: syncedCell.isMarkedIncorrect,
+        isBlocked: cellDef.isBlocked,
+        clueNumber: cellDef.clueNumber,
+      });
+    }
+
+    result.push(resultRow);
+  }
+
+  return result;
+};
+
 export const PuzzleView = (props: Props): JSX.Element => {
   const { puzzle, syncService } = props;
+
+  const [syncedPuzzleCells, { set: setSyncedCell }] = useSyncedMap<SyncedPuzzleCellState>(
+    syncService.syncedPuzzleState,
+  );
 
   const [playersState, setPlayersState] = useState<PlayerState[]>([]);
   const [localState, setLocalState] = useState<LocalState>(() => ({
@@ -77,6 +103,17 @@ export const PuzzleView = (props: Props): JSX.Element => {
     puzzleState: initializePuzzleState(puzzle),
     isPuzzleWon: false,
   }));
+
+  useEffect(() => {
+    setLocalState((prev) => {
+      // TODO: There are better ways....
+
+      return {
+        ...prev,
+        puzzleState: applyArrayChanges(prev.puzzleState, mapSyncState(syncedPuzzleCells, puzzle)),
+      };
+    });
+  }, [puzzle, syncedPuzzleCells]);
 
   const moveToNextCell = useCallback(
     (direction: "forward" | "backward" | "up" | "down" | "left" | "right") => {
@@ -101,25 +138,11 @@ export const PuzzleView = (props: Props): JSX.Element => {
     [puzzle],
   );
 
-  const updateCellValue = useCallback(
+  const updateCellValue = useEventCallback(
     (newValue: string) => {
-      setLocalState((prev) => {
-        if (prev.isPuzzleWon) {
-          return prev;
-        }
-
-        syncService.changeCell({
-          position: prev.selectedPosition,
-          value: {
-            value: newValue,
-            isMarkedIncorrect: false,
-          },
-        });
-
-        return prev;
-      });
+      setSyncedCell(getSyncedCellKey(localState.selectedPosition), { value: newValue, isMarkedIncorrect: false });
     },
-    [syncService],
+    [localState.selectedPosition],
   );
   const handleBackspace = useCallback(() => {
     updateCellValue("");
@@ -133,38 +156,18 @@ export const PuzzleView = (props: Props): JSX.Element => {
     }));
   }, []);
 
-  const handleNewSync = useCallback((data: SyncedPuzzleState) => {
-    setLocalState(
-      (prev) =>
-        update(prev, {
-          puzzleState: prev.puzzleState.map((row, rowIndex) =>
-            row.map((_cell, colIndex) => ({
-              filledValue: {
-                $set: data.cells[rowIndex][colIndex].value ?? "",
-              },
-              isMarkedIncorrect: {
-                $set: data.cells[rowIndex][colIndex].isMarkedIncorrect,
-              },
-            })),
-          ),
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any), // TODO: fix types
-    );
-  }, []);
-  useEffect(() => {
-    syncService.addEventListener("cellsChanged", handleNewSync);
-    return () => syncService.removeEventListener("cellsChanged", handleNewSync);
-  }, [syncService, handleNewSync]);
-
   const handleNewPlayersState = useCallback(
     (state: SyncedPlayerState[]) => {
-      setPlayersState(
-        state.map((player, index) => ({
-          index: index,
-          name: player.info.name,
-          position: player.position,
-          isLocalPlayer: player.info.clientID === syncService.clientID,
-        })),
+      setPlayersState((prev) =>
+        applyArrayChanges(
+          prev,
+          state.map((player, index) => ({
+            index: index,
+            name: player.info.name,
+            position: player.position,
+            isLocalPlayer: player.info.clientID === syncService.clientID,
+          })),
+        ),
       );
     },
     [syncService.clientID],
