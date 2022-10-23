@@ -66,6 +66,14 @@ export function Root() {
     return () => syncService.removeEventListener("loaded", setPuzzle);
   }, [syncService, setPuzzle]);
 
+  useEffect(() => {
+    const agent = window.navigator.userAgent.toLowerCase();
+    const isWebKit = agent.includes("webkit") && !agent.includes("chrome");
+
+    document.body.classList.toggle("-agent-webkit", isWebKit);
+    document.body.classList.toggle("-touch-device", navigator.maxTouchPoints > 0);
+  }, []);
+
   const isLoading = puzzle === undefined;
   useEffect(() => {
     const spinner = document.getElementById("loading-spinner");
