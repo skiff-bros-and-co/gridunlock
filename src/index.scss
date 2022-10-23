@@ -12,7 +12,7 @@
 
   --puzzle-column-count: 3;
   --puzzle-cell-spacing: 1px;
-  --puzzle-cell-size: max(calc(min(70vh, 70vw) / var(--puzzle-column-count)), var(--minimum-cell-size));
+  --puzzle-cell-size: max(calc(min(70vh, 50vw) / var(--puzzle-column-count)), var(--minimum-cell-size));
   --puzzle-cell-selection-border-width: 2px;
   --puzzle-cell-inner-size: calc(var(--puzzle-cell-size) - 2 * var(--puzzle-cell-selection-border-width));
   --puzzle-cell-content-font-size: calc(var(--puzzle-cell-inner-size) * 0.66);
@@ -34,38 +34,42 @@ $selected-clue-border-width: 1px;
 body {
   font-family: "Libre FranklinVariable";
   font-variation-settings: "wght" 400;
+  background-color: $main-background-color;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+#content {
+  width: 100%;
+  height: 100%;
 }
 
 .root {
-  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  z-index: 9999;
+  transition: 200ms ease-in opacity;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   background-color: $main-background-color;
-  width: 100vw;
-  height: 100vh;
-  padding: 20px;
+  pointer-events: none;
 
-  overflow: hidden;
-
-  .loading-overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    z-index: 9999;
-    transition: 200ms ease-in opacity;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background-color: $main-background-color;
-    pointer-events: none;
-
-    &.loading {
-      opacity: 1;
-    }
+  &.-loading {
+    opacity: 1;
   }
 }
 
@@ -75,11 +79,14 @@ body {
   flex-direction: row;
   align-items: center;
   justify-self: left;
-  margin: 0 0 10px 0;
+  margin: 0 0 10px 10px;
   flex: 0 0;
 
   h1 {
     margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre;
   }
 
   .buttons {
@@ -88,23 +95,19 @@ body {
   }
 
   .app-icon {
-    margin-left: 8px;
     height: 28px;
     width: 28px;
+    cursor: pointer;
   }
 }
 
 .puzzle-view {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0fr 1fr;
-  grid-template-areas:
-    "main header"
-    "main clues";
   justify-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  column-gap: 5px;
 
   &.-puzzle-won {
     .puzzle-cell.unblocked {
@@ -152,7 +155,11 @@ body {
 }
 
 .puzzle-container {
-  grid-area: main;
+  grid-area: puzzle-area;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 1px;
 
   .puzzle-title {
     margin: 2px 0px;
@@ -201,6 +208,10 @@ body {
     overflow: hidden;
     line-height: 1;
     padding: 0;
+
+    // This fixes a really annoying bug on iOS, where
+    // text was getting clipped
+    height: 1.15em;
 
     // On mobile, we use a virtual keyboard
     // Furthermore, the existing input interactions on iOS lead
@@ -280,14 +291,8 @@ body {
   }
 }
 
-.mobile-footer {
-  grid-area: mobile-footer;
-  display: none;
-  width: 100vw;
-  overflow: hidden;
-}
-
 .virtual-keyboard {
+  grid-area: virtual-keyboard;
   height: calc(3 * var(--virtual-keyboard-button-height));
   width: 100vw;
 
@@ -339,18 +344,14 @@ body {
 }
 
 .puzzle-clues-narrow {
+  grid-area: clues-narrow;
   display: flex;
   align-items: stretch;
   height: 44px;
+  width: 100%;
 
   * {
     user-select: none;
-  }
-
-  .clue {
-    flex-grow: 1;
-    font-size: 12px;
-    overflow: hidden;
   }
 
   .button {
@@ -360,9 +361,18 @@ body {
     padding: 5px 10px;
     background: $selected-clue-background;
     color: $white;
+    cursor: pointer;
 
     &.clue {
       flex-shrink: 1;
+      flex-grow: 1;
+      font-size: 12px;
+      overflow: hidden;
+      justify-content: center;
+    }
+
+    &:hover {
+      background: $dark-gray4;
     }
 
     &:active {
@@ -371,53 +381,110 @@ body {
   }
 }
 
-// Only used on mobile
-@media only screen and (hover: none) {
+.puzzle-view {
+  grid-template-columns: 0fr 1fr;
+  grid-template-rows: 0fr 1fr;
+  grid-template-areas:
+    "puzzle-area header"
+    "puzzle-area clues";
+}
+
+.virtual-keyboard {
+  display: none;
+}
+
+.puzzle-clues-narrow {
+  display: none;
+}
+
+@media only screen and (max-width: 400px) {
+  .app-title {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 800px) {
   :root {
     --puzzle-cell-size: calc(100vw / var(--puzzle-column-count) - 2 * var(--puzzle-cell-spacing));
   }
 
   .root {
     padding: 8px 0 0 0;
-    height: stretch;
-  }
-
-  .puzzle-view {
-    height: stretch;
   }
 
   // TODO: Add info panel
   .puzzle-title,
   .puzzle-copyright,
-  .puzzle-author,
-  .puzzle-clues-desktop,
-  .app-title {
+  .puzzle-author {
     display: none;
-  }
-
-  .mobile-footer {
-    display: block;
-  }
-
-  .puzzle-container {
-    overflow-y: auto;
-    padding: 1px;
   }
 
   .puzzle-view {
     grid-template-columns: 100%;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 0fr 1fr 0fr;
     grid-template-areas:
       "header"
-      "main"
-      "mobile-footer";
+      "puzzle-area"
+      "clues-narrow";
   }
+
+  .puzzle-clues-desktop {
+    display: none;
+  }
+
+  .puzzle-clues-narrow {
+    display: flex;
+  }
+
+  .puzzle-container {
+    overflow-y: auto;
+  }
+}
+
+// Only used on mobile
+@media only screen and (hover: none) {
+  .puzzle-view {
+    grid-template-columns: 100%;
+    grid-template-rows: 0fr 1fr 0fr 0fr;
+    grid-template-areas:
+      "header"
+      "puzzle-area"
+      "clues-narrow"
+      "virtual-keyboard";
+  }
+
+  .virtual-keyboard {
+    display: flex;
+  }
+
+  .puzzle-clues-desktop {
+    display: none;
+  }
+
+  .puzzle-clues-narrow {
+    display: flex;
+  }
+
+  .puzzle-clues-narrow {
+    .button:hover {
+      // mobile hover is a pain
+      background: $selected-clue-background;
+    }
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
 
   // https://stackoverflow.com/questions/29001977/safari-in-ios8-is-scrolling-screen-when-fixed-elements-get-focus
   html,
   body {
     -webkit-overflow-scrolling: touch !important;
-    overflow: hidden !important;
-    height: stretch !important;
+  }
+
+  body {
+    // This is _only_ for iOS
+    /* autoprefixer: ignore next */
+    height: -webkit-fill-available;
   }
 }

@@ -1,5 +1,3 @@
-import { Spinner } from "@blueprintjs/core";
-import classNames from "classnames";
 import { format } from "date-fns";
 import { StrictMode, useEffect, useMemo, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
@@ -69,14 +67,14 @@ export function Root() {
   }, [syncService, setPuzzle]);
 
   const isLoading = puzzle === undefined;
+  useEffect(() => {
+    const spinner = document.getElementById("loading-spinner");
+    spinner?.classList.toggle("-loading", isLoading);
+  }, [isLoading]);
+
   return (
     <StrictMode>
-      <div className="root">
-        {!isLoading && <PuzzleView puzzle={puzzle} syncService={syncService!}></PuzzleView>}
-        <div className={classNames("loading-overlay", { loading: isLoading })}>
-          <Spinner />
-        </div>
-      </div>
+      <div className="root">{!isLoading && <PuzzleView puzzle={puzzle} syncService={syncService!}></PuzzleView>}</div>
     </StrictMode>
   );
 }

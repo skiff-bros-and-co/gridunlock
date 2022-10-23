@@ -9,12 +9,13 @@ import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { validatePuzzleState } from "../utils/validatePuzzleState";
 import { getSyncedCellKey, RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "../web-rtc/types";
+import { NarrowScreenClues } from "./clues/NarrowScreenClues";
 import { PuzzleClues } from "./clues/PuzzleClues";
 import { Header } from "./Header";
 import { useEventCallback, useKeypress } from "./Hooks";
-import { MobileFooter } from "./MobileFooter";
 import { PuzzleGrid } from "./PuzzleGrid";
 import { useSyncedMap } from "./SyncingHooks";
+import { VirtualKeyboard } from "./VirtualKeyboard";
 
 interface Props {
   puzzle: PuzzleDefinition;
@@ -270,15 +271,14 @@ export const PuzzleView = (props: Props): JSX.Element => {
         fillDirection={localState.fillDirection}
         puzzle={puzzle}
       />
-      <MobileFooter
+      <NarrowScreenClues
         fillDirection={localState.fillDirection}
-        puzzle={puzzle}
+        puzzle={props.puzzle}
         selectedCell={localState.selectedPosition}
         onSelectClue={jumpToClue}
         onToggleFillDirection={togglefillDirection}
-        onVirtualKeyboardInput={handleCellValueInput}
-        onVirtualKeyboardBackspace={handleBackspace}
       />
+      <VirtualKeyboard onKeyboardInput={handleCellValueInput} onBackspace={handleBackspace} />
     </div>
   );
 };
