@@ -6,4 +6,4 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-l0IHPvf8eV52c9mPJymShDKYQmoP/YyzUHeE31FDYIs='; frame-ancestors 'none'; connect-src 'self' wss://y-webrtc-signaling-us.herokuapp.com/ wss://y-webrtc-signaling-eu.herokuapp.com wss://signaling.yjs.dev/;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-l0IHPvf8eV52c9mPJymShDKYQmoP/YyzUHeE31FDYIs=' https://static.cloudflareinsights.com/beacon.min.js/; frame-ancestors 'none'; connect-src 'self' wss://y-webrtc-signaling-us.herokuapp.com/ wss://y-webrtc-signaling-eu.herokuapp.com wss://signaling.yjs.dev/;
