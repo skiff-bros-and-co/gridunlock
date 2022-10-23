@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef } from "react";
-import { Clue } from "../state/Puzzle";
+import { Clue } from "../../state/Puzzle";
 
 interface Props {
   clue: Clue;

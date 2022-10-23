@@ -1,5 +1,6 @@
-import { memo, useMemo } from "react";
-import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
+import { memo } from "react";
+import { CellPosition, FillDirection, PuzzleDefinition } from "../../state/Puzzle";
+import { getAcrossClueNumber, getDownClueNumber } from "./clueUtils";
 import { PuzzleClueRow } from "./PuzzleClueRow";
 
 interface Props {
@@ -8,31 +9,9 @@ interface Props {
   fillDirection: FillDirection;
 }
 
-const getAcrossClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | undefined): number | null => {
-  if (cellPosition == null) {
-    return null;
-  }
-
-  return puzzle.clues.byRowAndColumn[cellPosition.row][cellPosition.column]?.acrossClueNumber || null;
-};
-
-const getDownClueNumber = (puzzle: PuzzleDefinition, cellPosition: CellPosition | undefined): number | null => {
-  if (cellPosition == null) {
-    return null;
-  }
-
-  return puzzle.clues.byRowAndColumn[cellPosition.row][cellPosition.column]?.downClueNumber || null;
-};
-
 function PuzzleCluesInternal(props: Props): JSX.Element {
-  const selectedAcrossClueNumber = useMemo(
-    () => getAcrossClueNumber(props.puzzle, props.selectedCell),
-    [props.puzzle, props.selectedCell],
-  );
-  const selectedDownClueNumber = useMemo(
-    () => getDownClueNumber(props.puzzle, props.selectedCell),
-    [props.puzzle, props.selectedCell],
-  );
+  const selectedAcrossClueNumber = getAcrossClueNumber(props.selectedCell, props.puzzle);
+  const selectedDownClueNumber = getDownClueNumber(props.selectedCell, props.puzzle);
 
   return (
     <div className="puzzle-clues-desktop">
