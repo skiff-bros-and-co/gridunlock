@@ -9,10 +9,10 @@ import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { validatePuzzleState } from "../utils/validatePuzzleState";
 import { getSyncedCellKey, RoomSyncService } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "../web-rtc/types";
+import { PuzzleClues } from "./clues/PuzzleClues";
 import { Header } from "./Header";
 import { useEventCallback, useKeypress } from "./Hooks";
 import { MobileFooter } from "./MobileFooter";
-import { PuzzleClues } from "./PuzzleClues";
 import { PuzzleGrid } from "./PuzzleGrid";
 import { useSyncedMap } from "./SyncingHooks";
 
@@ -139,6 +139,15 @@ export const PuzzleView = (props: Props): JSX.Element => {
     },
     [puzzle],
   );
+  const jumpToClue = useCallback(
+    (clueNumber: number) => {
+      setLocalState((prev) => ({
+        ...prev,
+        selectedPosition: puzzle.clues[prev.fillDirection][clueNumber].position,
+      }));
+    },
+    [puzzle],
+  );
 
   const updateCellValue = useEventCallback(
     (newValue: string) => {
@@ -261,7 +270,15 @@ export const PuzzleView = (props: Props): JSX.Element => {
         fillDirection={localState.fillDirection}
         puzzle={puzzle}
       />
-      <MobileFooter onVirtualKeyboardInput={handleCellValueInput} onVirtualKeyboardBackspace={handleBackspace} />
+      <MobileFooter
+        fillDirection={localState.fillDirection}
+        puzzle={puzzle}
+        selectedCell={localState.selectedPosition}
+        onSelectClue={jumpToClue}
+        onToggleFillDirection={togglefillDirection}
+        onVirtualKeyboardInput={handleCellValueInput}
+        onVirtualKeyboardBackspace={handleBackspace}
+      />
     </div>
   );
 };

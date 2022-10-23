@@ -39,11 +39,7 @@ export function getNextCell(opts: {
     return position;
   }
 
-  let nextClueNumber = incrementClueNumber(currClueNumber, backwards, puzzle);
-  while (puzzle.clues[direction][nextClueNumber] == null) {
-    nextClueNumber = incrementClueNumber(nextClueNumber, backwards, puzzle);
-  }
-
+  const nextClueNumber = getNextClueNumber(direction, currClueNumber, backwards, puzzle);
   const firstCellInNextWord = puzzle.clues[direction][nextClueNumber].position;
   return backwards ? lastCellInWord(firstCellInNextWord, direction, puzzle) : firstCellInNextWord;
 }
@@ -73,6 +69,19 @@ function incrementCell(
         row: nextPrimary,
         column: nextSecondary,
       };
+}
+
+export function getNextClueNumber(
+  direction: FillDirection,
+  clueNumber: number,
+  backwards: boolean,
+  puzzle: PuzzleDefinition,
+) {
+  let nextClueNumber = incrementClueNumber(clueNumber, backwards, puzzle);
+  while (puzzle.clues[direction][nextClueNumber] == null) {
+    nextClueNumber = incrementClueNumber(nextClueNumber, backwards, puzzle);
+  }
+  return nextClueNumber;
 }
 
 function incrementClueNumber(clueNumber: number, backwards: boolean, puzzle: PuzzleDefinition) {
