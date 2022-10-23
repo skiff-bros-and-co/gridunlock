@@ -68,8 +68,9 @@ export function Root() {
 
   useEffect(() => {
     const agent = window.navigator.userAgent.toLowerCase();
+    const isWebKit = agent.includes("webkit") && !agent.includes("chrome");
 
-    document.body.classList.toggle("-agent-webkit", agent.includes("webkit"));
+    document.body.classList.toggle("-agent-webkit", isWebKit);
     document.body.classList.toggle("-touch-device", navigator.maxTouchPoints > 0);
   }, []);
 
