@@ -465,9 +465,12 @@ body.-touch-device {
   }
 
   .puzzle-clues-narrow {
+    // mobile hover is a pain
     .button:hover {
-      // mobile hover is a pain
       background: $selected-clue-background;
+    }
+    .button:active {
+      background: $gray1;
     }
   }
 }
@@ -477,7 +480,8 @@ body.-agent-webkit.-touch-device {
   // https://stackoverflow.com/questions/29001977/safari-in-ios8-is-scrolling-screen-when-fixed-elements-get-focus
   -webkit-overflow-scrolling: touch !important;
 
-  // This is _only_ for iOS
-  /* autoprefixer: ignore next */
-  height: -webkit-fill-available;
+  height: stretch;
+  .puzzle-view {
+    height: stretch;
+  }
 }
