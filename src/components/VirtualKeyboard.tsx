@@ -1,3 +1,4 @@
+import { Icon } from "@blueprintjs/core";
 import classNames from "classnames";
 import { memo, Touch, TouchEvent, TouchList, useCallback, useState } from "react";
 
@@ -8,13 +9,12 @@ interface Props {
 
 const LAYOUT = ["Q W E R T Y U I O P", "A S D F G H J K L", `Z X C V B N M ⌫`];
 
-const KEY_CLASSNAME = "key";
 function KeyInternal(props: { letter: string; active: boolean }) {
   const { active, letter } = props;
 
   return (
-    <div className={classNames(KEY_CLASSNAME, { "-backspace": letter === "⌫", "-active": active })}>
-      <div className="inner">{letter}</div>
+    <div className={classNames("key", { "-active": active })} data-letter={letter}>
+      <div className="inner">{letter !== "⌫" ? letter : <Icon icon="key-backspace" />}</div>
     </div>
   );
 }
@@ -22,8 +22,9 @@ const Key = memo(KeyInternal);
 
 function getKeyFromTouch(touch: Touch) {
   const el = document.elementFromPoint(touch.pageX, touch.pageY);
-  if (el?.classList.contains(KEY_CLASSNAME)) {
-    return el.textContent;
+  const letter = el?.getAttribute("data-letter");
+  if (letter != null) {
+    return letter;
   }
 
   return undefined;
