@@ -18,9 +18,9 @@
   --puzzle-cell-content-font-size: calc(var(--puzzle-cell-inner-size) * 0.66);
   --puzzle-cell-clue-font-size: calc(var(--puzzle-cell-inner-size) - var(--puzzle-cell-content-font-size));
 
-  --virtual-keyboard-button-horiz-margin: 1vw;
-  --virtual-keyboard-button-vert-margin: 2vw;
-  --virtual-keyboard-button-width: calc((100vw - 11 * var(--virtual-keyboard-button-horiz-margin)) / 10);
+  --virtual-keyboard-button-horiz-margin: 3px;
+  --virtual-keyboard-button-vert-margin: calc(var(--virtual-keyboard-button-horiz-margin) * 2);
+  --virtual-keyboard-button-width: calc(100vw / 10);
   --virtual-keyboard-button-height: calc(var(--virtual-keyboard-button-width) * 1.4);
 }
 
@@ -288,7 +288,7 @@ body {
 }
 
 .virtual-keyboard {
-  height: calc(3 * var(--virtual-keyboard-button-height) + 4 * var(--virtual-keyboard-button-vert-margin));
+  height: calc(3 * var(--virtual-keyboard-button-height));
   width: 100vw;
 
   border: none;
@@ -310,38 +310,30 @@ body {
 
     display: flex;
     justify-content: center;
-    margin-top: var(--virtual-keyboard-button-vert-margin);
-
-    &:last-child {
-      margin-bottom: var(--virtual-keyboard-button-vert-margin);
-    }
   }
 
   .key {
     flex: 0 0 var(--virtual-keyboard-button-width);
-    cursor: pointer;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    cursor: pointer;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    border-radius: 10%;
     font-size: 16px;
+    padding: var(--virtual-keyboard-button-vert-margin) var(--virtual-keyboard-button-horiz-margin);
 
-    color: $white;
-    background: $gray1;
-    margin-left: var(--virtual-keyboard-button-horiz-margin);
-
-    &:last-child {
-      margin-right: var(--virtual-keyboard-button-horiz-margin);
+    .inner {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $white;
+      background: $gray1;
+      border-radius: 10%;
+      pointer-events: none;
     }
 
-    &.-active {
+    &.-active .inner {
       background: $gray5;
-    }
-
-    &.-backspace {
-      font-size: 26px;
-      font-weight: 400;
     }
   }
 }
