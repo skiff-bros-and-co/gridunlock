@@ -12,7 +12,11 @@ const KEY_CLASSNAME = "key";
 function KeyInternal(props: { letter: string; active: boolean }) {
   const { active, letter } = props;
 
-  return <div className={classNames(KEY_CLASSNAME, { "-backspace": letter === "⌫", "-active": active })}>{letter}</div>;
+  return (
+    <div className={classNames(KEY_CLASSNAME, { "-backspace": letter === "⌫", "-active": active })}>
+      <div className="inner">{letter}</div>
+    </div>
+  );
 }
 const Key = memo(KeyInternal);
 
