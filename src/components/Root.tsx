@@ -76,7 +76,7 @@ export function Root() {
 
   const isLoading = puzzle === undefined;
   useEffect(() => {
-    const spinner = document.getElementById("loading-spinner");
+    const spinner = document.getElementById("loading-overlay");
     spinner?.classList.toggle("-loading", isLoading);
   }, [isLoading]);
 

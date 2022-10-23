@@ -64,11 +64,30 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   background-color: $main-background-color;
   pointer-events: none;
 
   &.-loading {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .where-is-my-game {
+    opacity: 0;
+    margin: 0 10px;
+    max-width: 500px;
+    text-align: center;
+    animation: 1s ease-in 10s 1 forwards fade-in;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
 }

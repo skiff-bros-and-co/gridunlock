@@ -15,7 +15,7 @@
   </head>
   <body class="bp4-dark">
     <div id="content"></div>
-    <div id="loading-spinner" class="loading-overlay -loading">
+    <div id="loading-overlay" class="loading-overlay -loading">
       <!-- inlined so we can show the spinner immediately -->
       <div aria-valuemax="100" aria-valuemin="0" class="bp4-spinner" role="progressbar">
         <div class="bp4-spinner-animation">
@@ -29,6 +29,22 @@
               stroke-dashoffset="210"
             ></path>
           </svg>
+        </div>
+      </div>
+      <div class="where-is-my-game">
+        <h1>We're having trouble connecting to a device that has this room saved...</h1>
+        <div>
+          <span
+            >Grid Unlock uses WebRTC (P2P) and does not store rooms on our server. Instead, rooms are stored on your
+            device and directly communicated to other devices.
+
+            <br /><br />
+
+            We'll keep trying to connect, but you can also create a new room!
+
+            <br /><br
+          /></span>
+          <div><a class="bp4-button bp4-large bp4-intent-primary button" href="/">New Room</a></div>
         </div>
       </div>
     </div>
