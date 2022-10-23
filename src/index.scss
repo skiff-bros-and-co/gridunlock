@@ -209,6 +209,10 @@ body {
     line-height: 1;
     padding: 0;
 
+    // This fixes a really annoying bug on iOS, where
+    // text was getting clipped
+    height: 1.15em;
+
     // On mobile, we use a virtual keyboard
     // Furthermore, the existing input interactions on iOS lead
     // to a selection callout appearing
@@ -467,11 +471,6 @@ body {
       background: $selected-clue-background;
     }
   }
-}
-
-input::first-line {
-  display: inline-flex !important;
-  vertical-align: bottom !important;
 }
 
 @supports (-webkit-touch-callout: none) {
