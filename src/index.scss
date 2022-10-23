@@ -12,7 +12,7 @@
 
   --puzzle-column-count: 3;
   --puzzle-cell-spacing: 1px;
-  --puzzle-cell-size: max(calc(min(70vh, 70vw) / var(--puzzle-column-count)), var(--minimum-cell-size));
+  --puzzle-cell-size: max(calc(min(70vh, 50vw) / var(--puzzle-column-count)), var(--minimum-cell-size));
   --puzzle-cell-selection-border-width: 2px;
   --puzzle-cell-inner-size: calc(var(--puzzle-cell-size) - 2 * var(--puzzle-cell-selection-border-width));
   --puzzle-cell-content-font-size: calc(var(--puzzle-cell-inner-size) * 0.66);
@@ -34,38 +34,42 @@ $selected-clue-border-width: 1px;
 body {
   font-family: "Libre FranklinVariable";
   font-variation-settings: "wght" 400;
+  background-color: $main-background-color;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+#content {
+  width: 100%;
+  height: 100%;
 }
 
 .root {
-  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  z-index: 9999;
+  transition: 200ms ease-in opacity;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   background-color: $main-background-color;
-  width: 100vw;
-  height: 100vh;
-  padding: 20px;
+  pointer-events: none;
 
-  overflow: hidden;
-
-  .loading-overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    z-index: 9999;
-    transition: 200ms ease-in opacity;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background-color: $main-background-color;
-    pointer-events: none;
-
-    &.loading {
-      opacity: 1;
-    }
+  &.-loading {
+    opacity: 1;
   }
 }
 
@@ -80,6 +84,9 @@ body {
 
   h1 {
     margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre;
   }
 
   .buttons {
@@ -96,15 +103,16 @@ body {
 
 .puzzle-view {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0fr 1fr;
   grid-template-rows: 0fr 1fr;
   grid-template-areas:
     "main header"
     "main clues";
   justify-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  column-gap: 5px;
 
   &.-puzzle-won {
     .puzzle-cell.unblocked {
@@ -153,6 +161,9 @@ body {
 
 .puzzle-container {
   grid-area: main;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 
   .puzzle-title {
     margin: 2px 0px;
@@ -371,6 +382,12 @@ body {
   }
 }
 
+@media only screen and (max-width: 800px) {
+  .app-title {
+    display: none;
+  }
+}
+
 // Only used on mobile
 @media only screen and (hover: none) {
   :root {
@@ -379,19 +396,19 @@ body {
 
   .root {
     padding: 8px 0 0 0;
-    height: stretch;
   }
 
-  .puzzle-view {
-    height: stretch;
+  body {
+    // This is _only_ for iOS
+    /* autoprefixer: ignore next */
+    height: -webkit-fill-available;
   }
 
   // TODO: Add info panel
   .puzzle-title,
   .puzzle-copyright,
   .puzzle-author,
-  .puzzle-clues-desktop,
-  .app-title {
+  .puzzle-clues-desktop {
     display: none;
   }
 
