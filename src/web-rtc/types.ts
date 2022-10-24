@@ -18,3 +18,7 @@ export interface SyncedPlayerInfo {
   joinTimeUtcMs: number;
   clientID: number;
 }
+
+export interface IceApiResponse {
+  iceServers: RTCIceServer[];
+}

@@ -1,3 +1,5 @@
+import { IceApiResponse } from "../../../src/web-rtc/types";
+
 const TOKEN_EXPIRATION_SECONDS = 4 * 60 * 60;
 
 interface Env {
@@ -19,10 +21,6 @@ interface XirsysResponse {
   };
   s: "ok" | "error";
 }
-export interface IceApiResponse {
-  iceServers: XirsysResponse["v"]["iceServers"];
-}
-
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   const body: XirsysRequest = { format: "urls", expire: String(TOKEN_EXPIRATION_SECONDS) };
   const req = await fetch("https://global.xirsys.net/_turn/gridunlock", {
@@ -40,7 +38,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   }
 
   const response: IceApiResponse = {
-    iceServers: parsed.v.iceServers,
+    iceServers: [parsed.v.iceServers],
   };
   return new Response(JSON.stringify(response), {
     headers: {
