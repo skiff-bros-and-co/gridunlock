@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/dskiff/gridunlock#readme",
   "devDependencies": {
-    "@cloudflare/workers-types": "^3.17.0",
+    "@cloudflare/workers-types": "^3.18.0",
     "@percy/cli": "^1.12.0",
     "@types/gm": "^1.18.12",
     "@types/lodash-es": "^4.17.6",
