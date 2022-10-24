@@ -1,17 +1,16 @@
 import { pull, sortBy, startCase } from "lodash-es";
-import SimplePeer from "simple-peer";
+import * as SimplePeer from "simple-peer";
 import { IndexeddbPersistence, storeState } from "y-indexeddb";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { CellValidState } from "../utils/validatePuzzleState";
-import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
-import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState } from "./types";
+import { createWebRtcProvider } from "./createWebRtcProvider";
+import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState, XirsysIceServers } from "./types";
 
-// This clearly provides no security other than mild obfustication.
-const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
 const PUZZLE_DEF_KEY = "puzzleDef";
+const DEFAULT_ICE_SERVER_URLS = ["stun:stun.l.google.com:19302", "stun:global.stun.twilio.com:3478"];
 
 export const getSyncedCellKey = (cell: CellPosition) => `${cell.column}:${cell.row}`;
 
@@ -43,20 +42,15 @@ export class RoomSyncService {
   };
 
   constructor(roomName: string) {
-    const peerOpts: SimplePeer.Options = {
-      wrtc: {
-        RTCIceCandidate,
-        RTCSessionDescription,
-        RTCPeerConnection: ModifiedRTCPeerConnection,
-      },
-    };
-
-    this.webrtcProvider = new WebrtcProvider(roomName, this.doc, {
-      password: PASSWORD,
-      peerOpts,
-      // The types are BAD
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    this.webrtcProvider = createWebRtcProvider({
+      doc: this.doc,
+      roomName,
+      iceServers: [
+        {
+          urls: DEFAULT_ICE_SERVER_URLS,
+        },
+      ],
+    });
     this.indexDbProvider = new IndexeddbPersistence("room-" + roomName, this.doc);
 
     this.info.observeDeep(() => {
@@ -70,6 +64,7 @@ export class RoomSyncService {
     });
 
     this.updatePlayerPosition();
+    this.lazyAddTurnIceServers();
   }
 
   addEventListener<E extends keyof Events>(event: E, handler: EventHandler<E>) {
@@ -166,5 +161,18 @@ export class RoomSyncService {
       return undefined;
     }
     return JSON.parse(puzzleDef);
+  }
+
+  private async lazyAddTurnIceServers() {
+    const iceInfo: XirsysIceServers = await (await fetch("/api/rtc/ice")).json();
+
+    if (iceInfo.s === "error") {
+      console.error("turn ice servers could not be fetched");
+      return;
+    }
+
+    const opts = this.webrtcProvider.peerOpts as SimplePeer.Options;
+    opts.config!.iceServers!.push(iceInfo.v.iceServers);
+    this.webrtcProvider.connect();
   }
 }
