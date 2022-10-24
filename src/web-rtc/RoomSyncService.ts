@@ -24,6 +24,8 @@ type EventHandlers = {
   [E in keyof Events]: EventHandler<E>[];
 };
 
+type WebrtcProviderOptions = Partial<ConstructorParameters<typeof WebrtcProvider>[2]>;
+
 export class RoomSyncService {
   private listeners: EventHandlers = {
     loaded: [],
@@ -51,12 +53,16 @@ export class RoomSyncService {
       },
     };
 
-    this.webrtcProvider = new WebrtcProvider(roomName, this.doc, {
+    const webRtcOptions: WebrtcProviderOptions = {
       password: PASSWORD,
       peerOpts,
-      // The types are BAD
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+      maxConns: 20 + Math.floor(Math.random() * 15),
+      filterBcConns: true,
+    };
+
+    // Types are bad
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.webrtcProvider = new WebrtcProvider(roomName, this.doc, webRtcOptions as any);
     this.indexDbProvider = new IndexeddbPersistence("room-" + roomName, this.doc);
 
     this.info.observeDeep(() => {
