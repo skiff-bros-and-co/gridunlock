@@ -18,11 +18,3 @@ export interface SyncedPlayerInfo {
   joinTimeUtcMs: number;
   clientID: number;
 }
-
-// see https://docs.xirsys.com/?pg=api-turn
-export interface XirsysIceServers {
-  v: {
-    iceServers: RTCIceServer;
-  };
-  s: "ok" | "error";
-}
