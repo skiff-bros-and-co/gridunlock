@@ -21,7 +21,6 @@ export function createWebRtcProvider(opts: {
     },
     config: {
       iceServers: opts.iceServers,
-      iceTransportPolicy: "relay",
     },
   };
 

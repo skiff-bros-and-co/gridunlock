@@ -7,7 +7,7 @@ import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { CellValidState } from "../utils/validatePuzzleState";
 import { createWebRtcProvider } from "./createWebRtcProvider";
-import { SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState, XirsysIceServers } from "./types";
+import { IceApiResponse, SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState } from "./types";
 
 const PUZZLE_DEF_KEY = "puzzleDef";
 const DEFAULT_ICE_SERVER_URLS = ["stun:stun.l.google.com:19302", "stun:global.stun.twilio.com:3478"];
@@ -164,15 +164,10 @@ export class RoomSyncService {
   }
 
   private async lazyAddTurnIceServers() {
-    const iceInfo: XirsysIceServers = await (await fetch("/api/rtc/ice")).json();
-
-    if (iceInfo.s === "error") {
-      console.error("turn ice servers could not be fetched");
-      return;
-    }
+    const iceInfo: IceApiResponse = await (await fetch("/api/rtc/ice")).json();
 
     const opts = this.webrtcProvider.peerOpts as SimplePeer.Options;
-    opts.config!.iceServers!.push(iceInfo.v.iceServers);
+    opts.config!.iceServers!.push(...iceInfo.iceServers);
     this.webrtcProvider.connect();
   }
 }
