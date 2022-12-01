@@ -64,7 +64,7 @@
     "shallow-equals": "^1.0.0",
     "y-indexeddb": "^9.0.9",
     "y-webrtc": "^10.2.3",
-    "yjs": "^13.5.42"
+    "yjs": "^13.5.43"
   },
   "volta": {
     "node": "16.18.0"
