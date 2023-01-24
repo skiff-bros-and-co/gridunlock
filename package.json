@@ -47,7 +47,7 @@
     "vite-plugin-pwa": "^0.14.1"
   },
   "dependencies": {
-    "@blueprintjs/core": "^4.14.3",
+    "@blueprintjs/core": "^4.15.0",
     "@blueprintjs/popover2": "^1.11.2",
     "@cloudflare/pages-plugin-sentry": "^1.1.0",
     "@fontsource/libre-franklin": "^4.5.11",
