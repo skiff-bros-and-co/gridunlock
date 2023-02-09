@@ -44,7 +44,7 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5",
     "vite": "^3.2.5",
-    "vite-plugin-pwa": "^0.14.2"
+    "vite-plugin-pwa": "^0.14.3"
   },
   "dependencies": {
     "@blueprintjs/core": "^4.15.1",
