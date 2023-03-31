@@ -62,7 +62,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "shallow-equals": "^1.0.0",
-    "y-indexeddb": "^9.0.9",
+    "y-indexeddb": "^9.0.10",
     "y-webrtc": "^10.2.5",
     "yjs": "^13.5.51"
   },
