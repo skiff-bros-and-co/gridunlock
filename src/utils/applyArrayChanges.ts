@@ -10,7 +10,7 @@ import shallowEquals from "shallow-equals";
  */
 export function applyArrayChanges<V>(a: V[], changes: V[]): V[] {
   const isNestedArray = Array.isArray(a[0]);
-  let hasChanges = a.length === changes.length;
+  let hasChanges = a.length !== changes.length;
   const result: V[] = [];
 
   for (let i = 0; i < changes.length; i++) {

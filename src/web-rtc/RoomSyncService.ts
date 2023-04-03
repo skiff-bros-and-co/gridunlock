@@ -63,7 +63,7 @@ export class RoomSyncService {
       this.emit("playersStateChanged");
     });
 
-    this.updatePlayerPosition();
+    this.updatePlayerPosition(undefined);
     this.lazyAddTurnIceServers();
   }
 
@@ -139,7 +139,7 @@ export class RoomSyncService {
     await storeState(this.indexDbProvider, true);
   }
 
-  updatePlayerPosition(position?: CellPosition) {
+  updatePlayerPosition(position: CellPosition | undefined) {
     const state: SyncedPlayerState = {
       info: this.playerInfo,
       position,

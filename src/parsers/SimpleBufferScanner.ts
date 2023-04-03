@@ -40,7 +40,7 @@ export class SimpleBufferScanner {
 
   public readRemaining(): ArrayBuffer {
     const result = this.buffer.slice(this.currentIndex);
-    this.currentIndex += this.buffer.byteLength;
+    this.currentIndex = this.buffer.byteLength;
     return result;
   }
 
