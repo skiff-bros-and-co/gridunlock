@@ -1,6 +1,5 @@
 import { unescape } from "lodash-es";
-import { CellDefinition, CellPosition, Clue, FillDirection, PuzzleDefinition } from "../state/Puzzle";
-import { buildCellCluesByRowAndColumn } from "../state/PuzzleDataBuilder";
+import { IntermediatePuzzleDefinition } from "./types";
 
 // see: https://www.xwordinfo.com/JSON/
 export interface XWordInfoJsonFormat {
@@ -24,13 +23,7 @@ export interface XWordInfoJsonFormat {
   notepad: string | null;
 }
 
-export function parseXWord(src: XWordInfoJsonFormat): PuzzleDefinition {
-  const cells = generateCells(src);
-  const maxClueNumber = Math.max(
-    ...(cells
-      .flatMap((row) => row.map((cell) => cell.clueNumber))
-      .filter((clueNumber) => clueNumber != null) as number[]),
-  );
+export function parseXWord(src: XWordInfoJsonFormat): IntermediatePuzzleDefinition {
   return {
     title: src.title,
     author: src.author,
@@ -38,65 +31,37 @@ export function parseXWord(src: XWordInfoJsonFormat): PuzzleDefinition {
     description: src.notepad ?? "",
     height: src.size.rows,
     width: src.size.cols,
-    cells,
+    cells: build2DArray(src.size.cols, src.size.rows, src.grid),
     clues: {
-      across: parseClues(src.clues.across, "across", cells),
-      byRowAndColumn: buildCellCluesByRowAndColumn(cells),
-      clueCount: maxClueNumber,
-      down: parseClues(src.clues.down, "down", cells),
+      across: parseClues(src.clues.across),
+      down: parseClues(src.clues.down),
+      byCell: build2DArray(src.size.cols, src.size.rows, src.gridnums).map((row) =>
+        row.map((cell) => (cell === 0 ? undefined : cell)),
+      ),
     },
   };
 }
 
-function generateCells(src: XWordInfoJsonFormat): CellDefinition[][] {
-  const result: CellDefinition[][] = [];
-
-  // grid is a flattened, row major array
-  for (let row = 0; row < src.size.rows; row++) {
-    const cells: CellDefinition[] = [];
-    for (let column = 0; column < src.size.cols; column++) {
-      const index = row * src.size.cols + column;
-      const value = src.grid[index];
-      cells.push({
-        row,
-        column,
-        solution: value,
-        clueNumber: src.gridnums[index] === 0 ? undefined : src.gridnums[index],
-        initialState: value === "." ? "." : "",
-        isBlocked: value === ".",
-      });
+function build2DArray<T>(width: number, height: number, src: T[]): T[][] {
+  const result: T[][] = [];
+  for (let row = 0; row < height; row++) {
+    const cells: T[] = [];
+    for (let column = 0; column < width; column++) {
+      const index = row * width + column;
+      cells.push(src[index]);
     }
     result.push(cells);
   }
-
   return result;
 }
 
-function parseClues(clueStrings: string[], direction: FillDirection, cells: CellDefinition[][]) {
-  const result: { [clueNumber: number]: Clue } = Object.create(null);
+function parseClues(clueList: string[]): { [clueNumber: number]: string } {
+  const result: { [clueNumber: number]: string } = Object.create(null);
 
-  const positionLookup: { [clueNumber: number]: CellPosition } = Object.create(null);
-  for (let row = 0; row < cells.length; row++) {
-    for (let col = 0; col < cells[row].length; col++) {
-      const cell = cells[row][col];
-      if (cell.clueNumber != null) {
-        positionLookup[cell.clueNumber] = {
-          row: cell.row,
-          column: cell.column,
-        };
-      }
-    }
-  }
-
-  for (const clueString of clueStrings) {
+  for (const clueString of clueList) {
     const [clueNumberString, ...clue] = clueString.split(".");
     const clueNumber = Number(clueNumberString);
-    result[clueNumber] = {
-      clue: unescape(clue.join(".").trim()),
-      clueNumber,
-      direction,
-      position: positionLookup[clueNumber],
-    };
+    result[clueNumber] = unescape(clue.join(".").trim());
   }
 
   return result;

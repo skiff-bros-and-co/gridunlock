@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+import { parseIntermediatePuzzle } from "../../src/parsers/parseIntermediatePuzzle";
 import { XWordInfoJsonFormat, parseXWord } from "../../src/parsers/parseXWord";
 
 const TEST_XWORD: XWordInfoJsonFormat = {
@@ -21,7 +22,7 @@ const TEST_XWORD: XWordInfoJsonFormat = {
 
 describe("parseXWord", () => {
   describe("when parsing a simple puzzle", () => {
-    const puzzle = parseXWord(TEST_XWORD);
+    const puzzle = parseIntermediatePuzzle(parseXWord(TEST_XWORD));
 
     test("should parse the title", () => {
       expect(puzzle.title).toEqual("Test Puzzle");
@@ -133,7 +134,6 @@ describe("parseXWord", () => {
             column: 0,
             row: 0,
             solution: "C",
-            initialState: "",
             isBlocked: false,
             clueNumber: 1,
           },
@@ -141,7 +141,6 @@ describe("parseXWord", () => {
             column: 1,
             row: 0,
             solution: "A",
-            initialState: "",
             isBlocked: false,
             clueNumber: 2,
           },
@@ -149,7 +148,6 @@ describe("parseXWord", () => {
             column: 2,
             row: 0,
             solution: "T",
-            initialState: "",
             isBlocked: false,
             clueNumber: undefined,
           },
@@ -159,7 +157,6 @@ describe("parseXWord", () => {
             column: 0,
             row: 1,
             solution: ".",
-            initialState: ".",
             isBlocked: true,
             clueNumber: undefined,
           },
@@ -167,7 +164,6 @@ describe("parseXWord", () => {
             column: 1,
             row: 1,
             solution: "REBUS",
-            initialState: "",
             isBlocked: false,
             clueNumber: undefined,
           },
@@ -175,7 +171,6 @@ describe("parseXWord", () => {
             column: 2,
             row: 1,
             solution: ".",
-            initialState: ".",
             isBlocked: true,
             clueNumber: undefined,
           },
@@ -185,7 +180,6 @@ describe("parseXWord", () => {
             column: 0,
             row: 2,
             solution: "E",
-            initialState: "",
             isBlocked: false,
             clueNumber: 3,
           },
@@ -193,7 +187,6 @@ describe("parseXWord", () => {
             column: 1,
             row: 2,
             solution: "C",
-            initialState: "",
             isBlocked: false,
             clueNumber: undefined,
           },
@@ -201,7 +194,6 @@ describe("parseXWord", () => {
             column: 2,
             row: 2,
             solution: "O",
-            initialState: "",
             isBlocked: false,
             clueNumber: undefined,
           },
