@@ -1,33 +1,35 @@
 import { CellClue, CellDefinition } from "./Puzzle";
 
 export const buildCellCluesByRowAndColumn = (cells: CellDefinition[][]): (CellClue | undefined)[][] => {
-  let acrossClueNumber: number | undefined = undefined;
-  const lastDownClueNumberByColumn: { [colIndex: number]: number | undefined } = {};
-  return cells.map((row) => {
+  let currAcrossClueNumber: number | undefined;
+  const currDownClueNumberByColumn: (number | undefined)[] = [];
+  return cells.map((row, rowIndex) => {
+    currAcrossClueNumber = undefined;
+
     return row.map((cell, colIndex) => {
-      if (colIndex === 0) {
-        acrossClueNumber = undefined;
-      }
       if (cell.isBlocked) {
-        acrossClueNumber = undefined;
-        lastDownClueNumberByColumn[colIndex] = undefined;
+        currAcrossClueNumber = undefined;
+        currDownClueNumberByColumn[colIndex] = undefined;
       }
 
-      if (!acrossClueNumber && cell.clueNumber) {
-        acrossClueNumber = cell.clueNumber;
-      }
-      if (!lastDownClueNumberByColumn[colIndex] && cell.clueNumber) {
-        lastDownClueNumberByColumn[colIndex] = cell.clueNumber;
+      const hasAcross = colIndex < row.length - 1 && !row[colIndex + 1].isBlocked;
+      if (currAcrossClueNumber == null && cell.clueNumber != null && hasAcross) {
+        currAcrossClueNumber = cell.clueNumber;
       }
 
-      const downClueNumber = lastDownClueNumberByColumn[colIndex];
-      if (!acrossClueNumber && !downClueNumber) {
+      const hasDown = rowIndex < cells.length - 1 && !cells[rowIndex + 1][colIndex].isBlocked;
+      if (currDownClueNumberByColumn[colIndex] == null && cell.clueNumber != null && hasDown) {
+        currDownClueNumberByColumn[colIndex] = cell.clueNumber;
+      }
+
+      const downClueNumber = currDownClueNumberByColumn[colIndex];
+      if (currAcrossClueNumber == null && downClueNumber == null) {
         return undefined;
       }
       return {
-        isStartOfClue: Boolean(cell.clueNumber),
-        acrossClueNumber: acrossClueNumber || undefined,
-        downClueNumber: downClueNumber || undefined,
+        isStartOfClue: cell.clueNumber != null,
+        acrossClueNumber: currAcrossClueNumber,
+        downClueNumber: downClueNumber,
       };
     });
   });

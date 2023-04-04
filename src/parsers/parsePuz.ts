@@ -1,4 +1,5 @@
 import { CellClue, CellDefinition, Clue, PuzzleClues, PuzzleDefinition } from "../state/Puzzle";
+import { buildCellCluesByRowAndColumn } from "../state/PuzzleDataBuilder";
 import { SimpleBufferScanner } from "./SimpleBufferScanner";
 
 function needsAcrossNumber(column: number, row: number, cells: CellDefinition[][]) {
@@ -22,17 +23,11 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
   let nextClueNumber = 1;
   let nextClueListIndex = 0;
 
-  let currAcrossClueNumber: number | undefined;
-  const currDownClueNumberByColumn: (number | undefined)[] = [];
-
   cells.forEach((row, rowIndex) => {
     cluesByRowAndColumn.push([]);
 
     row.forEach((cell, columnIndex) => {
       if (cell.isBlocked) {
-        cluesByRowAndColumn[rowIndex].push(undefined);
-        currAcrossClueNumber = undefined;
-        currDownClueNumberByColumn[columnIndex] = undefined;
         return;
       }
 
@@ -47,7 +42,6 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
           },
         };
         cell.clueNumber = nextClueNumber;
-        currAcrossClueNumber = nextClueNumber;
         nextClueListIndex += 1;
       }
 
@@ -62,15 +56,8 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
           },
         };
         cell.clueNumber = nextClueNumber;
-        currDownClueNumberByColumn[columnIndex] = nextClueNumber;
         nextClueListIndex += 1;
       }
-
-      cluesByRowAndColumn[rowIndex].push({
-        isStartOfClue: cell.clueNumber != null,
-        acrossClueNumber: currAcrossClueNumber,
-        downClueNumber: currDownClueNumberByColumn[columnIndex],
-      });
 
       if (cell.clueNumber != null) {
         nextClueNumber += 1;
@@ -81,7 +68,7 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
   return {
     across: acrossClues,
     down: downClues,
-    byRowAndColumn: cluesByRowAndColumn,
+    byRowAndColumn: buildCellCluesByRowAndColumn(cells),
     clueCount: nextClueNumber - 1,
   };
 }
