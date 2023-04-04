@@ -32,7 +32,7 @@ function PuzzleCellInternal(props: Props): JSX.Element {
     } else {
       inputRef.current.blur();
     }
-  }, [inputRef, props.isSelected]);
+  }, [inputRef, props.isSelected, props.fillDirection]);
 
   const handleClick = useCallback(() => {
     if (isSelected) {
