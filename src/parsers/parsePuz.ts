@@ -1,12 +1,18 @@
 import { CellClue, CellDefinition, Clue, PuzzleClues, PuzzleDefinition } from "../state/Puzzle";
+import { buildCellCluesByRowAndColumn } from "../state/PuzzleDataBuilder";
 import { SimpleBufferScanner } from "./SimpleBufferScanner";
 
 function needsAcrossNumber(column: number, row: number, cells: CellDefinition[][]) {
-  return column === 0 || cells[row][column - 1].isBlocked;
+  const cellsForRow = cells[row];
+  const isStart = column === 0 || cellsForRow[column - 1].isBlocked;
+  const hasNoAcross = column === cellsForRow.length - 1 || cellsForRow[column + 1].isBlocked;
+  return isStart && !hasNoAcross;
 }
 
 function needsDownNumber(column: number, row: number, cells: CellDefinition[][]) {
-  return row === 0 || cells[row - 1][column].isBlocked;
+  const isStart = row === 0 || cells[row - 1][column].isBlocked;
+  const hasNoDown = row === cells.length - 1 || cells[row + 1][column].isBlocked;
+  return isStart && !hasNoDown;
 }
 
 function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues {
@@ -17,15 +23,11 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
   let nextClueNumber = 1;
   let nextClueListIndex = 0;
 
-  let lastAcrossClueNumber: number;
-  const lastDownClueNumberByColumn: number[] = [];
-
   cells.forEach((row, rowIndex) => {
     cluesByRowAndColumn.push([]);
 
     row.forEach((cell, columnIndex) => {
       if (cell.isBlocked) {
-        cluesByRowAndColumn[rowIndex].push(undefined);
         return;
       }
 
@@ -40,7 +42,6 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
           },
         };
         cell.clueNumber = nextClueNumber;
-        lastAcrossClueNumber = nextClueNumber;
         nextClueListIndex += 1;
       }
 
@@ -55,17 +56,10 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
           },
         };
         cell.clueNumber = nextClueNumber;
-        lastDownClueNumberByColumn[columnIndex] = nextClueNumber;
         nextClueListIndex += 1;
       }
 
-      cluesByRowAndColumn[rowIndex].push({
-        isStartOfClue: !!cell.clueNumber,
-        acrossClueNumber: lastAcrossClueNumber,
-        downClueNumber: lastDownClueNumberByColumn[columnIndex],
-      });
-
-      if (cell.clueNumber) {
+      if (cell.clueNumber != null) {
         nextClueNumber += 1;
       }
     });
@@ -74,7 +68,7 @@ function indexClues(cells: CellDefinition[][], clueList: string[]): PuzzleClues 
   return {
     across: acrossClues,
     down: downClues,
-    byRowAndColumn: cluesByRowAndColumn,
+    byRowAndColumn: buildCellCluesByRowAndColumn(cells),
     clueCount: nextClueNumber - 1,
   };
 }

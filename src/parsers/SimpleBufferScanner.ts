@@ -23,25 +23,25 @@ export class SimpleBufferScanner {
     return new DataView(result);
   }
 
-  public readUntil(predicate: (char: number) => boolean): ArrayBuffer {
+  public readUntil(predicate: (char: number) => boolean): DataView {
     const buffer = this.buffer;
     const charView = new Uint8Array(buffer);
     const startIndex = this.currentIndex;
     for (let i = startIndex; i < buffer.byteLength; i++) {
       if (predicate(charView[i])) {
         this.currentIndex = i + 1;
-        return buffer.slice(startIndex, i);
+        return new DataView(buffer.slice(startIndex, i));
       }
     }
 
     this.currentIndex = buffer.byteLength;
-    return buffer.slice(startIndex);
+    return new DataView(buffer.slice(startIndex));
   }
 
-  public readRemaining(): ArrayBuffer {
+  public readRemaining(): DataView {
     const result = this.buffer.slice(this.currentIndex);
     this.currentIndex = this.buffer.byteLength;
-    return result;
+    return new DataView(result);
   }
 
   get index() {

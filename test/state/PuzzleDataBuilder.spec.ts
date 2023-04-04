@@ -1,10 +1,11 @@
-import { describe, expect, it } from "@jest/globals";
-import { CellDefinition } from "./Puzzle";
-import { buildCellCluesByRowAndColumn } from "./PuzzleDataBuilder";
+import { describe, expect, test } from "vitest";
+
+import { CellDefinition } from "../../src/state/Puzzle";
+import { buildCellCluesByRowAndColumn } from "../../src/state/PuzzleDataBuilder";
 
 describe("PuzzleDataBuilder", () => {
   describe("buildCellCluesByRowAndColumn", () => {
-    it("should build correct clue 2d array", () => {
+    test("should build correct clue 2d array", () => {
       const givenCells: CellDefinition[][] = [
         [
           { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 1, solution: "G" },
@@ -46,7 +47,7 @@ describe("PuzzleDataBuilder", () => {
       ]);
     });
 
-    it("should handle single word cells", () => {
+    test("should handle single word cells", () => {
       const givenCells: CellDefinition[][] = [
         [
           { row: 0, column: 0, initialState: "", isBlocked: false, clueNumber: 1, solution: "G" },
