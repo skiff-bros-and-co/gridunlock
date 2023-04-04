@@ -43,7 +43,7 @@ export function Root() {
 
       await syncService.initPuzzle(parseXWord(await req.json()));
 
-      window.location.pathname = ROOM_PATH_PREFIX + roomName;
+      window.location.replace(ROOM_PATH_PREFIX + roomName);
     })();
   }, [roomName]);
 
