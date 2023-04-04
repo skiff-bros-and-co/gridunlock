@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { StrictMode, useEffect, useMemo, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
+import { parseIntermediatePuzzle } from "../parsers/parseIntermediatePuzzle";
 import { parseXWord } from "../parsers/parseXWord";
 import { PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
@@ -41,7 +42,7 @@ export function Root() {
       // const puzzleId = btoa("http://www.nytimes.com/specials/puzzles/classic.puz");
       // const req = await fetch(`/api/puzzle/puz/${puzzleId}`);
 
-      await syncService.initPuzzle(parseXWord(await req.json()));
+      await syncService.initPuzzle(parseIntermediatePuzzle(parseXWord(await req.json())));
 
       window.location.replace(ROOM_PATH_PREFIX + roomName);
     })();

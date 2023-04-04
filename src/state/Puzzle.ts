@@ -28,7 +28,6 @@ export interface CellPosition {
 
 export interface CellDefinition extends CellPosition {
   solution: string;
-  initialState: string;
   isBlocked: boolean;
 
   clueNumber: number | undefined;

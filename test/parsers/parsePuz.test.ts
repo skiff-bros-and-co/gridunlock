@@ -47,165 +47,25 @@ describe("parsePuz", () => {
     test("should parse the clues", () => {
       expect(parsed.clues).toEqual({
         across: {
-          1: {
-            clue: "clue 1",
-            clueNumber: 1,
-            direction: "across",
-            position: {
-              row: 0,
-              column: 0,
-            },
-          },
-          "3": {
-            clue: "clue 3",
-            clueNumber: 3,
-            direction: "across",
-            position: {
-              column: 0,
-              row: 2,
-            },
-          },
+          1: "clue 1",
+          3: "clue 3",
         },
         down: {
-          2: {
-            clue: "clue 2",
-            clueNumber: 2,
-            direction: "down",
-            position: {
-              row: 0,
-              column: 1,
-            },
-          },
+          2: "clue 2",
         },
-        byRowAndColumn: [
-          [
-            {
-              isStartOfClue: true,
-              acrossClueNumber: 1,
-              downClueNumber: undefined,
-            },
-            {
-              isStartOfClue: true,
-              acrossClueNumber: 1,
-              downClueNumber: 2,
-            },
-            {
-              isStartOfClue: false,
-              acrossClueNumber: 1,
-              downClueNumber: undefined,
-            },
-          ],
-          [
-            undefined,
-            {
-              isStartOfClue: false,
-              acrossClueNumber: undefined,
-              downClueNumber: 2,
-            },
-            undefined,
-          ],
-          [
-            {
-              isStartOfClue: true,
-              acrossClueNumber: 3,
-              downClueNumber: undefined,
-            },
-            {
-              isStartOfClue: false,
-              acrossClueNumber: 3,
-              downClueNumber: 2,
-            },
-            {
-              isStartOfClue: false,
-              acrossClueNumber: 3,
-              downClueNumber: undefined,
-            },
-          ],
+        byCell: [
+          [1, 2, undefined],
+          [undefined, undefined, undefined],
+          [3, undefined, undefined],
         ],
-        clueCount: 3,
       });
     });
 
     test("should parse the cells", () => {
       expect(parsed.cells).toEqual([
-        [
-          {
-            column: 0,
-            row: 0,
-            solution: "C",
-            initialState: "",
-            isBlocked: false,
-            clueNumber: 1,
-          },
-          {
-            column: 1,
-            row: 0,
-            solution: "A",
-            initialState: "A",
-            isBlocked: false,
-            clueNumber: 2,
-          },
-          {
-            column: 2,
-            row: 0,
-            solution: "T",
-            initialState: "",
-            isBlocked: false,
-            clueNumber: undefined,
-          },
-        ],
-        [
-          {
-            column: 0,
-            row: 1,
-            solution: ".",
-            initialState: ".",
-            isBlocked: true,
-            clueNumber: undefined,
-          },
-          {
-            column: 1,
-            row: 1,
-            solution: "B",
-            initialState: "",
-            isBlocked: false,
-            clueNumber: undefined,
-          },
-          {
-            column: 2,
-            row: 1,
-            solution: ".",
-            initialState: ".",
-            isBlocked: true,
-            clueNumber: undefined,
-          },
-        ],
-        [
-          {
-            column: 0,
-            row: 2,
-            solution: "E",
-            initialState: "",
-            isBlocked: false,
-            clueNumber: 3,
-          },
-          {
-            column: 1,
-            row: 2,
-            solution: "C",
-            initialState: "",
-            isBlocked: false,
-            clueNumber: undefined,
-          },
-          {
-            column: 2,
-            row: 2,
-            solution: "O",
-            initialState: "O",
-            isBlocked: false,
-            clueNumber: undefined,
-          },
-        ],
+        ["C", "A", "T"],
+        [".", "B", "."],
+        ["E", "C", "O"],
       ]);
     });
   });
