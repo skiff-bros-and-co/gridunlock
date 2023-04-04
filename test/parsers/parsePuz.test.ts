@@ -1,5 +1,6 @@
 import fs from "fs";
 import { describe, expect, test } from "vitest";
+import { parseIntermediatePuzzle } from "../../src/parsers/parseIntermediatePuzzle";
 import { parsePuz } from "../../src/parsers/parsePuz";
 
 /**
@@ -21,7 +22,7 @@ describe("parsePuz", () => {
 
   describe("when parsing a simple puzzle", () => {
     const simpleTestPuz = convertBufferToArrayBuffer(fs.readFileSync(__dirname + "/simple-generated.puz"));
-    const parsed = parsePuz(simpleTestPuz);
+    const parsed = parseIntermediatePuzzle(parsePuz(simpleTestPuz));
 
     test("should parse the title", () => {
       expect(parsed.title).toEqual("Simple Test");
@@ -133,7 +134,6 @@ describe("parsePuz", () => {
             column: 0,
             row: 0,
             solution: "C",
-            initialState: "",
             isBlocked: false,
             clueNumber: 1,
           },
@@ -141,7 +141,6 @@ describe("parsePuz", () => {
             column: 1,
             row: 0,
             solution: "A",
-            initialState: "A",
             isBlocked: false,
             clueNumber: 2,
           },
@@ -149,7 +148,6 @@ describe("parsePuz", () => {
             column: 2,
             row: 0,
             solution: "T",
-            initialState: "",
             isBlocked: false,
             clueNumber: undefined,
           },
@@ -159,7 +157,6 @@ describe("parsePuz", () => {
             column: 0,
             row: 1,
             solution: ".",
-            initialState: ".",
             isBlocked: true,
             clueNumber: undefined,
           },
@@ -167,7 +164,6 @@ describe("parsePuz", () => {
             column: 1,
             row: 1,
             solution: "B",
-            initialState: "",
             isBlocked: false,
             clueNumber: undefined,
           },
@@ -175,7 +171,6 @@ describe("parsePuz", () => {
             column: 2,
             row: 1,
             solution: ".",
-            initialState: ".",
             isBlocked: true,
             clueNumber: undefined,
           },
@@ -185,7 +180,6 @@ describe("parsePuz", () => {
             column: 0,
             row: 2,
             solution: "E",
-            initialState: "",
             isBlocked: false,
             clueNumber: 3,
           },
@@ -193,7 +187,6 @@ describe("parsePuz", () => {
             column: 1,
             row: 2,
             solution: "C",
-            initialState: "",
             isBlocked: false,
             clueNumber: undefined,
           },
@@ -201,7 +194,6 @@ describe("parsePuz", () => {
             column: 2,
             row: 2,
             solution: "O",
-            initialState: "O",
             isBlocked: false,
             clueNumber: undefined,
           },
