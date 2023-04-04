@@ -16,16 +16,12 @@ export interface XWordInfoJsonFormat {
   };
   grid: string[];
   gridnums: number[];
-  circles: number[];
+  circles: number[] | null;
   clues: {
     across: string[];
     down: string[];
   };
-  answers: {
-    across: string[];
-    down: string[];
-  };
-  notepad: string;
+  notepad: string | null;
 }
 
 export function parseXWord(src: XWordInfoJsonFormat): PuzzleDefinition {
@@ -39,7 +35,7 @@ export function parseXWord(src: XWordInfoJsonFormat): PuzzleDefinition {
     title: src.title,
     author: src.author,
     copyright: src.copyright,
-    description: src.notepad,
+    description: src.notepad ?? "",
     height: src.size.rows,
     width: src.size.cols,
     cells,
@@ -96,7 +92,7 @@ function parseClues(clueStrings: string[], direction: FillDirection, cells: Cell
     const [clueNumberString, ...clue] = clueString.split(".");
     const clueNumber = Number(clueNumberString);
     result[clueNumber] = {
-      clue: unescape(clue.join(".")),
+      clue: unescape(clue.join(".").trim()),
       clueNumber,
       direction,
       position: positionLookup[clueNumber],
