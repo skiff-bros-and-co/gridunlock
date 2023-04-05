@@ -1,4 +1,20 @@
 import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
+import { PuzzleState } from "../state/State";
+
+export function getNextUnfilledCell(puzzleState: PuzzleState, opts: Parameters<typeof getNextCell>[0]): CellPosition {
+  let nextPos = getNextCell(opts);
+  while (
+    puzzleState[nextPos.row][nextPos.column].filledValue.length > 0 &&
+    !(nextPos.column === opts.position.column && nextPos.row === opts.position.row)
+  ) {
+    nextPos = getNextCell({
+      ...opts,
+      position: nextPos,
+    });
+  }
+
+  return nextPos;
+}
 
 /**
  * Gets the next unblocked cell (regardless of fill state)
