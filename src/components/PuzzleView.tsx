@@ -4,18 +4,18 @@ import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from ".
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { applyArrayChanges } from "../utils/applyArrayChanges";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
-import { getNextCell } from "../utils/getNextCell";
+import { getNextCell, getNextUnfilledCell } from "../utils/getNextCell";
 import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { validatePuzzleState } from "../utils/validatePuzzleState";
-import { getSyncedCellKey, RoomSyncService } from "../web-rtc/RoomSyncService";
+import { RoomSyncService, getSyncedCellKey } from "../web-rtc/RoomSyncService";
 import { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "../web-rtc/types";
-import { NarrowScreenClues } from "./clues/NarrowScreenClues";
-import { PuzzleClues } from "./clues/PuzzleClues";
 import { Header } from "./Header";
 import { useEventCallback, useKeypress } from "./Hooks";
 import { PuzzleGrid } from "./PuzzleGrid";
 import { useSyncedMap } from "./SyncingHooks";
 import { VirtualKeyboard } from "./VirtualKeyboard";
+import { NarrowScreenClues } from "./clues/NarrowScreenClues";
+import { PuzzleClues } from "./clues/PuzzleClues";
 
 interface Props {
   puzzle: PuzzleDefinition;
@@ -120,20 +120,31 @@ export const PuzzleView = (props: Props): JSX.Element => {
   const moveToNextCell = useCallback(
     (direction: "forward" | "backward" | "up" | "down" | "left" | "right") => {
       setLocalState((prev) => {
-        const isUsingPrevDirection = direction === "forward" || direction === "backward";
+        if (direction === "forward") {
+          return {
+            ...prev,
+            selectedPosition: getNextUnfilledCell(prev.puzzleState, {
+              direction: prev.fillDirection,
+              position: prev.selectedPosition,
+              puzzle,
+              wrapToNextClue: true,
+            }),
+          };
+        }
 
         return {
           ...prev,
           selectedPosition: getNextCell({
-            direction: isUsingPrevDirection
-              ? prev.fillDirection
-              : direction === "up" || direction === "down"
-              ? "down"
-              : "across",
+            direction:
+              direction === "backward"
+                ? prev.fillDirection
+                : direction === "up" || direction === "down"
+                ? "down"
+                : "across",
             position: prev.selectedPosition,
             puzzle,
             backwards: direction === "backward" || direction === "up" || direction === "left",
-            wrapToNextClue: direction === "forward" || direction === "backward",
+            wrapToNextClue: direction === "backward",
           }),
         };
       });
