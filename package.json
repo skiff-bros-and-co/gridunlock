@@ -45,7 +45,7 @@
     "typescript": "^4.9.5",
     "vite": "^3.2.7",
     "vite-plugin-pwa": "^0.15.1",
-    "vitest": "^0.31.1"
+    "vitest": "^0.31.2"
   },
   "dependencies": {
     "@blueprintjs/core": "^4.19.3",
