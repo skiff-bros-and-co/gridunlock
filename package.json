@@ -48,7 +48,7 @@
     "vitest": "^0.32.0"
   },
   "dependencies": {
-    "@blueprintjs/core": "^4.20.0",
+    "@blueprintjs/core": "^4.20.2",
     "@blueprintjs/popover2": "^1.14.9",
     "@cloudflare/pages-plugin-sentry": "^1.1.1",
     "@fontsource/libre-franklin": "^4.5.11",
