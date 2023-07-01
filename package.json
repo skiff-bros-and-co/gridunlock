@@ -25,9 +25,9 @@
     "@percy/cli": "^1.26.1",
     "@types/gm": "^1.25.1",
     "@types/lodash-es": "^4.17.7",
-    "@types/node": "^16.18.37",
-    "@types/react": "^17.0.50",
-    "@types/react-dom": "^17.0.17",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
     "@types/simple-peer": "^9.11.5",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
@@ -47,8 +47,8 @@
     "vitest": "^0.32.2"
   },
   "dependencies": {
-    "@blueprintjs/core": "^4.20.0",
-    "@blueprintjs/popover2": "^1.14.11",
+    "@blueprintjs/core": "^5.0.1",
+    "@blueprintjs/popover2": "^2.0.1",
     "@cloudflare/pages-plugin-sentry": "^1.1.1",
     "@fontsource/libre-franklin": "^5.0.3",
     "@types/shallow-equals": "^1.0.0",
@@ -59,14 +59,11 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "lodash-es": "^4.17.21",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "shallow-equals": "^1.0.0",
     "y-indexeddb": "^9.0.11",
     "y-webrtc": "^10.2.5",
     "yjs": "^13.6.6"
-  },
-  "volta": {
-    "node": "16.18.0"
   }
 }

@@ -246,7 +246,7 @@ export const PuzzleView = (props: Props): JSX.Element => {
   }, []);
 
   const handleCellValueInput = useCallback(
-    (newValue) => {
+    (newValue: string) => {
       const input = getValidInput(newValue);
       if (input) {
         updateCellValue(input);
