@@ -53,7 +53,7 @@
     "@fontsource/libre-franklin": "^5.0.3",
     "@types/shallow-equals": "^1.0.0",
     "bs58": "^5.0.0",
-    "bundlemon": "^2.0.2",
+    "bundlemon": "^1.4.0",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "eslint-plugin-react": "^7.32.2",

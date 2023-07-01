@@ -6,11 +6,11 @@
       "path": "index.html"
     },
     {
-      "path": "assets/*.<hash>.js",
+      "path": "assets/*-<hash>.js",
       "maxPercentIncrease": 10
     },
     {
-      "path": "assets/*.<hash>.css",
+      "path": "assets/*-<hash>.css",
       "maxPercentIncrease": 10
     }
   ]
