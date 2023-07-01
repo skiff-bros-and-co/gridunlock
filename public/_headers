@@ -6,4 +6,4 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; frame-ancestors 'none'; connect-src 'self' wss://y-webrtc-signaling-us.herokuapp.com/ wss://y-webrtc-signaling-eu.herokuapp.com wss://signaling.yjs.dev/ wss://y-webrtc-eu.fly.dev;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; frame-ancestors 'none'; connect-src 'self' wss://y-webrtc-signaling-us.herokuapp.com/ wss://y-webrtc-signaling-eu.herokuapp.com wss://signaling.yjs.dev/ wss://y-webrtc-eu.fly.dev; font-src 'self' data:;
