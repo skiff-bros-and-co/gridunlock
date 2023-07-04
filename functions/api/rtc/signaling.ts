@@ -20,6 +20,8 @@ interface Env {
   SIGNALING_MSG_TTL_SEC: string;
 }
 
+const MESSAGE_POLLING_RATE_SEC = 1000;
+
 export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
   const upgradeHeader = request.headers.get("Upgrade");
   if (!upgradeHeader || upgradeHeader !== "websocket") {
@@ -29,7 +31,8 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
   const webSocketPair = new WebSocketPair();
   const [client, server] = Object.values(webSocketPair);
 
-  let channel: string | undefined;
+  let topic: string | undefined;
+  let pollingToken: number | undefined;
   const readMessageKeys = new Set<string>();
 
   server.accept();
@@ -38,23 +41,27 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
       event.data as string,
     );
 
-    processNewMessages(env, channel!, readMessageKeys, server);
-
     switch (message.type) {
       case "subscribe": {
         const newChannel = message.topics?.[0];
-        if (message.topics?.length !== 1 || !(channel == null || channel !== newChannel)) {
+        if (message.topics?.length !== 1 || !(topic == null || topic !== newChannel)) {
           console.log("expected 1 topic");
-        } else {
-          channel = newChannel;
+        } else if (topic !== newChannel) {
+          topic = newChannel;
+          pollingToken = setInterval(
+            () => processNewMessages(env, topic, readMessageKeys, server),
+            MESSAGE_POLLING_RATE_SEC,
+          );
         }
         break;
       }
       case "unsubscribe": {
-        if (message.topics?.length !== 1 || channel !== message.topics?.[0]) {
+        if (message.topics?.length !== 1 || topic !== message.topics?.[0]) {
           console.log("expected 1 topic");
         } else {
-          channel = undefined;
+          topic = undefined;
+          clearInterval(pollingToken);
+          pollingToken = undefined;
         }
         break;
       }
@@ -96,12 +103,12 @@ function storeMessage(env: Env, topic: string, message: string): string {
   return key;
 }
 
-async function processNewMessages(env: Env, topic: string, seenKeys: Set<string>, server: WebSocket) {
+async function processNewMessages(env: Env, topic: string, readMessageKeys: Set<string>, server: WebSocket) {
   const keys = await env.SIGNALING.list({ prefix: `${topic}/` });
-  const newKeys = keys.keys.filter((key) => !seenKeys.has(key.name));
-  keys.keys.forEach((key) => seenKeys.add(key.name));
+  const newKeys = keys.keys.filter((key) => !readMessageKeys.has(key.name));
+  keys.keys.forEach((key) => readMessageKeys.add(key.name));
   newKeys.forEach(async (key) => {
-    seenKeys.add(key.name);
+    readMessageKeys.add(key.name);
 
     console.info(key.name, key.expiration);
 
