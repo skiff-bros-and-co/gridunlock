@@ -20,7 +20,7 @@ interface Env {
   SIGNALING_MSG_TTL_SEC: string;
 }
 
-export const onRequest: PagesFunction<Env> = async ({ env, request }) => {)
+export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
   console.log("request", JSON.stringify(request.headers, null, 2));
 
   const upgradeHeader = request.headers.get("Upgrade");
@@ -64,7 +64,7 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {)
         break;
       }
       case "publish":
-        if (message.topic) {
+        if (message.topic == null) {
           console.log("no channel");
         } else {
           console.log("publish", message);
