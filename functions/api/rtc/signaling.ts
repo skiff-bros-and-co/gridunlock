@@ -17,9 +17,10 @@ interface YWebRtcPublishMessage {
 
 interface Env {
   SIGNALING: KVNamespace;
+  SIGNALING_MSG_TTL_SEC: string;
 }
 
-export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
+export const onRequest: PagesFunction<Env> = async ({ env, request }) => {)
   console.log("request", JSON.stringify(request.headers, null, 2));
 
   const upgradeHeader = request.headers.get("Upgrade");
@@ -83,10 +84,15 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
 };
 
 function storeMessage(env: Env, topic: string, message: string): string {
+  const messageTtlSec = Number(env.SIGNALING_MSG_TTL_SEC);
+  if (isNaN(messageTtlSec) || messageTtlSec <= 0) {
+    throw new Error("SIGNALING_MSG_TTL_SEC must be a positive number");
+  }
+
   const key = generateMessageKey(topic);
   env.SIGNALING.put(key, message, {
     // We only need messages to last long enough for the client to receive them
-    expirationTtl: 60 * 10, // seconds
+    expirationTtl: messageTtlSec,
   });
   return key;
 }
