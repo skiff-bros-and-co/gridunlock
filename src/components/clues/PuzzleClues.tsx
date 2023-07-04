@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { CellPosition, FillDirection, PuzzleDefinition } from "../../state/Puzzle";
-import { getAcrossClueNumber, getDownClueNumber } from "./clueUtils";
 import { PuzzleClueRow } from "./PuzzleClueRow";
+import { getAcrossClueNumber, getDownClueNumber } from "./clueUtils";
 
 interface Props {
   puzzle: PuzzleDefinition;
