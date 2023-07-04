@@ -12,10 +12,12 @@ interface YWebRtcPongMessage {
 interface YWebRtcPublishMessage {
   type: "publish";
   topic?: string;
-  [k: string]: unknown;
+  data: string;
 }
 
-interface Env {}
+interface Env {
+  SIGNALING: KVNamespace;
+}
 
 export const onRequest: PagesFunction<Env> = async ({ request }) => {
   console.log("request", JSON.stringify(request.headers, null, 2));
@@ -38,10 +40,11 @@ export const onRequest: PagesFunction<Env> = async ({ request }) => {
 
     switch (message.type) {
       case "subscribe": {
-        if (message.topics?.length !== 1 || channel != null) {
+        const newChannel = message.topics?.[0];
+        if (message.topics?.length !== 1 || !(channel == null || channel !== newChannel)) {
           console.log("expected 1 topic");
         } else {
-          channel = message.topics?.[0];
+          channel = newChannel;
         }
         break;
       }

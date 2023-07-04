@@ -3,9 +3,6 @@ import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
 
-// This clearly provides no security other than mild obfustication.
-const PASSWORD = "princess_untitled_hurled-skydiver_clothes_hazily";
-
 type WebrtcProviderOptions = Partial<ConstructorParameters<typeof WebrtcProvider>[2]>;
 
 export function createWebRtcProvider(opts: {
@@ -26,14 +23,10 @@ export function createWebRtcProvider(opts: {
 
   const origin = window.location.hostname;
   const webRtcOptions: WebrtcProviderOptions = {
-    password: PASSWORD,
     peerOpts,
     maxConns: 20 + Math.floor(Math.random() * 15),
     filterBcConns: true,
-    signaling: [
-      "wss://y-webrtc-eu.fly.dev", // default
-      `wss://${origin}/api/rtc/signaling`,
-    ],
+    signaling: [`wss://${origin}/api/rtc/signaling`],
   };
 
   // Types are bad
