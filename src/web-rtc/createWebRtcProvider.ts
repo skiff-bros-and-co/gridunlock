@@ -24,11 +24,16 @@ export function createWebRtcProvider(opts: {
     },
   };
 
+  const origin = window.location.hostname;
   const webRtcOptions: WebrtcProviderOptions = {
     password: PASSWORD,
     peerOpts,
     maxConns: 20 + Math.floor(Math.random() * 15),
     filterBcConns: true,
+    signaling: [
+      "wss://y-webrtc-eu.fly.dev", // default
+      `wss://${origin}/api/rtc/signaling`,
+    ],
   };
 
   // Types are bad
