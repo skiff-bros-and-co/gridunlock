@@ -31,6 +31,7 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
   const [client, server] = Object.values(webSocketPair);
 
   let channel: string | undefined;
+  const readMessageKeys = new Set<string>();
 
   server.accept();
   server.addEventListener("message", (event) => {
@@ -59,7 +60,6 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
       case "ping": {
         const msg: YWebRtcPongMessage = { type: "pong" };
         server.send(JSON.stringify(msg));
-        server.send(generateMessageId());
         break;
       }
       case "publish":
@@ -67,7 +67,8 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
           console.log("no channel");
         } else {
           console.log("publish", message);
-          storeMessage(env, message.topic, message.data);
+          const key = storeMessage(env, message.topic, message.data);
+          readMessageKeys.add(key);
         }
         break;
       default:
@@ -82,21 +83,17 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
 };
 
 function storeMessage(env: Env, topic: string, message: string): string {
-  const id = generateMessageId();
-  const key = getMessageKey(topic, id);
+  const key = generateMessageKey(topic);
   env.SIGNALING.put(key, message, {
     // We only need messages to last long enough for the client to receive them
     expirationTtl: 60 * 10, // seconds
   });
-  return id;
+  return key;
 }
 
-function getMessageKey(topic: string, id: string): string {
-  return `${topic}/${id}`;
-}
-
-function generateMessageId() {
+function generateMessageKey(topic: string) {
   const buffer = new Uint32Array(1); // 32 bits is probably enough?
   crypto.getRandomValues(buffer);
-  return buffer.join("");
+  const id = buffer.join("");
+  return `${topic}/${id}`;
 }
