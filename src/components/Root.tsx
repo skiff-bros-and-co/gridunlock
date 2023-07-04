@@ -1,4 +1,3 @@
-import { FocusStyleManager } from "@blueprintjs/core";
 import { format } from "date-fns";
 import { StrictMode, useEffect, useMemo, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
@@ -74,8 +73,6 @@ export function Root() {
 
     document.body.classList.toggle("-agent-webkit", isWebKit);
     document.body.classList.toggle("-touch-device", navigator.maxTouchPoints > 0);
-
-    FocusStyleManager.onlyShowFocusOnTabs();
   }, []);
 
   const isLoading = puzzle === undefined;
