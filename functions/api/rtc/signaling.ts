@@ -12,7 +12,7 @@ export const onRequest: PagesFunction<Env> = async ({ request }) => {
   server.accept();
   server.addEventListener("message", (event) => {
     console.log(event.data);
-    client.send("Hello from the server!");
+    server.send("Hello from the server!");
   });
 
   return new Response(null, {
