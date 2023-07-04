@@ -12,7 +12,7 @@ interface YWebRtcPongMessage {
 interface YWebRtcPublishMessage {
   type: "publish";
   topic?: string;
-  data: string;
+  data: unknown;
 }
 
 interface Env {
@@ -21,8 +21,6 @@ interface Env {
 }
 
 export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
-  console.log("request", JSON.stringify(request.headers, null, 2));
-
   const upgradeHeader = request.headers.get("Upgrade");
   if (!upgradeHeader || upgradeHeader !== "websocket") {
     return new Response("Expected Upgrade: websocket", { status: 426 });
@@ -67,9 +65,9 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
         if (message.topic == null) {
           console.log("no channel");
         } else {
-          console.log("publish", message);
-          const key = storeMessage(env, message.topic, message.data);
+          const key = storeMessage(env, message.topic, JSON.stringify(message.data));
           readMessageKeys.add(key);
+          console.log("stored message", key);
         }
         break;
       default:
