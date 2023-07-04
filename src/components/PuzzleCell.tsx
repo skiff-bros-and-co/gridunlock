@@ -74,6 +74,7 @@ function PuzzleCellInternal(props: Props): JSX.Element {
         type="text"
         inputMode="none"
         spellCheck="false"
+        tabIndex={-1}
         onChange={handleChange}
       />
     </div>
