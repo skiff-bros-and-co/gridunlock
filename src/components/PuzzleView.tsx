@@ -4,7 +4,7 @@ import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from ".
 import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { applyArrayChanges } from "../utils/applyArrayChanges";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
-import { getNextCell, getNextUnfilledCell } from "../utils/getNextCell";
+import { getNextCell, getNextClueNumber, getNextUnfilledCell } from "../utils/getNextCell";
 import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { validatePuzzleState } from "../utils/validatePuzzleState";
 import { RoomSyncService, getSyncedCellKey } from "../web-rtc/RoomSyncService";
@@ -16,6 +16,7 @@ import { useSyncedMap } from "./SyncingHooks";
 import { VirtualKeyboard } from "./VirtualKeyboard";
 import { NarrowScreenClues } from "./clues/NarrowScreenClues";
 import { PuzzleClues } from "./clues/PuzzleClues";
+import { getAcrossClueNumber, getDownClueNumber } from "./clues/clueUtils";
 
 interface Props {
   puzzle: PuzzleDefinition;
@@ -161,6 +162,22 @@ export const PuzzleView = (props: Props): JSX.Element => {
     [puzzle],
   );
 
+  const moveToNextClue = useCallback(() => {
+    setLocalState((prev) => {
+      const selectedClueNumber =
+        prev.fillDirection === "across"
+          ? getAcrossClueNumber(prev.selectedPosition, puzzle)
+          : getDownClueNumber(prev.selectedPosition, puzzle);
+      if (selectedClueNumber == null) {
+        return prev;
+      }
+
+      const clueNumber = getNextClueNumber(prev.fillDirection, selectedClueNumber, false, puzzle);
+
+      return { ...prev, selectedPosition: puzzle.clues[prev.fillDirection][clueNumber].position };
+    });
+  }, [puzzle]);
+
   const updateCellValue = useEventCallback(
     (newValue: string) => {
       setSyncedCell(getSyncedCellKey(localState.selectedPosition), { value: newValue, isMarkedIncorrect: false });
@@ -230,6 +247,9 @@ export const PuzzleView = (props: Props): JSX.Element => {
         handleBackspace();
       }
       if (key === "Tab") {
+        moveToNextClue();
+      }
+      if (key === " ") {
         moveToNextCell("forward");
       }
     },
