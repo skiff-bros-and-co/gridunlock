@@ -19,7 +19,7 @@ interface Env {
   SIGNALING: KVNamespace;
 }
 
-export const onRequest: PagesFunction<Env> = async ({ request }) => {
+export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
   console.log("request", JSON.stringify(request.headers, null, 2));
 
   const upgradeHeader = request.headers.get("Upgrade");
@@ -63,10 +63,11 @@ export const onRequest: PagesFunction<Env> = async ({ request }) => {
         break;
       }
       case "publish":
-        if (channel == null) {
+        if (message.topic) {
           console.log("no channel");
         } else {
           console.log("publish", message);
+          storeMessage(env, message.topic, message.data);
         }
         break;
       default:
@@ -79,6 +80,20 @@ export const onRequest: PagesFunction<Env> = async ({ request }) => {
     webSocket: client,
   });
 };
+
+function storeMessage(env: Env, topic: string, message: string): string {
+  const id = generateMessageId();
+  const key = getMessageKey(topic, id);
+  env.SIGNALING.put(key, message, {
+    // We only need messages to last long enough for the client to receive them
+    expirationTtl: 60 * 10, // seconds
+  });
+  return id;
+}
+
+function getMessageKey(topic: string, id: string): string {
+  return `${topic}/${id}`;
+}
 
 function generateMessageId() {
   const buffer = new Uint32Array(1); // 32 bits is probably enough?
