@@ -59,6 +59,7 @@ export const onRequest: PagesFunction<Env> = async ({ request }) => {
       case "ping": {
         const msg: YWebRtcPongMessage = { type: "pong" };
         server.send(JSON.stringify(msg));
+        server.send(generateMessageId());
         break;
       }
       case "publish":
@@ -78,3 +79,9 @@ export const onRequest: PagesFunction<Env> = async ({ request }) => {
     webSocket: client,
   });
 };
+
+function generateMessageId() {
+  const buffer = new Uint32Array(1); // 32 bits is probably enough?
+  crypto.getRandomValues(buffer);
+  return buffer.join("");
+}
