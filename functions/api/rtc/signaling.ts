@@ -57,6 +57,8 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
         break;
       }
       case "ping": {
+        processNewMessages(env, channel!, readMessageKeys, server);
+
         const msg: YWebRtcPongMessage = { type: "pong" };
         server.send(JSON.stringify(msg));
         break;
@@ -65,9 +67,8 @@ export const onRequest: PagesFunction<Env> = async ({ env, request }) => {
         if (message.topic == null) {
           console.log("no channel");
         } else {
-          const key = storeMessage(env, message.topic, JSON.stringify(message.data));
-          readMessageKeys.add(key);
-          console.log("stored message", key);
+          const key = storeMessage(env, message.topic, event.data as string);
+          // readMessageKeys.add(key);
         }
         break;
       default:
@@ -93,6 +94,17 @@ function storeMessage(env: Env, topic: string, message: string): string {
     expirationTtl: messageTtlSec,
   });
   return key;
+}
+
+async function processNewMessages(env: Env, topic: string, seenKeys: Set<string>, server: WebSocket) {
+  const keys = await env.SIGNALING.list({ prefix: `${topic}/` });
+  const newKeys = keys.keys.filter((key) => !seenKeys.has(key.name));
+
+  newKeys.forEach(async (key) => {
+    seenKeys.add(key.name);
+
+    server.send(await env.SIGNALING.get(key.name));
+  });
 }
 
 function generateMessageKey(topic: string) {
