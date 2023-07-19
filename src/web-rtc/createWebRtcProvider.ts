@@ -22,7 +22,7 @@ export function createWebRtcProvider(opts: {
   };
 
   const webRtcOptions: WebrtcProviderOptions = {
-    signaling: ["wss://signaling.feigned.tech/signaling"],
+    signaling: ["wss://signaling.gridunlockapp.com/signaling"],
     peerOpts,
     maxConns: 20 + Math.floor(Math.random() * 15),
     filterBcConns: true,
