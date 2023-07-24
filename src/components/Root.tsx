@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { StrictMode, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { parseIntermediatePuzzle } from "../parsers/parseIntermediatePuzzle";
 import { parseXWord } from "../parsers/parseXWord";
@@ -48,12 +48,19 @@ export function Root() {
     })();
   }, [roomName]);
 
-  const syncService = useMemo(() => {
+  const syncService = useRef<RoomSyncService | undefined>(undefined);
+  useEffect(() => {
     if (roomName == null) {
-      return;
+      throw new Error("roomName is somehow null");
     }
 
-    return new RoomSyncService(roomName);
+    if (roomName === syncService.current?.roomName) {
+      return;
+    }
+    if (syncService.current != null) {
+      throw new Error("syncService.current is somehow not null");
+    }
+    syncService.current = new RoomSyncService(roomName);
   }, [roomName]);
 
   const [puzzle, setPuzzle] = useState<PuzzleDefinition | undefined>(undefined);
@@ -62,9 +69,9 @@ export function Root() {
       return;
     }
 
-    syncService.addEventListener("loaded", setPuzzle);
+    syncService.current!.addEventListener("loaded", setPuzzle);
 
-    return () => syncService.removeEventListener("loaded", setPuzzle);
+    return () => syncService.current!.removeEventListener("loaded", setPuzzle);
   }, [syncService, setPuzzle]);
 
   useEffect(() => {
@@ -82,8 +89,8 @@ export function Root() {
   }, [isLoading]);
 
   return (
-    <StrictMode>
-      <div className="root">{!isLoading && <PuzzleView puzzle={puzzle} syncService={syncService!}></PuzzleView>}</div>
-    </StrictMode>
+    <div className="root">
+      {!isLoading && <PuzzleView puzzle={puzzle} syncService={syncService.current!}></PuzzleView>}
+    </div>
   );
 }

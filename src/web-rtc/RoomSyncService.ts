@@ -41,7 +41,7 @@ export class RoomSyncService {
     clientID: this.doc.clientID,
   };
 
-  constructor(roomName: string) {
+  constructor(public readonly roomName: string) {
     this.webrtcProvider = createWebRtcProvider({
       doc: this.doc,
       roomName,
