@@ -12,13 +12,12 @@ export function useSyncedMap<V>(map: Y.Map<V>) {
     setSynced(fromPairs(Array.from(map.entries())));
 
     map.observe((ev) => {
+      const changes = Array.from(ev.changes.keys.entries());
       setSynced((prev) => {
-        const deletedKeys = Array.from(ev.changes.keys.entries())
-          .filter(([_key, change]) => change.action === "delete")
-          .map(([key]) => key);
+        const deletedKeys = changes.filter(([_key, change]) => change.action === "delete").map(([key]) => key);
         const result = omitBy(prev, (_value, key) => deletedKeys.includes(key));
 
-        for (const [key, change] of ev.changes.keys) {
+        for (const [key, change] of changes) {
           switch (change.action) {
             case "add":
             case "update":
