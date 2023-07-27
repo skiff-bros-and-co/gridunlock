@@ -26,7 +26,7 @@
     "@types/gm": "^1.25.1",
     "@types/lodash-es": "^4.17.8",
     "@types/node": "^18.17.1",
-    "@types/react": "^18.2.16",
+    "@types/react": "^18.2.17",
     "@types/react-dom": "^18.2.7",
     "@types/simple-peer": "^9.11.5",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
