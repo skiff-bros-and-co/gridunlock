@@ -12,7 +12,13 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: "[BOT] bump"
+      include: "scope"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "[BOT] bump"
+      include: "scope"
