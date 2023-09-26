@@ -28,7 +28,7 @@
     "@types/node": "^18.17.19",
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
-    "@types/simple-peer": "^9.11.5",
+    "@types/simple-peer": "^9.11.6",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-react": "^4.1.0",
