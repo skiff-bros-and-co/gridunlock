@@ -23,7 +23,7 @@
     "@cloudflare/workers-types": "^4.20231025.0",
     "@confuzzle/writepuz": "^1.2.3",
     "@percy/cli": "^1.27.4",
-    "@types/gm": "^1.25.3",
+    "@types/gm": "^1.25.4",
     "@types/lodash-es": "^4.17.10",
     "@types/node": "^18.18.8",
     "@types/react": "^18.2.36",
