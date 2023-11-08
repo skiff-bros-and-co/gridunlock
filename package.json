@@ -24,7 +24,7 @@
     "@confuzzle/writepuz": "^1.2.3",
     "@percy/cli": "^1.27.4",
     "@types/gm": "^1.25.4",
-    "@types/lodash-es": "^4.17.10",
+    "@types/lodash-es": "^4.17.11",
     "@types/node": "^18.18.9",
     "@types/react": "^18.2.36",
     "@types/react-dom": "^18.2.14",
