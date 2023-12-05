@@ -6,4 +6,4 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; frame-ancestors 'none'; connect-src 'self' wss://signaling.gridunlockapp.com cloudflareinsights.com; font-src 'self' data:;
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'unsafe-inline'; frame-ancestors 'none'; connect-src 'self' wss://signaling.gridunlockapp.com cloudflareinsights.com; font-src 'self' data:;
