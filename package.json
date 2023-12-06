@@ -22,7 +22,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231121.0",
     "@confuzzle/writepuz": "^1.2.3",
-    "@percy/cli": "^1.27.4",
+    "@percy/cli": "^1.27.5",
     "@types/gm": "^1.25.4",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^18.19.2",
