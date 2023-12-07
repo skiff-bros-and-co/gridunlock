@@ -50,7 +50,7 @@
     "@blueprintjs/core": "^5.5.1",
     "@blueprintjs/popover2": "^2.0.19",
     "@cloudflare/pages-plugin-sentry": "^1.1.1",
-    "@fontsource/libre-franklin": "^5.0.15",
+    "@fontsource/libre-franklin": "^5.0.16",
     "@types/shallow-equals": "^1.0.3",
     "bs58": "^5.0.0",
     "bundlemon": "^2.0.2",
