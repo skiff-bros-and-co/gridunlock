@@ -5,15 +5,14 @@
   # env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git pkgs.nodejs_18 ];
+  packages = [ pkgs.git pkgs.bun ];
 
   # https://devenv.sh/scripts/
   # scripts.hello.exec = "echo hello from $GREET";
 
   enterShell = ''
     git --version
-    node --version
-    npm --version
+    bun --version
   '';
 
   # https://devenv.sh/languages/
