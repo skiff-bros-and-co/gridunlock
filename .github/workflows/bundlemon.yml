@@ -12,15 +12,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-          cache: "npm"
-      - run: npm ci
-      - run: npm run build
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install --frozen-lockfile
+      - run: bun run build
       - name: bundlemon
-        run: npx bundlemon
+        run: bunx bundlemon
         env:
           BUNDLEMON_PROJECT_ID: 6340bdee195b34b4f04e3645
           BUNDLEMON_PROJECT_APIKEY: ${{ secrets.BUNDLEMON_PROJECT_APIKEY }} # not required for public repos
