@@ -140,8 +140,8 @@ export const PuzzleView = (props: Props): JSX.Element => {
               direction === "backward"
                 ? prev.fillDirection
                 : direction === "up" || direction === "down"
-                ? "down"
-                : "across",
+                  ? "down"
+                  : "across",
             position: prev.selectedPosition,
             puzzle,
             backwards: direction === "backward" || direction === "up" || direction === "left",
