@@ -54,7 +54,7 @@
     "@fontsource/libre-franklin": "5.0.16",
     "@types/shallow-equals": "1.0.3",
     "bs58": "5.0.0",
-    "bundlemon": "2.0.2",
+    "bundlemon": "2.1.0",
     "classnames": "2.5.1",
     "date-fns": "3.3.1",
     "eslint-plugin-react": "7.33.2",
