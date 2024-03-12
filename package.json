@@ -26,7 +26,7 @@
     "@types/bun": "1.0.8",
     "@types/gm": "1.25.4",
     "@types/lodash-es": "4.17.12",
-    "@types/react": "18.2.64",
+    "@types/react": "18.2.65",
     "@types/react-dom": "18.2.21",
     "@types/simple-peer": "9.11.8",
     "@typescript-eslint/eslint-plugin": "7.2.0",
