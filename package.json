@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/dskiff/gridunlock#readme",
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20240320.1",
+    "@cloudflare/workers-types": "4.20240329.0",
     "@confuzzle/writepuz": "1.2.3",
     "@percy/cli": "1.28.2",
     "@types/bun": "1.0.11",
