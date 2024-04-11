@@ -1,4 +1,4 @@
-import { CellClue, CellDefinition } from "./Puzzle";
+import type { CellClue, CellDefinition } from "./Puzzle";
 
 export const buildCellCluesByRowAndColumn = (cells: CellDefinition[][]): (CellClue | undefined)[][] => {
   let currAcrossClueNumber: number | undefined;

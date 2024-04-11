@@ -1,5 +1,5 @@
 import { unescape } from "lodash-es";
-import { IntermediatePuzzleDefinition } from "./types";
+import type { IntermediatePuzzleDefinition } from "./types";
 
 // see: https://www.xwordinfo.com/JSON/
 export interface XWordInfoJsonFormat {

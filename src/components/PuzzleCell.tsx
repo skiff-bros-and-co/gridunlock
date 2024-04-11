@@ -1,8 +1,8 @@
 import classnames from "classnames";
 import { memo, useCallback, useEffect, useRef } from "react";
-import { CellPosition, FillDirection } from "../state/Puzzle";
+import type { CellPosition, FillDirection } from "../state/Puzzle";
 import type { PuzzleGameCell } from "../state/State";
-import { CellWordPosition } from "../utils/generateCellWordPositions";
+import type { CellWordPosition } from "../utils/generateCellWordPositions";
 
 interface Props {
   gameCell: PuzzleGameCell;

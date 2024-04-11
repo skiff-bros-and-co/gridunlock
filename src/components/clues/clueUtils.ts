@@ -1,4 +1,4 @@
-import { CellPosition, PuzzleDefinition } from "../../state/Puzzle";
+import type { CellPosition, PuzzleDefinition } from "../../state/Puzzle";
 
 export const getAcrossClueNumber = (position: CellPosition, puzzle: PuzzleDefinition): number | undefined => {
   return puzzle.clues.byRowAndColumn[position.row][position.column]?.acrossClueNumber;

@@ -1,9 +1,9 @@
+import { useRegisterSW } from "virtual:pwa-register/react";
 import { format } from "date-fns";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRegisterSW } from "virtual:pwa-register/react";
 import { parseIntermediatePuzzle } from "../parsers/parseIntermediatePuzzle";
 import { parseXWord } from "../parsers/parseXWord";
-import { PuzzleDefinition } from "../state/Puzzle";
+import type { PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { PuzzleView } from "./PuzzleView";

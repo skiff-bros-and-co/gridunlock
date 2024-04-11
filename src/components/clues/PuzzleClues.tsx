@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { CellPosition, FillDirection, PuzzleDefinition } from "../../state/Puzzle";
+import type { CellPosition, FillDirection, PuzzleDefinition } from "../../state/Puzzle";
 import { PuzzleClueRow } from "./PuzzleClueRow";
 import { getAcrossClueNumber, getDownClueNumber } from "./clueUtils";
 

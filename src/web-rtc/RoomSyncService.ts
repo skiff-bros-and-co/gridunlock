@@ -1,13 +1,13 @@
 import { pull, sortBy, startCase } from "lodash-es";
-import * as SimplePeer from "simple-peer";
+import type * as SimplePeer from "simple-peer";
 import { IndexeddbPersistence, storeState } from "y-indexeddb";
-import { WebrtcProvider } from "y-webrtc";
+import type { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
-import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
+import type { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
-import { CellValidState } from "../utils/validatePuzzleState";
+import type { CellValidState } from "../utils/validatePuzzleState";
 import { createWebRtcProvider } from "./createWebRtcProvider";
-import { IceApiResponse, SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState } from "./types";
+import type { IceApiResponse, SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState } from "./types";
 
 const PUZZLE_DEF_KEY = "puzzleDef";
 const DEFAULT_ICE_SERVER_URLS = ["stun:stun.l.google.com:19302", "stun:global.stun.twilio.com:3478"];
@@ -128,7 +128,10 @@ export class RoomSyncService {
     this.doc.transact(() => {
       for (let row = 0; row < height; row++) {
         for (let column = 0; column < width; column++) {
-          this.cells.set(getSyncedCellKey({ row, column }), { value: "", isMarkedIncorrect: false });
+          this.cells.set(getSyncedCellKey({ row, column }), {
+            value: "",
+            isMarkedIncorrect: false,
+          });
         }
       }
 

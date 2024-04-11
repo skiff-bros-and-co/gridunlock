@@ -1,6 +1,6 @@
-import SimplePeer from "simple-peer";
+import type SimplePeer from "simple-peer";
 import { WebrtcProvider } from "y-webrtc";
-import * as Y from "yjs";
+import type * as Y from "yjs";
 import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
 
 type WebrtcProviderOptions = Partial<ConstructorParameters<typeof WebrtcProvider>[2]>;

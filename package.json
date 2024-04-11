@@ -6,7 +6,7 @@
     "build": "vite build",
     "build:types": "tsc -noEmit",
     "generate-icons": "ts-node ./scripts/generate-icons.ts",
-    "lint": "eslint src --ext ts,tsx",
+    "lint": "bunx @biomejs/biome check src/",
     "preview": "vite preview",
     "start": "vite",
     "test": "vitest run"
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/dskiff/gridunlock#readme",
   "devDependencies": {
+    "@biomejs/biome": "1.6.4",
     "@cloudflare/workers-types": "4.20240405.0",
     "@confuzzle/writepuz": "1.2.3",
     "@percy/cli": "1.28.2",

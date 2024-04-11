@@ -1,6 +1,6 @@
 import { Icon } from "@blueprintjs/core";
 import { memo, useCallback } from "react";
-import { CellPosition, Clue, FillDirection, PuzzleDefinition } from "../../state/Puzzle";
+import type { CellPosition, Clue, FillDirection, PuzzleDefinition } from "../../state/Puzzle";
 import { getNextClueNumber } from "../../utils/getNextCell";
 import { getAcrossClueNumber, getDownClueNumber } from "./clueUtils";
 

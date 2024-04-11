@@ -1,7 +1,7 @@
-import { Dictionary } from "lodash";
+import type { Dictionary } from "lodash";
 import { fromPairs, omitBy } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
-import * as Y from "yjs";
+import type * as Y from "yjs";
 
 export type SyncedImmutableMap<V> = Dictionary<V>;
 

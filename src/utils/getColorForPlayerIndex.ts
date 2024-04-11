@@ -1,4 +1,4 @@
-import { PlayerState } from "../state/State";
+import type { PlayerState } from "../state/State";
 
 const PLAYER_COLORS = [
   "#29A634",

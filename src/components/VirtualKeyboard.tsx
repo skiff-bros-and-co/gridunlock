@@ -1,6 +1,6 @@
 import { Icon } from "@blueprintjs/core";
 import classNames from "classnames";
-import { memo, Touch, TouchEvent, TouchList, useCallback, useState } from "react";
+import { type Touch, type TouchEvent, type TouchList, memo, useCallback, useState } from "react";
 
 interface Props {
   onKeyboardInput: (input: string) => void;

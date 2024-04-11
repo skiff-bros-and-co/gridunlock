@@ -1,4 +1,4 @@
-import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
+import type { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { getNextCell } from "./getNextCell";
 
 export type WordPosition = "start" | "middle" | "end";
