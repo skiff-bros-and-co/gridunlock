@@ -79,7 +79,6 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
 
       return (
         <PuzzleCell
-          key={`${rowIndex}-${colIndex}`}
           isSelected={isSelectedCell(rowIndex, colIndex, selectedCell)}
           isInSelectedWord={inSelectedWord}
           row={rowIndex}

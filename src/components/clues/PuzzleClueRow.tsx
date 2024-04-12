@@ -16,7 +16,7 @@ function PuzzleClueRowInternal(props: Props): JSX.Element {
         behavior: "smooth",
       });
     }
-  }, [props.isSelected, ref]);
+  }, [props.isSelected]);
 
   return (
     <li ref={ref} className={props.isSelected ? "puzzle-clue selected-puzzle-clue" : "puzzle-clue"}>

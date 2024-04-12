@@ -1,4 +1,4 @@
-import { unescape } from "lodash-es";
+import { unescape as lodashUnescape } from "lodash-es";
 import type { IntermediatePuzzleDefinition } from "./types";
 
 // see: https://www.xwordinfo.com/JSON/
@@ -61,7 +61,7 @@ function parseClues(clueList: string[]): { [clueNumber: number]: string } {
   for (const clueString of clueList) {
     const [clueNumberString, ...clue] = clueString.split(".");
     const clueNumber = Number(clueNumberString);
-    result[clueNumber] = unescape(clue.join(".").trim());
+    result[clueNumber] = lodashUnescape(clue.join(".").trim());
   }
 
   return result;

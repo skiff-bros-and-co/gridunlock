@@ -51,7 +51,7 @@ export class RoomSyncService {
         },
       ],
     });
-    this.indexDbProvider = new IndexeddbPersistence("room-" + roomName, this.doc);
+    this.indexDbProvider = new IndexeddbPersistence(`room-${roomName}`, this.doc);
 
     this.info.observeDeep(() => {
       if (this.isLoaded === false && this.info.get(PUZZLE_DEF_KEY) != null) {
@@ -101,8 +101,11 @@ export class RoomSyncService {
   private emitWithData<E extends keyof Events>(event: E, data: Events[E], handler?: EventHandler<E>) {
     if (handler !== undefined) {
       handler(data);
-    } else {
-      this.listeners[event].forEach((l) => l(data));
+      return;
+    }
+
+    for (const listener of this.listeners[event]) {
+      listener(data);
     }
   }
 

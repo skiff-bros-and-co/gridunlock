@@ -17,7 +17,7 @@ export function applyArrayChanges<V>(a: V[], changes: V[]): V[] {
     if (i >= a.length) {
       result.push(changes[i]);
     } else if (isNestedArray) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: grandfathered
       result.push(applyArrayChanges(a[i] as any, changes[i] as any) as any);
     } else {
       result.push(shallowEquals(a[i], changes[i]) ? a[i] : changes[i]);

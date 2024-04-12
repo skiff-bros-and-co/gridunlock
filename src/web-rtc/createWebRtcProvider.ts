@@ -28,7 +28,6 @@ export function createWebRtcProvider(opts: {
     filterBcConns: true,
   };
 
-  // Types are bad
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: TODO, types are bad
   return new WebrtcProvider(opts.roomName, opts.doc, webRtcOptions as any);
 }
