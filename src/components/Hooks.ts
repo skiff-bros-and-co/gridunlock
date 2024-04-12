@@ -8,7 +8,6 @@ export const useKeypress = (action: (key: string) => void, deps: React.Dependenc
     }
     window.addEventListener("keyup", onKeyup);
     return () => window.removeEventListener("keyup", onKeyup);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action, ...deps]);
 };
 

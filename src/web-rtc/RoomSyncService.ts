@@ -87,7 +87,6 @@ export class RoomSyncService {
       case "playersStateChanged": {
         this.emitWithData<"playersStateChanged">(
           event,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           sortBy(
             Array.from(this.webrtcProvider.awareness.getStates().values()) as SyncedPlayerState[],
             (player) => player.info.joinTimeUtcMs,

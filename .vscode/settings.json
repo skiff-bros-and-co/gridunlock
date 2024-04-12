@@ -6,10 +6,8 @@
   "search.exclude": {
     "dist/js": true // set this to false to include "out" folder in search results
   },
-  "editor.codeActionsOnSave": ["source.organizeImports"],
-  "eslint.format.enable": true,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "biomejs.biome",
   "files.trimTrailingWhitespace": true,
   "files.eol": "\n"
 }
