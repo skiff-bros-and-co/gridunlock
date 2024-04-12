@@ -33,7 +33,7 @@
     "@vitejs/plugin-react": "4.2.1",
     "autoprefixer": "10.4.19",
     "gm": "1.25.0",
-    "sass": "1.74.1",
+    "sass": "1.75.0",
     "ts-jest": "29.1.2",
     "ts-node": "10.9.2",
     "typescript": "5.4.5",
