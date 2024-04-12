@@ -1,14 +1,14 @@
 import classnames from "classnames";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
-import { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
+import type { CellDefinition, CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
+import type { PlayerState, PuzzleGameCell, PuzzleState } from "../state/State";
 import { applyArrayChanges } from "../utils/applyArrayChanges";
 import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { getNextCell, getNextClueNumber, getNextUnfilledCell } from "../utils/getNextCell";
 import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { validatePuzzleState } from "../utils/validatePuzzleState";
-import { RoomSyncService, getSyncedCellKey } from "../web-rtc/RoomSyncService";
-import { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "../web-rtc/types";
+import { type RoomSyncService, getSyncedCellKey } from "../web-rtc/RoomSyncService";
+import type { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "../web-rtc/types";
 import { Header } from "./Header";
 import { useEventCallback, useKeypress } from "./Hooks";
 import { PuzzleGrid } from "./PuzzleGrid";
@@ -174,13 +174,19 @@ export const PuzzleView = (props: Props): JSX.Element => {
 
       const clueNumber = getNextClueNumber(prev.fillDirection, selectedClueNumber, false, puzzle);
 
-      return { ...prev, selectedPosition: puzzle.clues[prev.fillDirection][clueNumber].position };
+      return {
+        ...prev,
+        selectedPosition: puzzle.clues[prev.fillDirection][clueNumber].position,
+      };
     });
   }, [puzzle]);
 
   const updateCellValue = useEventCallback(
     (newValue: string) => {
-      setSyncedCell(getSyncedCellKey(localState.selectedPosition), { value: newValue, isMarkedIncorrect: false });
+      setSyncedCell(getSyncedCellKey(localState.selectedPosition), {
+        value: newValue,
+        isMarkedIncorrect: false,
+      });
     },
     [localState.selectedPosition],
   );
@@ -284,7 +290,11 @@ export const PuzzleView = (props: Props): JSX.Element => {
   }, [puzzle, syncService]);
 
   return (
-    <div className={classnames("puzzle-view", { "-puzzle-won": localState.isPuzzleWon })}>
+    <div
+      className={classnames("puzzle-view", {
+        "-puzzle-won": localState.isPuzzleWon,
+      })}
+    >
       <Header onCheckPuzzle={handleCheckPuzzle} />
       <PuzzleGrid
         puzzleState={localState.puzzleState}

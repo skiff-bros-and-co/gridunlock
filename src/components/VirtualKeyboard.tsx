@@ -1,13 +1,13 @@
 import { Icon } from "@blueprintjs/core";
 import classNames from "classnames";
-import { memo, Touch, TouchEvent, TouchList, useCallback, useState } from "react";
+import { type Touch, type TouchEvent, type TouchList, memo, useCallback, useState } from "react";
 
 interface Props {
   onKeyboardInput: (input: string) => void;
   onBackspace: () => void;
 }
 
-const LAYOUT = ["Q W E R T Y U I O P", "A S D F G H J K L", `Z X C V B N M ⌫`];
+const LAYOUT = ["Q W E R T Y U I O P", "A S D F G H J K L", "Z X C V B N M ⌫"];
 
 function KeyInternal(props: { letter: string; active: boolean }) {
   const { active, letter } = props;
@@ -80,8 +80,8 @@ function VirtualKeyboardInternal(props: Props): JSX.Element {
       onTouchCancel={handleTouchEvent}
       onTouchEnd={handleTouchEnd}
     >
-      {LAYOUT.map((row, rowIndex) => (
-        <div key={rowIndex} className="row">
+      {LAYOUT.map((row) => (
+        <div className="row">
           {row.split(" ").map((key) => (
             <Key key={key} letter={key} active={activeKeys.includes(key)} />
           ))}

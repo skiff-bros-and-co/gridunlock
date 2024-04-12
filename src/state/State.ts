@@ -1,4 +1,4 @@
-import { CellPosition } from "./Puzzle";
+import type { CellPosition } from "./Puzzle";
 
 export interface PuzzleGameCell {
   filledValue: string;

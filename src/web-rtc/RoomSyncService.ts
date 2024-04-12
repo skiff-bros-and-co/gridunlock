@@ -1,13 +1,13 @@
 import { pull, sortBy, startCase } from "lodash-es";
-import * as SimplePeer from "simple-peer";
+import type * as SimplePeer from "simple-peer";
 import { IndexeddbPersistence, storeState } from "y-indexeddb";
-import { WebrtcProvider } from "y-webrtc";
+import type { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
-import { CellPosition, PuzzleDefinition } from "../state/Puzzle";
+import type { CellPosition, PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
-import { CellValidState } from "../utils/validatePuzzleState";
+import type { CellValidState } from "../utils/validatePuzzleState";
 import { createWebRtcProvider } from "./createWebRtcProvider";
-import { IceApiResponse, SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState } from "./types";
+import type { IceApiResponse, SyncedPlayerInfo, SyncedPlayerState, SyncedPuzzleCellState } from "./types";
 
 const PUZZLE_DEF_KEY = "puzzleDef";
 const DEFAULT_ICE_SERVER_URLS = ["stun:stun.l.google.com:19302", "stun:global.stun.twilio.com:3478"];
@@ -51,7 +51,7 @@ export class RoomSyncService {
         },
       ],
     });
-    this.indexDbProvider = new IndexeddbPersistence("room-" + roomName, this.doc);
+    this.indexDbProvider = new IndexeddbPersistence(`room-${roomName}`, this.doc);
 
     this.info.observeDeep(() => {
       if (this.isLoaded === false && this.info.get(PUZZLE_DEF_KEY) != null) {
@@ -87,7 +87,6 @@ export class RoomSyncService {
       case "playersStateChanged": {
         this.emitWithData<"playersStateChanged">(
           event,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           sortBy(
             Array.from(this.webrtcProvider.awareness.getStates().values()) as SyncedPlayerState[],
             (player) => player.info.joinTimeUtcMs,
@@ -101,8 +100,11 @@ export class RoomSyncService {
   private emitWithData<E extends keyof Events>(event: E, data: Events[E], handler?: EventHandler<E>) {
     if (handler !== undefined) {
       handler(data);
-    } else {
-      this.listeners[event].forEach((l) => l(data));
+      return;
+    }
+
+    for (const listener of this.listeners[event]) {
+      listener(data);
     }
   }
 
@@ -128,7 +130,10 @@ export class RoomSyncService {
     this.doc.transact(() => {
       for (let row = 0; row < height; row++) {
         for (let column = 0; column < width; column++) {
-          this.cells.set(getSyncedCellKey({ row, column }), { value: "", isMarkedIncorrect: false });
+          this.cells.set(getSyncedCellKey({ row, column }), {
+            value: "",
+            isMarkedIncorrect: false,
+          });
         }
       }
 

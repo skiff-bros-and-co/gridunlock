@@ -1,6 +1,6 @@
-import { CellDefinition, CellPosition, Clue, FillDirection, PuzzleDefinition } from "../state/Puzzle";
+import type { CellDefinition, CellPosition, Clue, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import { buildCellCluesByRowAndColumn } from "../state/PuzzleDataBuilder";
-import { IntermediatePuzzleDefinition } from "./types";
+import type { IntermediatePuzzleDefinition } from "./types";
 
 export function parseIntermediatePuzzle(puzzle: IntermediatePuzzleDefinition): PuzzleDefinition {
   const cells = generateCells(puzzle);

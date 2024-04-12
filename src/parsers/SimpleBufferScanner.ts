@@ -14,6 +14,7 @@ export class SimpleBufferScanner {
     let end = this.currentIndex + byteLength;
     if (end > this.buffer.byteLength) {
       console.error("Attempted to read past end of buffer");
+      // biome-ignore lint/style/noParameterAssign: grandfathered
       byteLength = this.buffer.byteLength - this.currentIndex;
       end = this.buffer.byteLength;
     }

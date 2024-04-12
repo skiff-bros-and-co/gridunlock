@@ -1,6 +1,6 @@
-import SimplePeer from "simple-peer";
+import type SimplePeer from "simple-peer";
 import { WebrtcProvider } from "y-webrtc";
-import * as Y from "yjs";
+import type * as Y from "yjs";
 import { ModifiedRTCPeerConnection } from "./ModifiedRTCPeerConnection";
 
 type WebrtcProviderOptions = Partial<ConstructorParameters<typeof WebrtcProvider>[2]>;
@@ -28,7 +28,6 @@ export function createWebRtcProvider(opts: {
     filterBcConns: true,
   };
 
-  // Types are bad
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: TODO, types are bad
   return new WebrtcProvider(opts.roomName, opts.doc, webRtcOptions as any);
 }

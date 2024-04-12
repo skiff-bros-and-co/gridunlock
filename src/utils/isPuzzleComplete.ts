@@ -1,5 +1,5 @@
-import { PuzzleDefinition } from "../state/Puzzle";
-import { PuzzleState } from "../state/State";
+import type { PuzzleDefinition } from "../state/Puzzle";
+import type { PuzzleState } from "../state/State";
 import { validatePuzzleState } from "./validatePuzzleState";
 
 export function isPuzzleComplete(puzzleState: PuzzleState, puzzle: PuzzleDefinition) {

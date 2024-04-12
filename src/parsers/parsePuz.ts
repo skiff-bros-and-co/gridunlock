@@ -1,5 +1,5 @@
 import { SimpleBufferScanner } from "./SimpleBufferScanner";
-import { IntermediatePuzzleClues, IntermediatePuzzleDefinition } from "./types";
+import type { IntermediatePuzzleClues, IntermediatePuzzleDefinition } from "./types";
 
 function needsAcrossNumber(column: number, row: number, cells: string[][]) {
   const cellsForRow = cells[row];

@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef } from "react";
-import { Clue } from "../../state/Puzzle";
+import type { Clue } from "../../state/Puzzle";
 
 interface Props {
   clue: Clue;
@@ -10,9 +10,13 @@ function PuzzleClueRowInternal(props: Props): JSX.Element {
   const ref = useRef<null | HTMLLIElement>(null);
   useEffect(() => {
     if (props.isSelected) {
-      ref.current?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+      ref.current?.scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+        behavior: "smooth",
+      });
     }
-  }, [props.isSelected, ref]);
+  }, [props.isSelected]);
 
   return (
     <li ref={ref} className={props.isSelected ? "puzzle-clue selected-puzzle-clue" : "puzzle-clue"}>

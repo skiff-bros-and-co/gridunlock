@@ -1,9 +1,9 @@
+import { useRegisterSW } from "virtual:pwa-register/react";
 import { format } from "date-fns";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRegisterSW } from "virtual:pwa-register/react";
 import { parseIntermediatePuzzle } from "../parsers/parseIntermediatePuzzle";
 import { parseXWord } from "../parsers/parseXWord";
-import { PuzzleDefinition } from "../state/Puzzle";
+import type { PuzzleDefinition } from "../state/Puzzle";
 import { generateMemorableToken } from "../utils/generateMemorableToken";
 import { RoomSyncService } from "../web-rtc/RoomSyncService";
 import { PuzzleView } from "./PuzzleView";
@@ -65,14 +65,14 @@ export function Root() {
 
   const [puzzle, setPuzzle] = useState<PuzzleDefinition | undefined>(undefined);
   useEffect(() => {
-    if (syncService == null) {
+    if (syncService.current == null) {
       return;
     }
 
-    syncService.current!.addEventListener("loaded", setPuzzle);
+    syncService.current.addEventListener("loaded", setPuzzle);
 
     return () => syncService.current!.removeEventListener("loaded", setPuzzle);
-  }, [syncService, setPuzzle]);
+  }, []);
 
   useEffect(() => {
     const agent = window.navigator.userAgent.toLowerCase();
@@ -88,9 +88,5 @@ export function Root() {
     spinner?.classList.toggle("-loading", isLoading);
   }, [isLoading]);
 
-  return (
-    <div className="root">
-      {!isLoading && <PuzzleView puzzle={puzzle} syncService={syncService.current!}></PuzzleView>}
-    </div>
-  );
+  return <div className="root">{!isLoading && <PuzzleView puzzle={puzzle} syncService={syncService.current!} />}</div>;
 }

@@ -1,5 +1,5 @@
-import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
-import { PuzzleState } from "../state/State";
+import type { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
+import type { PuzzleState } from "../state/State";
 
 export function getNextUnfilledCell(puzzleState: PuzzleState, opts: Parameters<typeof getNextCell>[0]): CellPosition {
   let nextPos = getNextCell(opts);

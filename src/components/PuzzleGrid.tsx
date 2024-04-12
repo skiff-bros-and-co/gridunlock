@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
+import type { CellPosition, FillDirection, PuzzleDefinition } from "../state/Puzzle";
 import type { PlayerState, PuzzleState } from "../state/State";
-import { CellWordPositions } from "../utils/generateCellWordPositions";
+import type { CellWordPositions } from "../utils/generateCellWordPositions";
 import { getColorForPlayer } from "../utils/getColorForPlayerIndex";
 import { PuzzleCell } from "./PuzzleCell";
 
@@ -79,7 +79,6 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
 
       return (
         <PuzzleCell
-          key={`${rowIndex}-${colIndex}`}
           isSelected={isSelectedCell(rowIndex, colIndex, selectedCell)}
           isInSelectedWord={inSelectedWord}
           row={rowIndex}

@@ -1,8 +1,8 @@
 import classnames from "classnames";
 import { memo, useCallback, useEffect, useRef } from "react";
-import { CellPosition, FillDirection } from "../state/Puzzle";
+import type { CellPosition, FillDirection } from "../state/Puzzle";
 import type { PuzzleGameCell } from "../state/State";
-import { CellWordPosition } from "../utils/generateCellWordPositions";
+import type { CellWordPosition } from "../utils/generateCellWordPositions";
 
 interface Props {
   gameCell: PuzzleGameCell;
@@ -23,8 +23,10 @@ function PuzzleCellInternal(props: Props): JSX.Element {
   const { row, column, selectedColor, isSelected, onSelectCell, onToggleFillDirection, onCellValueInput } = props;
   const inputRef = useRef<null | HTMLInputElement>(null);
 
+  // TODO: This is smelly
+  // biome-ignore lint/correctness/useExhaustiveDependencies: grandfathered
   useEffect(() => {
-    if (!inputRef.current) {
+    if (inputRef.current == null) {
       return;
     }
     if (props.isSelected) {
@@ -32,7 +34,7 @@ function PuzzleCellInternal(props: Props): JSX.Element {
     } else {
       inputRef.current.blur();
     }
-  }, [inputRef, props.isSelected, props.fillDirection]);
+  }, [props.isSelected, props.fillDirection]);
 
   const handleClick = useCallback(() => {
     if (isSelected) {
