@@ -24,7 +24,7 @@
     "@cloudflare/workers-types": "4.20240423.0",
     "@confuzzle/writepuz": "1.2.3",
     "@percy/cli": "1.28.3",
-    "@types/bun": "1.1.0",
+    "@types/bun": "1.1.1",
     "@types/gm": "1.25.4",
     "@types/lodash-es": "4.17.12",
     "@types/react": "18.2.79",
