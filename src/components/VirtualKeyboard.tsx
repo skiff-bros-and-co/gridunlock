@@ -57,12 +57,12 @@ function VirtualKeyboardInternal(props: Props): JSX.Element {
     [onBackspace, onKeyboardInput],
   );
 
-  const handleTouchEvent = useCallback((ev: TouchEvent<HTMLDivElement>) => {
+  const handleTouchEvent = useCallback((ev: TouchEvent) => {
     setActiveKeys(getKeysFromTouchList(ev.targetTouches));
   }, []);
 
   const handleTouchEnd = useCallback(
-    (ev: TouchEvent<HTMLDivElement>) => {
+    (ev: TouchEvent) => {
       for (const key of getKeysFromTouchList(ev.changedTouches)) {
         handlePress(key);
       }
