@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v1
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      - uses: oven-sh/setup-bun@8f24390df009a496891208e5e36b8a1de1f45135 # v1
       - run: bun --version
       - run: bun install --frozen-lockfile
       - run: bun run build
       - name: bundlemon
-        uses: lironer/bundlemon-action@v1
+        uses: lironer/bundlemon-action@4233dd2af9eb1b13d5fa41bde6511db4041b6420 # v1
