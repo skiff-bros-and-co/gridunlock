@@ -1,6 +1,6 @@
 import { Icon } from "@blueprintjs/core";
 import classNames from "classnames";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, type Touch, type TouchEvent, type TouchList } from "react";
 
 interface Props {
   onKeyboardInput: (input: string) => void;
@@ -57,12 +57,12 @@ function VirtualKeyboardInternal(props: Props): JSX.Element {
     [onBackspace, onKeyboardInput],
   );
 
-  const handleTouchEvent = useCallback((ev: TouchEvent) => {
+  const handleTouchEvent = useCallback((ev: TouchEvent<HTMLDivElement>) => {
     setActiveKeys(getKeysFromTouchList(ev.targetTouches));
   }, []);
 
   const handleTouchEnd = useCallback(
-    (ev: TouchEvent) => {
+    (ev: TouchEvent<HTMLDivElement>) => {
       for (const key of getKeysFromTouchList(ev.changedTouches)) {
         handlePress(key);
       }
