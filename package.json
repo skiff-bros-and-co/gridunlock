@@ -37,7 +37,7 @@
     "typescript": "5.5.3",
     "vite": "5.3.4",
     "vite-plugin-pwa": "0.20.0",
-    "vitest": "2.0.2"
+    "vitest": "2.0.3"
   },
   "dependencies": {
     "@blueprintjs/core": "5.10.5",
