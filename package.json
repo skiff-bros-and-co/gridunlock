@@ -21,7 +21,7 @@
   "homepage": "https://github.com/dskiff/gridunlock#readme",
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "@cloudflare/workers-types": "4.20240718.0",
+    "@cloudflare/workers-types": "4.20240722.0",
     "@confuzzle/writepuz": "1.2.3",
     "@percy/cli": "1.29.0",
     "@types/bun": "1.1.6",
