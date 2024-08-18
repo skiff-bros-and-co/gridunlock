@@ -46,7 +46,7 @@
     "@fontsource/libre-franklin": "5.0.19",
     "@types/shallow-equals": "1.0.3",
     "bs58": "5.0.0",
-    "bundlemon": "3.0.1",
+    "bundlemon": "3.0.3",
     "classnames": "2.5.1",
     "date-fns": "3.6.0",
     "lodash-es": "4.17.21",
