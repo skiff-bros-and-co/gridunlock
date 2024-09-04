@@ -33,7 +33,7 @@
     "@vitejs/plugin-react": "4.3.1",
     "autoprefixer": "10.4.20",
     "gm": "1.25.0",
-    "sass": "1.77.8",
+    "sass": "1.78.0",
     "typescript": "5.5.4",
     "vite": "5.4.2",
     "vite-plugin-pwa": "0.20.3",
