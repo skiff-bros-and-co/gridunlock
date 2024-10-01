@@ -1,4 +1,4 @@
-import { IceApiResponse } from "../../../src/web-rtc/types";
+import type { IceApiResponse } from "../../../src/web-rtc/types";
 
 const TOKEN_EXPIRATION_SECONDS = 4 * 60 * 60;
 
@@ -27,14 +27,14 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
     method: "PUT",
     body: JSON.stringify(body),
     headers: {
-      "Authorization": "Basic " + btoa(env.XIRSYS_TOKEN),
+      "Authorization": `Basic ${btoa(env.XIRSYS_TOKEN)}`,
       "Content-Type": "application/json",
     },
   });
   const parsed: XirsysResponse = await req.json();
 
   if (parsed.s !== "ok") {
-    throw new Error("Received invalid response from Xirsys: " + JSON.stringify(parsed));
+    throw new Error(`Received invalid response from Xirsys: ${JSON.stringify(parsed)}`);
   }
 
   const response: IceApiResponse = {
