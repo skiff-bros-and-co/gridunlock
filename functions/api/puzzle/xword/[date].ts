@@ -1,5 +1,5 @@
-import { XWordInfoJsonFormat } from "../../../../src/parsers/parseXWord";
 import { differenceInCalendarDays, parse } from "date-fns";
+import type { XWordInfoJsonFormat } from "../../../../src/parsers/parseXWord";
 
 const TIMEOUTS_SEC = {
   UNAVAILABLE_KV: 1 * 60 * 60,

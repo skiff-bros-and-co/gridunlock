@@ -1,5 +1,5 @@
 import { parsePuz } from "../../../../src/parsers/parsePuz";
-import { PuzzleDefinition } from "../../../../src/state/Puzzle";
+import type { PuzzleDefinition } from "../../../../src/state/Puzzle";
 
 interface Env {
   // Defined in the Cloudflare Pages config
