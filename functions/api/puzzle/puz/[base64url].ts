@@ -1,5 +1,5 @@
 import { parsePuz } from "../../../../src/parsers/parsePuz";
-import type { PuzzleDefinition } from "../../../../src/state/Puzzle";
+import type { IntermediatePuzzleDefinition } from "../../../../src/parsers/types";
 
 interface Env {
   // Defined in the Cloudflare Pages config
@@ -7,7 +7,7 @@ interface Env {
 }
 
 interface PuzzleCacheEntry {
-  puzzle: PuzzleDefinition;
+  puzzle: IntermediatePuzzleDefinition;
 }
 
 const MAX_PUZZLE_BYTES = 100 * 1024;
@@ -32,7 +32,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
   }
 };
 
-async function getPuzzle(url: string, env: Env): Promise<PuzzleDefinition> {
+async function getPuzzle(url: string, env: Env): Promise<IntermediatePuzzleDefinition> {
   const cached = await env.PUZZLES.get<PuzzleCacheEntry | undefined>(url, "json");
   if (cached != null) {
     return cached.puzzle;
