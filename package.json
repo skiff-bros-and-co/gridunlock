@@ -47,6 +47,7 @@
     "@types/shallow-equals": "1.0.3",
     "bs58": "6.0.0",
     "bundlemon": "3.0.3",
+    "caniuse-lite": "1.0.30001667",
     "classnames": "2.5.1",
     "date-fns": "4.1.0",
     "lodash-es": "4.17.21",
