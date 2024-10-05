@@ -1,3 +1,5 @@
+@use "sass:color";
+
 @import "~normalize.css";
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
@@ -135,7 +137,7 @@ body {
 
   &.-puzzle-won {
     .puzzle-cell.unblocked {
-      background: darken(#0a6640, 5%);
+      background: color.adjust(#0a6640, $lightness: -5%, $space: hsl);
     }
   }
 }
