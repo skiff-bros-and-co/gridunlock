@@ -45,7 +45,7 @@
     "@cloudflare/pages-plugin-sentry": "1.1.4",
     "@fontsource/libre-franklin": "5.1.0",
     "@types/shallow-equals": "1.0.3",
-    "bs58": "5.0.0",
+    "bs58": "6.0.0",
     "bundlemon": "3.0.3",
     "classnames": "2.5.1",
     "date-fns": "3.6.0",
