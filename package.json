@@ -23,7 +23,7 @@
     "@biomejs/biome": "1.9.3",
     "@cloudflare/workers-types": "4.20241011.0",
     "@confuzzle/writepuz": "1.2.3",
-    "@percy/cli": "1.29.4",
+    "@percy/cli": "1.30.0",
     "@types/bun": "1.1.11",
     "@types/gm": "1.25.4",
     "@types/lodash-es": "4.17.12",
