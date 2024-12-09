@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "5.16.0",
-    "@blueprintjs/popover2": "2.1.16",
+    "@blueprintjs/popover2": "2.1.17",
     "@cloudflare/pages-plugin-sentry": "1.1.4",
     "@fontsource/libre-franklin": "5.1.1",
     "@types/shallow-equals": "1.0.3",
