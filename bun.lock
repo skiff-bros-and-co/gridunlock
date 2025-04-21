@@ -18,7 +18,7 @@
         "shallow-equals": "1.0.0",
         "y-indexeddb": "9.0.12",
         "y-webrtc": "10.3.0",
-        "yjs": "13.6.23",
+        "yjs": "13.6.26",
       },
       "devDependencies": {
         "@biomejs/biome": "1.9.4",
@@ -1245,7 +1245,7 @@
 
     "yauzl": ["yauzl@2.10.0", "", { "dependencies": { "buffer-crc32": "~0.2.3", "fd-slicer": "~1.1.0" } }, "sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g=="],
 
-    "yjs": ["yjs@13.6.23", "", { "dependencies": { "lib0": "^0.2.99" } }, "sha512-ExtnT5WIOVpkL56bhLeisG/N5c4fmzKn4k0ROVfJa5TY2QHbH7F0Wu2T5ZhR7ErsFWQEFafyrnSI8TPKVF9Few=="],
+    "yjs": ["yjs@13.6.26", "", { "dependencies": { "lib0": "^0.2.99" } }, "sha512-wiARO3wixu7mtoRP5f7LqpUtsURP9SmNgXUt3RlnZg4qDuF7dUjthwIvwxIDmK55dPw4Wl4QdW5A3ag0atwu7g=="],
 
     "yup": ["yup@0.32.11", "", { "dependencies": { "@babel/runtime": "^7.15.4", "@types/lodash": "^4.14.175", "lodash": "^4.17.21", "lodash-es": "^4.17.21", "nanoclone": "^0.2.1", "property-expr": "^2.0.4", "toposort": "^2.0.2" } }, "sha512-Z2Fe1bn+eLstG8DRR6FTavGD+MeAwyfmouhHsIUgaADz8jvFKbO/fXc2trJKZg+5EBjh4gGm3iU/t3onKlXHIg=="],
 
