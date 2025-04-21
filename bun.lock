@@ -7,7 +7,7 @@
         "@blueprintjs/core": "5.18.0",
         "@blueprintjs/popover2": "2.1.29",
         "@cloudflare/pages-plugin-sentry": "1.1.4",
-        "@fontsource/libre-franklin": "5.1.2",
+        "@fontsource/libre-franklin": "5.2.5",
         "@types/shallow-equals": "1.0.3",
         "bs58": "6.0.0",
         "classnames": "2.5.1",
@@ -351,7 +351,7 @@
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.24.2", "", { "os": "win32", "cpu": "x64" }, "sha512-7VTgWzgMGvup6aSqDPLiW5zHaxYJGTO4OokMjIlrCtf+VpEL+cXKtCvg723iguPYI5oaUNdS+/V7OU2gvXVWEg=="],
 
-    "@fontsource/libre-franklin": ["@fontsource/libre-franklin@5.1.2", "", {}, "sha512-DhhxvdI2epVifQllvFmYV3cmg671vknq9UAnEclpOgS2da0m/otiP0ZbXQYdYa/374Jn53Y+6E45t2x7lBTvFg=="],
+    "@fontsource/libre-franklin": ["@fontsource/libre-franklin@5.2.5", "", {}, "sha512-ncqMzWiZM8TFABajSMg1k1q5/NeSeCVJJd7o3VDqqNN1q8sxkBW/aENo3n02fy2dYzItIJH88dHnL2j6JAhzyg=="],
 
     "@jridgewell/gen-mapping": ["@jridgewell/gen-mapping@0.1.1", "", { "dependencies": { "@jridgewell/set-array": "^1.0.0", "@jridgewell/sourcemap-codec": "^1.4.10" } }, "sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w=="],
 
