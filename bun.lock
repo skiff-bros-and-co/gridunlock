@@ -22,7 +22,7 @@
       },
       "devDependencies": {
         "@biomejs/biome": "1.9.4",
-        "@cloudflare/workers-types": "4.20250425.0",
+        "@cloudflare/workers-types": "4.20250504.0",
         "@confuzzle/writepuz": "1.2.3",
         "@percy/cli": "1.30.5",
         "@types/bun": "1.2.12",
@@ -295,7 +295,7 @@
 
     "@cloudflare/pages-plugin-sentry": ["@cloudflare/pages-plugin-sentry@1.1.4", "", {}, "sha512-BFcTebWpD4pp6+RePLp5bckoYKMoXKApm0D3PholFnen5FGAv70reIfa+Y031ZD/yGx7ty+8MlAqB7cnPDQfCg=="],
 
-    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20250425.0", "", {}, "sha512-BOU4hbK7Bhcxhmjuk/FcDopWvdvuCLMIanHjNxI0UflPhsFJj5se224iNluw8T5pROA0NFAYhBd3Up784p2/Jw=="],
+    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20250504.0", "", {}, "sha512-/70Kb5vrqj+O0krOuS8LVLiCeDuCGzQy4X+wGGs4/rHv0gZJulv7Uj5YlUjIaRemK/Dyrzlk7WNJwTy8yv0cIw=="],
 
     "@confuzzle/puz-common": ["@confuzzle/puz-common@1.2.3", "", { "dependencies": { "iconv-lite": "^0.5.2" } }, "sha512-jLnaVanNYiLe068KDsqxuDeVVzRrTtuo85IPzIvoCfH0WJjwbxTe4yF/YAN5yAyEHieMwgLF3ADk0J94zoj9cw=="],
 
