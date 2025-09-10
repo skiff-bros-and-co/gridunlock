@@ -25,7 +25,7 @@
         "@cloudflare/workers-types": "4.20250816.0",
         "@confuzzle/writepuz": "1.2.3",
         "@percy/cli": "1.30.10",
-        "@types/bun": "1.2.15",
+        "@types/bun": "1.2.21",
         "@types/gm": "1.25.4",
         "@types/lodash-es": "4.17.12",
         "@types/react": "18.3.23",
@@ -497,7 +497,7 @@
 
     "@types/babel__traverse": ["@types/babel__traverse@7.18.2", "", { "dependencies": { "@babel/types": "^7.3.0" } }, "sha512-FcFaxOr2V5KZCviw1TnutEMVUVsGt4D2hP1TAfXZAMKuHYW3xQhe3jTxNPWutgCJ3/X1c5yX8ZoGVEItxKbwBg=="],
 
-    "@types/bun": ["@types/bun@1.2.15", "", { "dependencies": { "bun-types": "1.2.15" } }, "sha512-U1ljPdBEphF0nw1MIk0hI7kPg7dFdPyM7EenHsp6W5loNHl7zqy6JQf/RKCgnUn2KDzUpkBwHPnEJEjII594bA=="],
+    "@types/bun": ["@types/bun@1.2.21", "", { "dependencies": { "bun-types": "1.2.21" } }, "sha512-NiDnvEqmbfQ6dmZ3EeUO577s4P5bf4HCTXtI6trMc6f6RzirY5IrF3aIookuSpyslFzrnvv2lmEWv5HyC1X79A=="],
 
     "@types/chai": ["@types/chai@5.2.2", "", { "dependencies": { "@types/deep-eql": "*" } }, "sha512-8kB30R7Hwqf40JPiKhVzodJs2Qc1ZJ5zuT3uzw5Hq/dhNCl3G3l83jfpdI1e20BP348+fV7VIL/+FxaXkqBmWg=="],
 
@@ -613,7 +613,7 @@
 
     "builtin-modules": ["builtin-modules@3.3.0", "", {}, "sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw=="],
 
-    "bun-types": ["bun-types@1.2.15", "", { "dependencies": { "@types/node": "*" } }, "sha512-NarRIaS+iOaQU1JPfyKhZm4AsUOrwUOqRNHY0XxI8GI8jYxiLXLcdjYMG9UKS+fwWasc1uw1htV9AX24dD+p4w=="],
+    "bun-types": ["bun-types@1.2.21", "", { "dependencies": { "@types/node": "*" }, "peerDependencies": { "@types/react": "^19" } }, "sha512-sa2Tj77Ijc/NTLS0/Odjq/qngmEPZfbfnOERi0KRUYhT9R8M4VBioWVmMWE5GrYbKMc+5lVybXygLdibHaqVqw=="],
 
     "bundlemon": ["bundlemon@3.1.0", "", { "dependencies": { "axios": "^1.7.5", "axios-retry": "^4.5.0", "brotli-size": "^4.0.0", "bundlemon-utils": "^2.0.1", "bytes": "^3.1.2", "chalk": "^4.0.0", "commander": "^11.1.0", "cosmiconfig": "^8.3.6", "gzip-size": "^6.0.0", "micromatch": "^4.0.8", "yup": "^0.32.11" }, "bin": { "bundlemon": "bin/bundlemon.js" } }, "sha512-8PAomH/fzAD/aXUKmphKmPm4Tl2L7mo51AAalO0EVAZE0cik58AM2x0CVdw4jutD069U2rSyRQstxHo2NEr+9Q=="],
 
