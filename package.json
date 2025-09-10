@@ -37,7 +37,7 @@
     "gm": "1.25.1",
     "sass": "1.89.1",
     "typescript": "5.8.3",
-    "vite": "6.3.5",
+    "vite": "6.3.6",
     "vite-plugin-pwa": "1.0.0",
     "vitest": "3.2.1"
   },
