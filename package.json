@@ -38,7 +38,7 @@
     "sass": "1.92.1",
     "typescript": "5.9.2",
     "vite": "6.3.6",
-    "vite-plugin-pwa": "1.0.0",
+    "vite-plugin-pwa": "1.0.3",
     "vitest": "3.2.4"
   },
   "dependencies": {
