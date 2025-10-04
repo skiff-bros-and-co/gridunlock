@@ -387,6 +387,7 @@ body {
     background: $selected-clue-background;
     color: $white;
     cursor: pointer;
+    border: none;
 
     &.clue {
       flex-shrink: 1;

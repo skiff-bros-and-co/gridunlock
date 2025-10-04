@@ -37,15 +37,15 @@ function NarrowScreenCluesInternal(props: Props): JSX.Element {
 
   return (
     <div className="puzzle-clues-narrow">
-      <div className="button" onClick={handleLeft}>
+      <button className="button" type="button" onClick={handleLeft}>
         <Icon icon={"caret-left"} />
-      </div>
-      <div className="button clue" onClick={props.onToggleFillDirection}>
+      </button>
+      <button className="button clue" type="button" onClick={props.onToggleFillDirection}>
         {selectedClue?.clue ?? ""}
-      </div>
-      <div className="button" onClick={handleRight}>
+      </button>
+      <button className="button" type="button" onClick={handleRight}>
         <Icon icon={"caret-right"} />
-      </div>
+      </button>
     </div>
   );
 }
