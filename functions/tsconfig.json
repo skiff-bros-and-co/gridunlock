@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2024",
+    "target": "es2021",
     "module": "es2022",
-    "lib": ["ES2024"],
-    "types": ["@cloudflare/workers-types"]
+    "lib": ["ES2021"],
+    "types": ["@cloudflare/workers-types"],
+
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
   }
 }
