@@ -1,17 +1,26 @@
 import react from "@vitejs/plugin-react";
 import autoprefixer from "autoprefixer";
 import path from "node:path";
-import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  rollupOptions: {
+    output: {
+      manualChunks: (id) => {
+        if (id.includes("node_modules")) {
+          return "vendor";
+        }
+        return null;
+      }
+    }
+  },
   resolve: {
     alias: [{ find: /^~/, replacement: path.join(__dirname, "/node_modules/") }],
   },
   plugins: [
     react(),
-    splitVendorChunkPlugin(),
     VitePWA({
       injectRegister: "inline",
       manifest: {
@@ -46,7 +55,7 @@ export default defineConfig({
   ],
   css: {
     postcss: {
-      plugins: [autoprefixer],
+      plugins: [autoprefixer({})],
     },
   },
   server: {
