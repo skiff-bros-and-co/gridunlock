@@ -6,16 +6,6 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  rollupOptions: {
-    output: {
-      manualChunks: (id) => {
-        if (id.includes("node_modules")) {
-          return "vendor";
-        }
-        return null;
-      }
-    }
-  },
   resolve: {
     alias: [{ find: /^~/, replacement: path.join(__dirname, "/node_modules/") }],
   },
@@ -69,5 +59,18 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (!id.includes("node_modules")) {
+            return null;
+          }
+          if (id.includes("@blueprintjs")) {
+            return "blueprintjs";
+          }
+          return "vendor";
+        }
+      }
+    },
   },
 });
