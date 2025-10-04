@@ -18,19 +18,13 @@ const MAX_PUZZLE_BYTES = 100 * 1024;
 const PUZZLE_TTL_SEC = 1 * 60 * 60;
 
 export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
-  try {
-    const base64url = params.base64url as string;
-    const url = atob(base64url);
+  const base64url = params.base64url as string;
+  const url = atob(base64url);
 
-    console.info("Got request for", url);
+  console.info("Got request for", url);
 
-    const puzzle = await getPuzzle(url, env);
-    return new Response(JSON.stringify(puzzle));
-  } catch (e) {
-    // Log the error details for debugging purposes
-    console.error("Error occurred while processing request:", e);
-    return new Response("An internal server error occurred.", { status: 500 });
-  }
+  const puzzle = await getPuzzle(url, env);
+  return new Response(JSON.stringify(puzzle));
 };
 
 async function getPuzzle(url: string, env: Env): Promise<IntermediatePuzzleDefinition> {
@@ -44,7 +38,7 @@ async function getPuzzle(url: string, env: Env): Promise<IntermediatePuzzleDefin
     throw new Error(`Puzzle too large (${puzzleData.byteLength})`);
   }
 
-  const puzzle = await parsePuz(puzzleData);
+  const puzzle = parsePuz(puzzleData);
 
   const toCache: PuzzleCacheEntry = {
     puzzle,

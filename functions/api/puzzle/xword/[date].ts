@@ -29,7 +29,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
   try {
     const puzzleString = await fetchPuzzle(date, env);
     const available: PuzzleCacheEntry = { available: true, puzzleString };
-    env.XWORDS.put(date, JSON.stringify(available));
+    await env.XWORDS.put(date, JSON.stringify(available));
 
     return new Response(puzzleString, {
       headers: {
@@ -38,7 +38,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
     });
   } catch (e) {
     const unavailable: PuzzleCacheEntry = { available: false };
-    env.XWORDS.put(date, JSON.stringify(unavailable), {
+    await env.XWORDS.put(date, JSON.stringify(unavailable), {
       expirationTtl: TIMEOUTS_SEC.UNAVAILABLE_KV,
     });
 
