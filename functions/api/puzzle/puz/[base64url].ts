@@ -27,8 +27,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ params, env }) => {
     const puzzle = await getPuzzle(url, env);
     return new Response(JSON.stringify(puzzle));
   } catch (e) {
-    // There's no logging for Cloudflare Functions, yet :(
-    return new Response(e?.stack ?? JSON.stringify(e), { status: 500 });
+    // Log the error details for debugging purposes
+    console.error("Error occurred while processing request:", e);
+    return new Response("An internal server error occurred.", { status: 500 });
   }
 };
 
