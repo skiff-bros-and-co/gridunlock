@@ -220,6 +220,7 @@ body {
   border: var(--puzzle-cell-selection-border-width) solid transparent;
   display: grid;
   cursor: text;
+  overflow: hidden;
 
   .content {
     grid-area: 2/-1/2;
@@ -234,6 +235,7 @@ body {
     overflow: hidden;
     line-height: 1;
     padding: 0;
+    min-width: 0;
 
     // This fixes a really annoying bug on iOS, where
     // text was getting clipped
@@ -253,6 +255,7 @@ body {
     font-variation-settings: "wght" 600;
     line-height: 1;
     white-space: pre-wrap;
+    min-width: 0;
   }
 
   &.-unblocked {
