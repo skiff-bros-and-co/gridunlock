@@ -31,7 +31,7 @@ function indexClues(cells: string[][], clueList: string[]): IntermediatePuzzleCl
         return;
       }
 
-      let clueNumber: number | undefined = undefined;
+      let clueNumber: number | undefined;
 
       if (needsAcrossNumber(columnIndex, rowIndex, cells)) {
         acrossClues[nextClueNumber] = clueList[nextClueListIndex];

@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/dskiff/gridunlock#readme",
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.2.5",
     "@cloudflare/workers-types": "4.20251004.0",
     "@confuzzle/writepuz": "1.2.3",
     "@percy/cli": "1.30.10",

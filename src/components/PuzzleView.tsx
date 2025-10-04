@@ -7,16 +7,16 @@ import { generateCellWordPositions } from "../utils/generateCellWordPositions";
 import { getNextCell, getNextClueNumber, getNextUnfilledCell } from "../utils/getNextCell";
 import { isPuzzleComplete } from "../utils/isPuzzleComplete";
 import { validatePuzzleState } from "../utils/validatePuzzleState";
-import { type RoomSyncService, getSyncedCellKey } from "../web-rtc/RoomSyncService";
+import { getSyncedCellKey, type RoomSyncService } from "../web-rtc/RoomSyncService";
 import type { SyncedPlayerState, SyncedPuzzleCellState, SyncedPuzzleState } from "../web-rtc/types";
+import { getAcrossClueNumber, getDownClueNumber } from "./clues/clueUtils";
+import { NarrowScreenClues } from "./clues/NarrowScreenClues";
+import { PuzzleClues } from "./clues/PuzzleClues";
 import { Header } from "./Header";
 import { useEventCallback, useKeypress } from "./Hooks";
 import { PuzzleGrid } from "./PuzzleGrid";
 import { useSyncedMap } from "./SyncingHooks";
 import { VirtualKeyboard } from "./VirtualKeyboard";
-import { NarrowScreenClues } from "./clues/NarrowScreenClues";
-import { PuzzleClues } from "./clues/PuzzleClues";
-import { getAcrossClueNumber, getDownClueNumber } from "./clues/clueUtils";
 
 interface Props {
   puzzle: PuzzleDefinition;

@@ -54,6 +54,7 @@ function PuzzleCellInternal(props: Props): JSX.Element {
   }
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: grandfathered
     <div
       className={classnames("puzzle-cell -unblocked", {
         "-local-player-selected": props.isSelected,
