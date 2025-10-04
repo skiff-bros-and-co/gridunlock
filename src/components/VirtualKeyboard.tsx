@@ -1,4 +1,5 @@
 import { Icon } from "@blueprintjs/core";
+import { KeyBackspace } from "@blueprintjs/icons";
 import classNames from "classnames";
 import { memo, type Touch, type TouchEvent, type TouchList, useCallback, useState } from "react";
 
@@ -14,7 +15,7 @@ function KeyInternal(props: { letter: string; active: boolean }) {
 
   return (
     <div className={classNames("key", { "-active": active })} data-letter={letter}>
-      <div className="inner">{letter !== "⌫" ? letter : <Icon icon="key-backspace" />}</div>
+      <div className="inner">{letter !== "⌫" ? letter : <Icon icon={<KeyBackspace />} />}</div>
     </div>
   );
 }

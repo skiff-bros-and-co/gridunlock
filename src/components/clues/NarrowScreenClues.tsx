@@ -1,4 +1,5 @@
 import { Icon } from "@blueprintjs/core";
+import { CaretLeft, CaretRight } from "@blueprintjs/icons";
 import { memo, useCallback } from "react";
 import type { CellPosition, Clue, FillDirection, PuzzleDefinition } from "../../state/Puzzle";
 import { getNextClueNumber } from "../../utils/getNextCell";
@@ -38,13 +39,13 @@ function NarrowScreenCluesInternal(props: Props): JSX.Element {
   return (
     <div className="puzzle-clues-narrow">
       <button className="button" type="button" onClick={handleLeft}>
-        <Icon icon={"caret-left"} />
+        <Icon icon={<CaretLeft />} />
       </button>
       <button className="button clue" type="button" onClick={props.onToggleFillDirection}>
         {selectedClue?.clue ?? ""}
       </button>
       <button className="button" type="button" onClick={handleRight}>
-        <Icon icon={"caret-right"} />
+        <Icon icon={<CaretRight />} />
       </button>
     </div>
   );

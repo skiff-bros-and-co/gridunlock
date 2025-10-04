@@ -1,5 +1,5 @@
-import { AnchorButton, Button, ButtonGroup, Menu, MenuItem, Position } from "@blueprintjs/core";
-import { Popover2 } from "@blueprintjs/popover2";
+import { AnchorButton, Button, ButtonGroup, Menu, MenuItem, Popover, Position } from "@blueprintjs/core";
+import { CaretDown, GridView, Tick } from "@blueprintjs/icons";
 import { memo, useCallback } from "react";
 import gridUnlockIcon from "../assets/grid-unlock.svg";
 
@@ -10,7 +10,7 @@ interface Props {
 function HeaderMenu(props: Props): JSX.Element {
   return (
     <Menu>
-      <MenuItem icon={"tick"} text="Check Puzzle" onClick={props.onCheckPuzzle} />
+      <MenuItem icon={<Tick />} text="Check Puzzle" onClick={props.onCheckPuzzle} />
     </Menu>
   );
 }
@@ -24,13 +24,13 @@ function HeaderInternal(props: Props): JSX.Element {
     <div className="header">
       <img src={gridUnlockIcon} className="app-icon" alt="Grid" onClick={newRoom} />
       <h1 className="app-title">Grid Unlock</h1>
-      <ButtonGroup className="buttons" minimal={true}>
-        <Button icon="grid-view" onClick={newRoom}>
+      <ButtonGroup className="buttons" variant="minimal">
+        <Button icon={<GridView />} onClick={newRoom}>
           New Room
         </Button>
-        <Popover2 content={<HeaderMenu onCheckPuzzle={props.onCheckPuzzle} />} position={Position.BOTTOM}>
-          <AnchorButton rightIcon="caret-down" />
-        </Popover2>
+        <Popover content={<HeaderMenu onCheckPuzzle={props.onCheckPuzzle} />} position={Position.BOTTOM}>
+          <AnchorButton endIcon={<CaretDown />} />
+        </Popover>
       </ButtonGroup>
     </div>
   );
