@@ -1,3 +1,5 @@
+@use "colors.scss";
+
 @use "sass:color";
 
 @import "~normalize.css";
@@ -7,7 +9,6 @@
 @import "~@fontsource/libre-franklin/400.css";
 @import "~@fontsource/libre-franklin/600.css";
 
-@import "./colors.scss";
 
 :root {
   --minimum-cell-size: 20px;
@@ -27,11 +28,11 @@
   --virtual-keyboard-button-height: calc(var(--virtual-keyboard-button-width) * 1.4);
 }
 
-$main-background-color: $dark-gray3;
+$main-background-color: colors.$dark-gray3;
 $cell-dimension: 32px;
-$cell-background: $dark-gray1;
-$selected-clue-background: $dark-gray5;
-$selected-clue-border: $light-gray3;
+$cell-background: colors.$dark-gray1;
+$selected-clue-background: colors.$dark-gray5;
+$selected-clue-border: colors.$light-gray3;
 $selected-clue-border-width: 1px;
 
 body {
@@ -250,7 +251,7 @@ body {
   .clue-number {
     grid-area: 1/-1/2;
     pointer-events: none;
-    color: $light-gray1;
+    color: colors.$light-gray1;
     font-size: var(--puzzle-cell-clue-font-size);
     font-variation-settings: "wght" 600;
     line-height: 1;
@@ -311,7 +312,7 @@ body {
 
   &.-marked-incorrect {
     .content {
-      color: $red3;
+      color: colors.$red3;
     }
   }
 }
@@ -356,14 +357,14 @@ body {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: $white;
-      background: $gray1;
+      color: colors.$white;
+      background: colors.$gray1;
       border-radius: 10%;
       pointer-events: none;
     }
 
     &.-active .inner {
-      background: $gray5;
+      background: colors.$gray5;
     }
   }
 }
@@ -385,7 +386,7 @@ body {
     flex-shrink: 0;
     padding: 5px 10px;
     background: $selected-clue-background;
-    color: $white;
+    color: colors.$white;
     cursor: pointer;
     border: none;
 
@@ -398,11 +399,11 @@ body {
     }
 
     &:hover {
-      background: $dark-gray4;
+      background: colors.$dark-gray4;
     }
 
     &:active {
-      background: $gray1;
+      background: colors.$gray1;
     }
   }
 }
@@ -496,7 +497,7 @@ body.-touch-device {
       background: $selected-clue-background;
     }
     .button:active {
-      background: $gray1;
+      background: colors.$gray1;
     }
   }
 }
