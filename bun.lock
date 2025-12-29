@@ -22,9 +22,9 @@
       },
       "devDependencies": {
         "@biomejs/biome": "2.3.10",
-        "@cloudflare/workers-types": "4.20251219.0",
+        "@cloudflare/workers-types": "4.20251225.0",
         "@confuzzle/writepuz": "1.2.3",
-        "@percy/cli": "1.31.5",
+        "@percy/cli": "1.31.6",
         "@types/bun": "1.3.5",
         "@types/gm": "1.25.4",
         "@types/lodash-es": "4.17.12",
@@ -34,9 +34,9 @@
         "@vitejs/plugin-react": "5.1.2",
         "autoprefixer": "10.4.23",
         "bundlemon": "3.1.0",
-        "caniuse-lite": "1.0.30001760",
+        "caniuse-lite": "1.0.30001761",
         "gm": "1.25.1",
-        "sass": "1.97.0",
+        "sass": "1.97.1",
         "typescript": "5.9.3",
         "vite": "7.3.0",
         "vite-plugin-pwa": "1.2.0",
@@ -293,7 +293,7 @@
 
     "@cloudflare/pages-plugin-sentry": ["@cloudflare/pages-plugin-sentry@1.1.4", "", {}, "sha512-BFcTebWpD4pp6+RePLp5bckoYKMoXKApm0D3PholFnen5FGAv70reIfa+Y031ZD/yGx7ty+8MlAqB7cnPDQfCg=="],
 
-    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20251219.0", "", {}, "sha512-qwuvc3ZDdCfcK9dJrBSFHOsX8kL72sypfBilzEWbbb+slB2NiggjsHeGMV2ZQiQc1zyBMQPjIvsVeE7Apxp7hw=="],
+    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20251225.0", "", {}, "sha512-ZZl0cNLFcsBRFKtMftKWOsfAybUYSeiTMzpQV1NlTVlByHAs1rGQt45Jw/qz8LrfHoq9PGTieSj9W350Gi4Pvg=="],
 
     "@confuzzle/puz-common": ["@confuzzle/puz-common@1.2.3", "", { "dependencies": { "iconv-lite": "^0.5.2" } }, "sha512-jLnaVanNYiLe068KDsqxuDeVVzRrTtuo85IPzIvoCfH0WJjwbxTe4yF/YAN5yAyEHieMwgLF3ADk0J94zoj9cw=="],
 
@@ -405,39 +405,39 @@
 
     "@parcel/watcher-win32-x64": ["@parcel/watcher-win32-x64@2.4.1", "", { "os": "win32", "cpu": "x64" }, "sha512-+DvS92F9ezicfswqrvIRM2njcYJbd5mb9CUgtrHCHmvn7pPPa+nMDRu1o1bYYz/l5IB2NVGNJWiH7h1E58IF2A=="],
 
-    "@percy/cli": ["@percy/cli@1.31.5", "", { "dependencies": { "@percy/cli-app": "1.31.5", "@percy/cli-build": "1.31.5", "@percy/cli-command": "1.31.5", "@percy/cli-config": "1.31.5", "@percy/cli-exec": "1.31.5", "@percy/cli-snapshot": "1.31.5", "@percy/cli-upload": "1.31.5", "@percy/client": "1.31.5", "@percy/logger": "1.31.5" }, "bin": { "percy": "bin/run.cjs" } }, "sha512-4Mhb7hWfwxrD6pAbkSvWzR226rIX1xPsSP1bJE/bJUiDy7SZcfQqwG65fP78BhnDT6ehPvlmhot8B33v8AeWOw=="],
+    "@percy/cli": ["@percy/cli@1.31.6", "", { "dependencies": { "@percy/cli-app": "1.31.6", "@percy/cli-build": "1.31.6", "@percy/cli-command": "1.31.6", "@percy/cli-config": "1.31.6", "@percy/cli-exec": "1.31.6", "@percy/cli-snapshot": "1.31.6", "@percy/cli-upload": "1.31.6", "@percy/client": "1.31.6", "@percy/logger": "1.31.6" }, "bin": { "percy": "bin/run.cjs" } }, "sha512-CVuf67rlUiZNaeLZd87JhhhQK7dj1/I3ctxWDRuaKDd9aoWUSCQR4VtoYkA5htaOlTEpMDvTRaAK9sfjLUo2yQ=="],
 
-    "@percy/cli-app": ["@percy/cli-app@1.31.5", "", { "dependencies": { "@percy/cli-command": "1.31.5", "@percy/cli-exec": "1.31.5" } }, "sha512-Rzc0QzFov5/Ak29bQ1eIWVtJaj6Aqd3QJGE6sqR+WOUHI0sUQjSOV+8QHLOfx1/8Db2Ne+AbuKVGIWesRW9gVQ=="],
+    "@percy/cli-app": ["@percy/cli-app@1.31.6", "", { "dependencies": { "@percy/cli-command": "1.31.6", "@percy/cli-exec": "1.31.6" } }, "sha512-KjDIz9nWg7QmVfqMmn5g96Z8CmoEVZLtwwOSao8cegk2HNrgaj9a7mgnfJtDsW0laajK27FG/yUDNk824QRx3A=="],
 
-    "@percy/cli-build": ["@percy/cli-build@1.31.5", "", { "dependencies": { "@percy/cli-command": "1.31.5" } }, "sha512-bA6B1EQbJIr5AiaS+8jP7L+sbiLsvW57lmG++sybfVqdHi7qAlofK71c+Dpr8af6xHPKm8h8phw05CxYSkTiYw=="],
+    "@percy/cli-build": ["@percy/cli-build@1.31.6", "", { "dependencies": { "@percy/cli-command": "1.31.6" } }, "sha512-+Se0tIxcwhioRkTfEEeSOipQHMmMDHfss4r0572jJUfARLGxNIc6A7ttVtxq3yx+S2DIFYNkHzRR4aSliMZb8g=="],
 
-    "@percy/cli-command": ["@percy/cli-command@1.31.5", "", { "dependencies": { "@percy/config": "1.31.5", "@percy/core": "1.31.5", "@percy/logger": "1.31.5" }, "bin": { "percy-cli-readme": "bin/readme.js" } }, "sha512-GUfkOP5v6F0DPa+Msnpk4hf4f1Yh+fqbd9vApCsvDMkDF6Zg+bIALD3CPZqdjXded2q+VuIjIC+HJUlIR3Xodg=="],
+    "@percy/cli-command": ["@percy/cli-command@1.31.6", "", { "dependencies": { "@percy/config": "1.31.6", "@percy/core": "1.31.6", "@percy/logger": "1.31.6" }, "bin": { "percy-cli-readme": "bin/readme.js" } }, "sha512-I/ci+QtU15TrT5RtRUDQOT0yUfUo4gav+hzHVDcbtBc8TjtqEwU21lduludlXphZPIbrUmwnxcl+aI9zILcX7g=="],
 
-    "@percy/cli-config": ["@percy/cli-config@1.31.5", "", { "dependencies": { "@percy/cli-command": "1.31.5" } }, "sha512-BaFKg72OtsZX9riJqV38tmtJcku7E+xh4PdQ9iyxKA2gCjxC6fUHbuIihHe5C3aoUiIsD4GzFwKq55S4zrxo9Q=="],
+    "@percy/cli-config": ["@percy/cli-config@1.31.6", "", { "dependencies": { "@percy/cli-command": "1.31.6" } }, "sha512-v6EZ4kP76UJ+CXHyjaPdAtTfcnuLbRmuzoDtoP+R/xHcSi4UYrL/vaxvZVWqb8AC0oEqwd9Y3TCejYp/Xhz0yg=="],
 
-    "@percy/cli-exec": ["@percy/cli-exec@1.31.5", "", { "dependencies": { "@percy/cli-command": "1.31.5", "@percy/logger": "1.31.5", "cross-spawn": "^7.0.3", "which": "^2.0.2" } }, "sha512-ysSHhDnEjh4xOMw8LmbGchqWyc/exq5bDgYhqdzPF8bS8Ke+NYKd9FHENBAzqOkE8mNknf/PQ88hJLIgNjUH5g=="],
+    "@percy/cli-exec": ["@percy/cli-exec@1.31.6", "", { "dependencies": { "@percy/cli-command": "1.31.6", "@percy/logger": "1.31.6", "cross-spawn": "^7.0.3", "which": "^2.0.2" } }, "sha512-KFFIkj71ltP3bAd88DC3gSlujj1hOTd24ZV4uhVZ54UMPRmZQd2VyaeRNGeG799LlCGtmF5Cn9Ill0eP/My1Hw=="],
 
-    "@percy/cli-snapshot": ["@percy/cli-snapshot@1.31.5", "", { "dependencies": { "@percy/cli-command": "1.31.5", "yaml": "^2.0.0" } }, "sha512-vejf9eJd/r8dSbog0r7ei2lGRoYQd/MvjriG+tSapEXLw5X6hr7XfZY5B/XhqdQDDx39HzHY4z6RkFhSTR20rg=="],
+    "@percy/cli-snapshot": ["@percy/cli-snapshot@1.31.6", "", { "dependencies": { "@percy/cli-command": "1.31.6", "yaml": "^2.0.0" } }, "sha512-EiQGx1s9B+OmnQs1ICS0UJKJyYhrcpRBsUzNoBG4iZ3UBRijlBjR/yxCoM72y30WWpfkTT1JIArb1mww/5EA2g=="],
 
-    "@percy/cli-upload": ["@percy/cli-upload@1.31.5", "", { "dependencies": { "@percy/cli-command": "1.31.5", "fast-glob": "^3.2.11", "image-size": "^1.0.0" } }, "sha512-6Jll0dMKMRcwC6dHXLf+9XGfl29vk4r+kX3C522OJhglFdahWLsIYYK/chLZ4td83eqFeMt1ZeBVJBlMPZlHgg=="],
+    "@percy/cli-upload": ["@percy/cli-upload@1.31.6", "", { "dependencies": { "@percy/cli-command": "1.31.6", "fast-glob": "^3.2.11", "image-size": "^1.0.0" } }, "sha512-g8Rr96oJ6e797HgBvnIpRcvEkn/YLfhnUrEfapMIqhEINADTBCfWzhPsmheBRFAN0LoS2GDEtHbDJ5zF3J5BMg=="],
 
-    "@percy/client": ["@percy/client@1.31.5", "", { "dependencies": { "@percy/config": "1.31.5", "@percy/env": "1.31.5", "@percy/logger": "1.31.5", "pac-proxy-agent": "^7.0.2", "pako": "^2.1.0" } }, "sha512-9N4Am+heEsHn1Q2yDcnayPzVl898ZYa4a4OUj+PryExNYcfmXIcNh9ZNoMesY6vr56XqbT0IlhNMpyYwSu0SXg=="],
+    "@percy/client": ["@percy/client@1.31.6", "", { "dependencies": { "@percy/config": "1.31.6", "@percy/env": "1.31.6", "@percy/logger": "1.31.6", "pac-proxy-agent": "^7.0.2", "pako": "^2.1.0" } }, "sha512-hXPGNNcPoKqNmNIxjflA0bSxv43gU6xkATfsiEec9w1yGswJa3FVWZE8KEopB0xXFVTKurMaZKLPg/ZF7l1BwA=="],
 
-    "@percy/config": ["@percy/config@1.31.5", "", { "dependencies": { "@percy/logger": "1.31.5", "ajv": "^8.6.2", "cosmiconfig": "^8.0.0", "yaml": "^2.0.0" } }, "sha512-/Y/6tuidR5NHYDcGIqfJjexChKGrbax8mTDmh6ioq5tgppkClZpFG4X3V/VSmM+ZDF/gViZOKq1j/aQI8+MRsg=="],
+    "@percy/config": ["@percy/config@1.31.6", "", { "dependencies": { "@percy/logger": "1.31.6", "ajv": "^8.6.2", "cosmiconfig": "^8.0.0", "yaml": "^2.0.0" } }, "sha512-OK6TAizbGxom3ffWdWvTMc0RDJs88TDAkh1Cwrv1mF8fmHHJJv02veWJi1auY/dLMwQqc8BV8DnhFiLU6MSeWQ=="],
 
-    "@percy/core": ["@percy/core@1.31.5", "", { "dependencies": { "@percy/client": "1.31.5", "@percy/config": "1.31.5", "@percy/dom": "1.31.5", "@percy/logger": "1.31.5", "@percy/monitoring": "1.31.5", "@percy/webdriver-utils": "1.31.5", "content-disposition": "^0.5.4", "cross-spawn": "^7.0.3", "extract-zip": "^2.0.1", "fast-glob": "^3.2.11", "micromatch": "^4.0.8", "mime-types": "^2.1.34", "pako": "^2.1.0", "path-to-regexp": "^6.3.0", "rimraf": "^3.0.2", "ws": "^8.17.1", "yaml": "^2.4.1" } }, "sha512-uscHqNO5Z9TOeP6sKwL0srk2cqYfXknto9qLNuzQmUapdGmqAMdIdDvDNg3VrRB/Zurr+8ZY96KM3E3DC3SF7g=="],
+    "@percy/core": ["@percy/core@1.31.6", "", { "dependencies": { "@percy/client": "1.31.6", "@percy/config": "1.31.6", "@percy/dom": "1.31.6", "@percy/logger": "1.31.6", "@percy/monitoring": "1.31.6", "@percy/webdriver-utils": "1.31.6", "content-disposition": "^0.5.4", "cross-spawn": "^7.0.3", "extract-zip": "^2.0.1", "fast-glob": "^3.2.11", "micromatch": "^4.0.8", "mime-types": "^2.1.34", "pako": "^2.1.0", "path-to-regexp": "^6.3.0", "rimraf": "^3.0.2", "ws": "^8.17.1", "yaml": "^2.4.1" } }, "sha512-weL5TkA7smzqhbP1EgPYGQSTP02wayRPzZyeUaa5pJVEPy24fzPzWdzptv6F6Kg/LP9JPS/tEuHP53pc7xER9A=="],
 
-    "@percy/dom": ["@percy/dom@1.31.5", "", {}, "sha512-eFQDgf9mgd0skJmn4NeOgJmxCA4Xayq/ZE9d4zRSqJP/wOa5B0zHwsLdyp3ZFhvEfbe6/5pisnf6rzpFLr+kvA=="],
+    "@percy/dom": ["@percy/dom@1.31.6", "", {}, "sha512-JjAK38zKqtCefWi+XIDcx8b3OEOw9E+zIcgdcueOS4sGtWKaw3G1sFVuUDiA4p2u+AvNFnyZ4Bda+KKexcnZMQ=="],
 
-    "@percy/env": ["@percy/env@1.31.5", "", { "dependencies": { "@percy/logger": "1.31.5" } }, "sha512-ZZndzJLJwEq79Gq+eiSeax4HXCn5dRk3WsXVAc9y9sy8+58cGMyW7wYwg4AeATEgzpfbDG/8Bwzzn9cZPkSk4w=="],
+    "@percy/env": ["@percy/env@1.31.6", "", { "dependencies": { "@percy/logger": "1.31.6" } }, "sha512-MngvudIHRMd09c59HXXszTey3zlDvlgTB42/tcJFuGGM/jwMw7suJeQXyt+G+7f+MIa/TMmiOeYCW4mYWoMuAg=="],
 
-    "@percy/logger": ["@percy/logger@1.31.5", "", {}, "sha512-YbVl+8xsxjBH6+p7cPSIN2voP1dZrwOYYskwQeNYAOgfwky8D/mo5xJ2Lt2HgCJCxqbLYmKsb2MyTqztIfAAZQ=="],
+    "@percy/logger": ["@percy/logger@1.31.6", "", {}, "sha512-Z5iS7DnBRnj5RHfsGU//aQuQrE+wRNdBnmFbovxzmEMOfIqAVWjFQc7ZC+BtDfiMH6eiipAJrhI/inT599UGHA=="],
 
-    "@percy/monitoring": ["@percy/monitoring@1.31.5", "", { "dependencies": { "@percy/config": "1.31.5", "@percy/logger": "1.31.5", "@percy/sdk-utils": "1.31.5", "systeminformation": "^5.25.11" } }, "sha512-jMOaHcFbd/8/0krzJE42915VXujJweu4X96sfAe6i8n+LWPjPo37diTMXW6nimqmkmgNDb5HRHWYT2gCVyT5oA=="],
+    "@percy/monitoring": ["@percy/monitoring@1.31.6", "", { "dependencies": { "@percy/config": "1.31.6", "@percy/logger": "1.31.6", "@percy/sdk-utils": "1.31.6", "systeminformation": "^5.25.11" } }, "sha512-fi3uWgy2gR1TtlyJ19piVQKjaHWj5Nm4JDW2IKigupNwTz4U1W69mzyJXpppz0jXCA2926qj+50jES46xTUWAg=="],
 
-    "@percy/sdk-utils": ["@percy/sdk-utils@1.31.5", "", { "dependencies": { "pac-proxy-agent": "^7.0.2" } }, "sha512-6hpu8k93LZBhlce+Bvve/tK95ymORpVOO36IDHlSTxm5V9NnMKuad3QyAz4Z70M1oVTdtdgYH+AiFI/IcQoQNw=="],
+    "@percy/sdk-utils": ["@percy/sdk-utils@1.31.6", "", { "dependencies": { "pac-proxy-agent": "^7.0.2" } }, "sha512-bsDZOM3qs+aKyOzKjvUMEtDt8felCqXPPfOnv5PhO0P43Vspub2XUQzKUF9RlplmghzXhAvczacKTN6ef0M7PA=="],
 
-    "@percy/webdriver-utils": ["@percy/webdriver-utils@1.31.5", "", { "dependencies": { "@percy/config": "1.31.5", "@percy/sdk-utils": "1.31.5" } }, "sha512-NU4uMzt2xjEbHFvgdAc9cSQ4fM7y0qGlMvG5cGjkIXz5dOTspVc7wHxyy0KcH20AVqolKqBtL6G0U+5XEerXKg=="],
+    "@percy/webdriver-utils": ["@percy/webdriver-utils@1.31.6", "", { "dependencies": { "@percy/config": "1.31.6", "@percy/sdk-utils": "1.31.6" } }, "sha512-+Zswt3Y1L0tOP2zx9iplxKpAkrKoqXkcIchspuqDUu+uAzoIMlkmEoMWbN3YLhxZyiX1w1FVgyHmz6Pfn8uqSw=="],
 
     "@popperjs/core": ["@popperjs/core@2.11.8", "", {}, "sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A=="],
 
@@ -643,7 +643,7 @@
 
     "camel-case": ["camel-case@4.1.2", "", { "dependencies": { "pascal-case": "^3.1.2", "tslib": "^2.0.3" } }, "sha512-gxGWBrTT1JuMx6R+o5PTXMmUnhnVzLQ9SNutD4YqKtI6ap897t3tKECYla6gCWEkplXnlNybEkZg9GEGxKFCgw=="],
 
-    "caniuse-lite": ["caniuse-lite@1.0.30001760", "", {}, "sha512-7AAMPcueWELt1p3mi13HR/LHH0TJLT11cnwDJEs3xA4+CK/PLKeO9Kl1oru24htkyUKtkGCvAx4ohB0Ttry8Dw=="],
+    "caniuse-lite": ["caniuse-lite@1.0.30001761", "", {}, "sha512-JF9ptu1vP2coz98+5051jZ4PwQgd2ni8A+gYSN7EA7dPKIMf0pDlSUxhdmVOaV3/fYK5uWBkgSXJaRLr4+3A6g=="],
 
     "capital-case": ["capital-case@1.0.4", "", { "dependencies": { "no-case": "^3.0.4", "tslib": "^2.0.3", "upper-case-first": "^2.0.2" } }, "sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A=="],
 
@@ -1113,7 +1113,7 @@
 
     "safer-buffer": ["safer-buffer@2.1.2", "", {}, "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="],
 
-    "sass": ["sass@1.97.0", "", { "dependencies": { "chokidar": "^4.0.0", "immutable": "^5.0.2", "source-map-js": ">=0.6.2 <2.0.0" }, "optionalDependencies": { "@parcel/watcher": "^2.4.1" }, "bin": { "sass": "sass.js" } }, "sha512-KR0igP1z4avUJetEuIeOdDlwaUDvkH8wSx7FdSjyYBS3dpyX3TzHfAMO0G1Q4/3cdjcmi3r7idh+KCmKqS+KeQ=="],
+    "sass": ["sass@1.97.1", "", { "dependencies": { "chokidar": "^4.0.0", "immutable": "^5.0.2", "source-map-js": ">=0.6.2 <2.0.0" }, "optionalDependencies": { "@parcel/watcher": "^2.4.1" }, "bin": { "sass": "sass.js" } }, "sha512-uf6HoO8fy6ClsrShvMgaKUn14f2EHQLQRtpsZZLeU/Mv0Q1K5P0+x2uvH6Cub39TVVbWNSrraUhDAoFph6vh0A=="],
 
     "scheduler": ["scheduler@0.23.2", "", { "dependencies": { "loose-envify": "^1.1.0" } }, "sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ=="],
 
@@ -1621,9 +1621,13 @@
 
     "@types/simple-peer/@types/node": ["@types/node@20.12.12", "", { "dependencies": { "undici-types": "~5.26.4" } }, "sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw=="],
 
+    "autoprefixer/caniuse-lite": ["caniuse-lite@1.0.30001760", "", {}, "sha512-7AAMPcueWELt1p3mi13HR/LHH0TJLT11cnwDJEs3xA4+CK/PLKeO9Kl1oru24htkyUKtkGCvAx4ohB0Ttry8Dw=="],
+
     "babel-plugin-polyfill-corejs2/@babel/compat-data": ["@babel/compat-data@7.22.9", "", {}, "sha512-5UamI7xkUcJ3i9qVDS+KFDEK8/7oJ55/sJMB1Ge7IEapr7KfdfV/HErR+koZwOfd+SgtFKOKRhRakdg++DcJpQ=="],
 
     "babel-plugin-polyfill-corejs2/semver": ["semver@6.3.0", "", { "bin": "bin/semver.js" }, "sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw=="],
+
+    "browserslist/caniuse-lite": ["caniuse-lite@1.0.30001760", "", {}, "sha512-7AAMPcueWELt1p3mi13HR/LHH0TJLT11cnwDJEs3xA4+CK/PLKeO9Kl1oru24htkyUKtkGCvAx4ohB0Ttry8Dw=="],
 
     "bun-types/@types/node": ["@types/node@20.12.12", "", { "dependencies": { "undici-types": "~5.26.4" } }, "sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw=="],
 
