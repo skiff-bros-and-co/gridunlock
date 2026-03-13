@@ -79,10 +79,8 @@ export const PuzzleGrid = (props: Props): JSX.Element => {
 
       return (
         <PuzzleCell
-          key={`${rowIndex}-${
-            // biome-ignore lint/suspicious/noArrayIndexKey: This is a static sized board
-            colIndex
-          }`}
+          // biome-ignore lint/suspicious/noArrayIndexKey: This is a static sized board
+          key={`${rowIndex}-${colIndex}`}
           isSelected={isSelectedCell(rowIndex, colIndex, selectedCell)}
           isInSelectedWord={inSelectedWord}
           row={rowIndex}
