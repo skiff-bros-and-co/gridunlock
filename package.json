@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/dskiff/gridunlock#readme",
   "devDependencies": {
-    "@biomejs/biome": "2.4.15",
-    "@cloudflare/workers-types": "4.20260522.1",
+    "@biomejs/biome": "2.4.16",
+    "@cloudflare/workers-types": "4.20260528.1",
     "@confuzzle/writepuz": "1.2.3",
     "@percy/cli": "1.31.14",
     "@types/bun": "1.3.14",
@@ -48,13 +48,13 @@
     "@types/shallow-equals": "1.0.3",
     "bs58": "6.0.0",
     "classnames": "2.5.1",
-    "date-fns": "4.2.1",
+    "date-fns": "4.3.0",
     "lodash-es": "4.18.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "shallow-equals": "1.0.0",
     "y-indexeddb": "9.0.12",
     "y-webrtc": "10.3.0",
-    "yjs": "13.6.30"
+    "yjs": "13.6.31"
   }
 }
