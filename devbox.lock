@@ -2,8 +2,8 @@
   "lockfile_version": "1",
   "packages": {
     "bun@1.3.13": {
-      "last_modified": "2026-05-03T16:35:46Z",
-      "resolved": "github:NixOS/nixpkgs/73c703c22422b8951895a960959dbbaca7296492#bun",
+      "last_modified": "2026-05-21T08:15:18Z",
+      "resolved": "github:NixOS/nixpkgs/4a29d733e8a7d5b824c3d8c958a946a9867b3eb2#bun",
       "source": "devbox-search",
       "version": "1.3.13",
       "systems": {
@@ -11,51 +11,51 @@
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/i4rqz2p2bayrl6pv9l36y4fzhqx7k1zv-bun-1.3.13",
+              "path": "/nix/store/jgl1hjr0cf6s32jcnqmkp44av4flamap-bun-1.3.13",
               "default": true
             }
           ],
-          "store_path": "/nix/store/i4rqz2p2bayrl6pv9l36y4fzhqx7k1zv-bun-1.3.13"
+          "store_path": "/nix/store/jgl1hjr0cf6s32jcnqmkp44av4flamap-bun-1.3.13"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/1q2xsp98qhjy6rsz3nga795c3mgsjhia-bun-1.3.13",
+              "path": "/nix/store/ywc7zrq5vr32ashfgc7dp84a2f3rzic6-bun-1.3.13",
               "default": true
             }
           ],
-          "store_path": "/nix/store/1q2xsp98qhjy6rsz3nga795c3mgsjhia-bun-1.3.13"
+          "store_path": "/nix/store/ywc7zrq5vr32ashfgc7dp84a2f3rzic6-bun-1.3.13"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/31jsiwr1nq8pi4jvyjpq0zi28a4fyay0-bun-1.3.13",
+              "path": "/nix/store/1nphhxm1h3pya9j86kql2gpsvy6nizr4-bun-1.3.13",
               "default": true
             }
           ],
-          "store_path": "/nix/store/31jsiwr1nq8pi4jvyjpq0zi28a4fyay0-bun-1.3.13"
+          "store_path": "/nix/store/1nphhxm1h3pya9j86kql2gpsvy6nizr4-bun-1.3.13"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/g0zlmqvkvn41xqva3460jfzpazivywvi-bun-1.3.13",
+              "path": "/nix/store/z1cxjx705fswwjjns0sw2ysbd5jqxfgm-bun-1.3.13",
               "default": true
             }
           ],
-          "store_path": "/nix/store/g0zlmqvkvn41xqva3460jfzpazivywvi-bun-1.3.13"
+          "store_path": "/nix/store/z1cxjx705fswwjjns0sw2ysbd5jqxfgm-bun-1.3.13"
         }
       }
     },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
-      "last_modified": "2026-05-15T18:21:44Z",
-      "resolved": "github:NixOS/nixpkgs/d233902339c02a9c334e7e593de68855ad26c4cb?lastModified=1778869304&narHash=sha256-30sZNZoA1cqF5JNO9fVX%2BwgiQYjB7HJqqJ4ztCDeBZE%3D"
+      "last_modified": "2026-06-13T14:05:44Z",
+      "resolved": "github:NixOS/nixpkgs/9f11f828c213641c2369a9f1fa31fe31557e3156?lastModified=1781359544&narHash=sha256-iUuzKQcyXvopYDDzFpMK5eQKP3WIJExYny2kJtbgUcE%3D"
     },
     "nodejs@24.12.0": {
       "last_modified": "2025-12-29T16:45:58Z",
-      "plugin_version": "0.0.2",
+      "plugin_version": "0.0.3",
       "resolved": "github:NixOS/nixpkgs/346dd96ad74dc4457a9db9de4f4f57dab2e5731d#nodejs_24",
       "source": "devbox-search",
       "version": "24.12.0",
