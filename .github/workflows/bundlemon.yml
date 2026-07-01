@@ -20,4 +20,4 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run build
       - name: bundlemon
-        uses: lironer/bundlemon-action@cadbdd58f86faf1900725ef69d455444124b3748 # v1
+        uses: lironer/bundlemon-action@4b47df0793e18e3899eeb07f19b7c88c92c2490e # v1
