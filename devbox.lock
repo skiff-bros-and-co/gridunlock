@@ -1,51 +1,41 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "bun@1.3.13": {
-      "last_modified": "2026-08-27T07:16:00Z",
-      "resolved": "github:NixOS/nixpkgs/c27cdad491a991b11ed731760aa2ef8db0cb0410#bun",
+    "bun@1.4.2": {
+      "last_modified": "2026-10-10T12:58:50Z",
+      "resolved": "github:NixOS/nixpkgs/ca1659429c950a11a565b5764e37a1b704e17ec8#bun",
       "source": "devbox-search",
-      "version": "1.3.13",
+      "version": "1.4.2",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/r4svrxgw5kys9g187dzcaj8yvc6dzm65-bun-1.3.13",
+              "path": "/nix/store/r3r97834m65jnxck0556h2s1i63fmhsx-bun-1.4.2",
               "default": true
             }
           ],
-          "store_path": "/nix/store/r4svrxgw5kys9g187dzcaj8yvc6dzm65-bun-1.3.13"
+          "store_path": "/nix/store/r3r97834m65jnxck0556h2s1i63fmhsx-bun-1.4.2"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/p9a0b8bh0iv9g1qszfvi9n2k7aj7ypyh-bun-1.3.13",
+              "path": "/nix/store/6m8rgpk9f3jfhv2sb7nvp9rjw3s26ffv-bun-1.4.2",
               "default": true
             }
           ],
-          "store_path": "/nix/store/p9a0b8bh0iv9g1qszfvi9n2k7aj7ypyh-bun-1.3.13"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/wn9cggwqflvqryxxb9xinl9iygndm8d9-bun-1.3.13",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/wn9cggwqflvqryxxb9xinl9iygndm8d9-bun-1.3.13"
+          "store_path": "/nix/store/6m8rgpk9f3jfhv2sb7nvp9rjw3s26ffv-bun-1.4.2"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/gzh2rx2sjwra135my0jw3va49hm7z4vf-bun-1.3.13",
+              "path": "/nix/store/216mr46yy8xspaydgapjhf4a21y643ji-bun-1.4.2",
               "default": true
             }
           ],
-          "store_path": "/nix/store/gzh2rx2sjwra135my0jw3va49hm7z4vf-bun-1.3.13"
+          "store_path": "/nix/store/216mr46yy8xspaydgapjhf4a21y643ji-bun-1.4.2"
         }
       }
     },
@@ -53,84 +43,42 @@
       "last_modified": "2026-09-09T11:29:46Z",
       "resolved": "github:NixOS/nixpkgs/19a27817106f9449970edb3a398ab5349666466f?lastModified=1788953386&narHash=sha256-dIqD4NX3Uldk29CBqKt9dRdSxh%2F%2BBa8lVPu2xEsLTJo%3D"
     },
-    "nodejs@24.12.0": {
-      "last_modified": "2025-12-29T16:45:58Z",
-      "plugin_version": "0.0.4",
-      "resolved": "github:NixOS/nixpkgs/346dd96ad74dc4457a9db9de4f4f57dab2e5731d#nodejs_24",
+    "nodejs@24.21.0": {
+      "last_modified": "2026-10-10T12:58:50Z",
+      "plugin_version": "0.0.5",
+      "resolved": "github:NixOS/nixpkgs/ca1659429c950a11a565b5764e37a1b704e17ec8#nodejs",
       "source": "devbox-search",
-      "version": "24.12.0",
+      "version": "24.21.0",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/b1h0af3yb3z9jz048phclcqw6ihiww67-nodejs-24.12.0",
+              "path": "/nix/store/7cr3l1m9yyng2hscs8lj4x4bj0hm7908-nodejs-24.21.0",
               "default": true
-            },
-            {
-              "name": "dev",
-              "path": "/nix/store/ksn4nj0nbp0ikmh4scy9x4biqqdswwhy-nodejs-24.12.0-dev"
-            },
-            {
-              "name": "libv8",
-              "path": "/nix/store/3x72bm7l30ib7l7cximrp0sklcq8jqwy-nodejs-24.12.0-libv8"
             }
           ],
-          "store_path": "/nix/store/b1h0af3yb3z9jz048phclcqw6ihiww67-nodejs-24.12.0"
+          "store_path": "/nix/store/7cr3l1m9yyng2hscs8lj4x4bj0hm7908-nodejs-24.21.0"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/9jfsyhcr9c6rpm94lrkibv75jkggvwss-nodejs-24.12.0",
+              "path": "/nix/store/8lgcgi9riqm71v9ibjw5qjcwwr5nfm83-nodejs-24.21.0",
               "default": true
-            },
-            {
-              "name": "dev",
-              "path": "/nix/store/7izhv9x1yvsmyrhmmyps6bxjjclajm80-nodejs-24.12.0-dev"
-            },
-            {
-              "name": "libv8",
-              "path": "/nix/store/8hl74pnc1qyz68rg10ixw7fz32hcxqkk-nodejs-24.12.0-libv8"
             }
           ],
-          "store_path": "/nix/store/9jfsyhcr9c6rpm94lrkibv75jkggvwss-nodejs-24.12.0"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/cj1243xswxvnwgifyiyg8axhn0r2vl48-nodejs-24.12.0",
-              "default": true
-            },
-            {
-              "name": "dev",
-              "path": "/nix/store/kzia3rkaf9vwpn3py23q9v49jpjm6zx7-nodejs-24.12.0-dev"
-            },
-            {
-              "name": "libv8",
-              "path": "/nix/store/xszji81xj7ghjhz7jk0jkhb84nfwyd8f-nodejs-24.12.0-libv8"
-            }
-          ],
-          "store_path": "/nix/store/cj1243xswxvnwgifyiyg8axhn0r2vl48-nodejs-24.12.0"
+          "store_path": "/nix/store/8lgcgi9riqm71v9ibjw5qjcwwr5nfm83-nodejs-24.21.0"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/9z1v3wyrxp6fpyzw21lcakd5w7aknzyc-nodejs-24.12.0",
+              "path": "/nix/store/gxq2cd70i077rah1d4hkzc1lpq8q4pv8-nodejs-24.21.0",
               "default": true
-            },
-            {
-              "name": "libv8",
-              "path": "/nix/store/5yvx909wlis13qd2y1ahwl7ij21ma69a-nodejs-24.12.0-libv8"
-            },
-            {
-              "name": "dev",
-              "path": "/nix/store/7ll99p08gmpg0n048669p80zjibl5akr-nodejs-24.12.0-dev"
             }
           ],
-          "store_path": "/nix/store/9z1v3wyrxp6fpyzw21lcakd5w7aknzyc-nodejs-24.12.0"
+          "store_path": "/nix/store/gxq2cd70i077rah1d4hkzc1lpq8q4pv8-nodejs-24.21.0"
         }
       }
     }
