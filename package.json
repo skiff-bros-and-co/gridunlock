@@ -21,7 +21,7 @@
   "homepage": "https://github.com/dskiff/gridunlock#readme",
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
-    "@cloudflare/workers-types": "5.20261012.1",
+    "@cloudflare/workers-types": "5.20261016.1",
     "@confuzzle/writepuz": "1.2.3",
     "@percy/cli": "1.32.11",
     "@types/bun": "1.4.3",
@@ -33,13 +33,13 @@
     "@vitejs/plugin-react": "6.1.2",
     "autoprefixer": "10.6.1",
     "bundlemon": "3.2.0",
-    "caniuse-lite": "1.0.30001815",
+    "caniuse-lite": "1.0.30001816",
     "gm": "1.25.1",
-    "sass": "1.105.1",
+    "sass": "1.105.2",
     "typescript": "7.0.2",
     "vite": "8.3.4",
     "vite-plugin-pwa": "2.0.0",
-    "vitest": "5.0.4"
+    "vitest": "5.0.5"
   },
   "dependencies": {
     "@blueprintjs/core": "6.21.0",
