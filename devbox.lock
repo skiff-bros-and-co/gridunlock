@@ -1,41 +1,41 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "bun@1.4.2": {
-      "last_modified": "2026-10-10T12:58:50Z",
-      "resolved": "github:NixOS/nixpkgs/ca1659429c950a11a565b5764e37a1b704e17ec8#bun",
+    "bun@1.4.4": {
+      "last_modified": "2026-11-04T21:12:09Z",
+      "resolved": "github:NixOS/nixpkgs/6dadaf4375be35033e1c84395adbd53ff5fded96#bun",
       "source": "devbox-search",
-      "version": "1.4.2",
+      "version": "1.4.4",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/r3r97834m65jnxck0556h2s1i63fmhsx-bun-1.4.2",
+              "path": "/nix/store/6s5hjxhvsnhcqvgihas7qimfbqhyhb9v-bun-1.4.4",
               "default": true
             }
           ],
-          "store_path": "/nix/store/r3r97834m65jnxck0556h2s1i63fmhsx-bun-1.4.2"
+          "store_path": "/nix/store/6s5hjxhvsnhcqvgihas7qimfbqhyhb9v-bun-1.4.4"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/6m8rgpk9f3jfhv2sb7nvp9rjw3s26ffv-bun-1.4.2",
+              "path": "/nix/store/1xjbfglmxrhk6famlli3z5kcrq9i01zr-bun-1.4.4",
               "default": true
             }
           ],
-          "store_path": "/nix/store/6m8rgpk9f3jfhv2sb7nvp9rjw3s26ffv-bun-1.4.2"
+          "store_path": "/nix/store/1xjbfglmxrhk6famlli3z5kcrq9i01zr-bun-1.4.4"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/216mr46yy8xspaydgapjhf4a21y643ji-bun-1.4.2",
+              "path": "/nix/store/7py3q3rn0qbcyzwqk6mdbyd8r1m9x54r-bun-1.4.4",
               "default": true
             }
           ],
-          "store_path": "/nix/store/216mr46yy8xspaydgapjhf4a21y643ji-bun-1.4.2"
+          "store_path": "/nix/store/7py3q3rn0qbcyzwqk6mdbyd8r1m9x54r-bun-1.4.4"
         }
       }
     },
