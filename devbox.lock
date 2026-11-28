@@ -40,12 +40,12 @@
       }
     },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
-      "last_modified": "2026-11-04T12:32:54Z",
-      "resolved": "github:NixOS/nixpkgs/13e53762c5afaf384d4614e94527a9ccfafe41d0?lastModified=1793795574&narHash=sha256-pgG%2FCO%2Btxdf2sA2z6DsM%2B2G3F9ajfIp%2F3BMC4wfKMDY%3D"
+      "last_modified": "2026-11-21T08:18:15Z",
+      "resolved": "github:NixOS/nixpkgs/93a9ed0a866099a230ed5146a5bb7d16fd5c9b14?lastModified=1795249095&narHash=sha256-8JDgyVvWUZg5m9hNlL8Ge9aT647ng3Ukc8NPMiKNTPQ%3D"
     },
     "nodejs@24.21.0": {
       "last_modified": "2026-11-04T12:32:54Z",
-      "plugin_version": "0.0.5",
+      "plugin_version": "0.0.6",
       "resolved": "github:NixOS/nixpkgs/13e53762c5afaf384d4614e94527a9ccfafe41d0#nodejs",
       "source": "devbox-search",
       "version": "24.21.0",
