@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.10.5/.schema/devbox.schema.json",
-  "packages": ["bun@1.4.2", "nodejs@24.21.0"],
+  "packages": ["bun@1.4.4", "nodejs@24.22.2"],
   "shell": {
     "init_hook": [],
     "scripts": {}
